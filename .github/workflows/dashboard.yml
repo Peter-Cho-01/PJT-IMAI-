@@ -17,7 +17,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     outputs:
       changed: ${{ steps.cmp.outputs.changed }}
     steps:
@@ -29,7 +29,13 @@ jobs:
       - name: OneDrive에서 Master 받기
         env:
           SHARE_URL: ${{ secrets.ONEDRIVE_SHARE_URL }}
-        run: python fetch_master.py "$RUNNER_TEMP/master.xlsx"
+        run: |
+          if ! python fetch_master.py "$RUNNER_TEMP/master.xlsx"; then
+            echo "단순 다운로드 실패 → 브라우저 방식으로 다시 시도"
+            pip install --quiet playwright==1.48.0
+            python -m playwright install --with-deps chromium > /dev/null
+            python fetch_browser.py "$RUNNER_TEMP/master.xlsx"
+          fi
       - name: 암호화된 현황판 만들기
         id: build
         env:
