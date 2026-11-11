@@ -17,7 +17,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 8
     outputs:
       changed: ${{ steps.cmp.outputs.changed }}
     steps:
@@ -35,6 +35,9 @@ jobs:
       - name: OneDrive에서 Master 받기
         env:
           SHARE_URL: ${{ secrets.ONEDRIVE_SHARE_URL }}
+          PYTHONUNBUFFERED: '1'
+          FETCH_BUDGET: '180'
+        timeout-minutes: 5
         run: python fetch_browser.py "$RUNNER_TEMP/master.xlsx"
       - name: 암호화된 현황판 만들기
         id: build
