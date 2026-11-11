@@ -29,12 +29,12 @@ jobs:
       - name: OneDrive에서 Master 받기
         env:
           SHARE_URL: ${{ secrets.ONEDRIVE_SHARE_URL }}
-        run: python scripts/fetch_master.py "$RUNNER_TEMP/master.xlsx"
+        run: python fetch_master.py "$RUNNER_TEMP/master.xlsx"
       - name: 암호화된 현황판 만들기
         id: build
         env:
           DASH_PASSWORD: ${{ secrets.DASH_PASSWORD }}
-        run: python scripts/build_site.py "$RUNNER_TEMP/master.xlsx" template/viewer.html site
+        run: python build_site.py "$RUNNER_TEMP/master.xlsx" viewer.html site
       - name: 바뀐 내용이 있는지 확인
         id: cmp
         run: |
