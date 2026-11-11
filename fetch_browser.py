@@ -3,8 +3,13 @@
 - 링크·주소·화면 내용은 기록에 남기지 않는다 (호스트·건수만 표시). 화면 캡처도 저장하지 않는다.
 usage: SHARE_URL=... python fetch_browser.py OUT.xlsx
 """
-import io, json, os, re, sys, urllib.parse, zipfile
+import functools, io, json, os, re, sys, time, urllib.parse, zipfile
 from playwright.sync_api import sync_playwright
+
+print = functools.partial(print, flush=True)          # 기록이 실시간으로 보이게
+T0 = time.time()
+BUDGET = int(os.environ.get("FETCH_BUDGET", "180"))   # 전체 제한 시간(초)
+left = lambda: BUDGET - (time.time() - T0)
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "master.xlsx"
 LINK = (os.environ.get("SHARE_URL") or "").strip()
@@ -26,7 +31,7 @@ def is_master(b):
 
 def save(b, how):
     open(OUT, "wb").write(b)
-    print(f"Master 받기 성공 ({how}, {len(b)/1e6:.1f}MB)")
+    print(f"Master 받기 성공 ({how}, {len(b)/1e6:.1f}MB, 총 {time.time() - T0:.0f}초)")
     sys.exit(0)
 
 
@@ -46,8 +51,12 @@ def on_response(resp):
         pass
 
 
+scanned = [0]
+
+
 def scan_json():
-    for resp in json_resps:
+    new, scanned[0] = json_resps[scanned[0]:], len(json_resps)
+    for resp in new:
         try:
             t = resp.text()
         except Exception:
@@ -65,27 +74,36 @@ with sync_playwright() as pw:
     page = ctx.new_page()
     page.on("response", on_response)
     try:
-        page.goto(LINK, wait_until="domcontentloaded", timeout=60000)
+        page.goto(LINK, wait_until="domcontentloaded", timeout=45000)
+        # 내려받기 주소가 보이면 바로 진행, 아니면 최대 20초까지만 기다림
+        for _ in range(40):
+            scan_json()
+            if direct_files or found_urls:
+                break
+            page.wait_for_timeout(500)
         try:
-            page.wait_for_load_state("networkidle", timeout=45000)
+            page.wait_for_load_state("networkidle", timeout=8000)
         except Exception:
             pass
-        page.wait_for_timeout(5000)
     except Exception as e:
         print(f"- 링크 열기 오류: {type(e).__name__}")
     final = page.url
     scan_json()
+    print(f"- 페이지 열기 {time.time() - T0:.0f}초")
     print(f"- 페이지: {host(final)} · 로그인 화면 여부 {'예' if 'login.' in host(final) else '아니오'} · 응답 호스트 {len(seen_hosts)}곳 · 내려받기 주소 후보 {len(found_urls)}개")
 
     def tryget(url, how):
+        if left() < 5:
+            print(f"- {how}: 건너뜀 (제한 시간 초과)"); return
+        t1 = time.time()
         try:
-            r = ctx.request.get(url, timeout=90000, max_redirects=10)
+            r = ctx.request.get(url, timeout=int(min(30, left()) * 1000), max_redirects=10)
             b = r.body() if r.ok else b""
-            print(f"- {how}: HTTP {r.status} · {host(r.url)} · {len(b):,}바이트 · {'성공' if is_master(b) else '실패'}")
+            print(f"- {how}: HTTP {r.status} · {host(r.url)} · {len(b):,}바이트 · {time.time() - t1:.0f}초 · {'성공' if is_master(b) else '실패'}")
             if is_master(b):
                 save(b, how)
         except Exception as e:
-            print(f"- {how}: 실패 ({type(e).__name__})")
+            print(f"- {how}: 실패 ({type(e).__name__}, {time.time() - t1:.0f}초)")
 
     # A. 페이지가 스스로 받아 온 파일·내려받기 주소
     for r in direct_files:
@@ -115,12 +133,14 @@ with sync_playwright() as pw:
 
     # D. 화면의 '다운로드' 버튼 (OneDrive 미리보기 / Excel 웹 '사본 다운로드')
     labels = ["다운로드", "Download", "사본 다운로드", "Download a Copy", "Download a copy"]
-    for fr in [page.main_frame] + page.frames:
+    for fr in page.frames:
+        if left() < 30:
+            break
         for lb in labels:
             try:
                 loc = fr.get_by_role("button", name=lb, exact=False).first
                 if loc.count() and loc.is_visible():
-                    with page.expect_download(timeout=60000) as dl:
+                    with page.expect_download(timeout=25000) as dl:
                         loc.click()
                     b = open(dl.value.path(), "rb").read()
                     print(f"- D. '{lb}' 버튼: {len(b):,}바이트 · {'성공' if is_master(b) else '실패'}")
@@ -130,6 +150,8 @@ with sync_playwright() as pw:
                 continue
     # Excel 웹: 파일 → 다른 이름으로 저장 → 사본 다운로드
     for fr in page.frames:
+        if left() < 30:
+            break
         try:
             f = fr.get_by_role("tab", name=re.compile("^(파일|File)$")).first
             if not (f.count() and f.is_visible()):
@@ -142,7 +164,7 @@ with sync_playwright() as pw:
                 if not it.count():
                     raise RuntimeError("메뉴 없음")
                 if step.pattern.startswith("사본"):
-                    with page.expect_download(timeout=60000) as dl:
+                    with page.expect_download(timeout=25000) as dl:
                         it.click()
                     b = open(dl.value.path(), "rb").read()
                     print(f"- D. Excel 웹 사본 다운로드: {len(b):,}바이트 · {'성공' if is_master(b) else '실패'}")
