@@ -32,7 +32,8 @@ def is_master(b):
 def save(b, how):
     open(OUT, "wb").write(b)
     print(f"Master 받기 성공 ({how}, {len(b)/1e6:.1f}MB, 총 {time.time() - T0:.0f}초)")
-    sys.exit(0)
+    sys.stdout.flush()
+    os._exit(0)   # 크롬 종료를 기다리지 않고 바로 끝냄 (남은 크롬은 실행 서버 정리 때 함께 종료)
 
 
 found_urls, direct_files, json_resps, seen_hosts = [], [], [], set()
@@ -75,6 +76,17 @@ with sync_playwright() as pw:
     page.on("response", on_response)
     try:
         page.goto(LINK, wait_until="domcontentloaded", timeout=45000)
+        # 가장 빠른 C 방식을 페이지가 다 뜨기 전에 먼저 시도 (게스트 쿠키가 생긴 직후)
+        try:
+            _p = urllib.parse.urlsplit(LINK)
+            _q = [(a, b) for a, b in urllib.parse.parse_qsl(_p.query, keep_blank_values=True) if a != "download"] + [("download", "1")]
+            _r = ctx.request.get(urllib.parse.urlunsplit((_p.scheme, _p.netloc, _p.path, urllib.parse.urlencode(_q), "")), timeout=30000, max_redirects=10)
+            _b = _r.body() if _r.ok else b""
+            print(f"- C(빠른 시도): HTTP {_r.status} · {len(_b):,}바이트 · {'성공' if is_master(_b) else '실패 → 페이지 로딩 후 다시 시도'}")
+            if is_master(_b):
+                save(_b, "C. 공유 링크 + download=1 (빠른 시도)")
+        except Exception as e:
+            print(f"- C(빠른 시도): 실패 ({type(e).__name__})")
         # 내려받기 주소가 보이면 바로 진행, 아니면 최대 20초까지만 기다림
         for _ in range(40):
             scan_json()
@@ -105,6 +117,11 @@ with sync_playwright() as pw:
         except Exception as e:
             print(f"- {how}: 실패 ({type(e).__name__}, {time.time() - t1:.0f}초)")
 
+    # C(가장 빠름, 먼저 시도). 공유 링크 + download=1 (게스트 쿠키 사용)
+    p = urllib.parse.urlsplit(LINK)
+    qs = [(a, b) for a, b in urllib.parse.parse_qsl(p.query, keep_blank_values=True) if a != "download"] + [("download", "1")]
+    tryget(urllib.parse.urlunsplit((p.scheme, p.netloc, p.path, urllib.parse.urlencode(qs), "")), "C. 공유 링크 + download=1")
+
     # A. 페이지가 스스로 받아 온 파일·내려받기 주소
     for r in direct_files:
         try:
@@ -125,11 +142,6 @@ with sync_playwright() as pw:
         sch = urllib.parse.urlsplit(final).scheme or "https"
         for h in dict.fromkeys(("onedrive.live.com", "my.microsoftpersonalcontent.com", host(final))):
             tryget(f"{sch if h == host(final) else 'https'}://{h}/personal/{mcid.group(1)}/_layouts/15/download.aspx?UniqueId={urllib.parse.quote(fid)}", f"B. download.aspx ({h})")
-
-    # C. 공유 링크 + download=1 (게스트 쿠키 사용)
-    p = urllib.parse.urlsplit(LINK)
-    qs = [(a, b) for a, b in urllib.parse.parse_qsl(p.query, keep_blank_values=True) if a != "download"] + [("download", "1")]
-    tryget(urllib.parse.urlunsplit((p.scheme, p.netloc, p.path, urllib.parse.urlencode(qs), "")), "C. 공유 링크 + download=1")
 
     # D. 화면의 '다운로드' 버튼 (OneDrive 미리보기 / Excel 웹 '사본 다운로드')
     labels = ["다운로드", "Download", "사본 다운로드", "Download a Copy", "Download a copy"]
@@ -175,5 +187,6 @@ with sync_playwright() as pw:
         except Exception as e:
             print(f"- D. Excel 웹 메뉴: 실패 ({type(e).__name__})")
             break
-    br.close()
-sys.exit("실패: 브라우저 방식으로도 Master를 받지 못했습니다. 위 기록을 캡처해 보내 주세요.")
+print("실패: 브라우저 방식으로도 Master를 받지 못했습니다. 위 기록을 캡처해 보내 주세요.")
+sys.stdout.flush()
+os._exit(1)
