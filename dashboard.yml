@@ -1,0 +1,68 @@
+name: IMA 현황판 갱신
+
+on:
+  schedule:
+    - cron: '2-59/5 * * * *'  # 5분마다, 매시 2·7·12…57분 (붐비는 정각 단위를 피함)
+  workflow_dispatch:          # Actions 탭에서 '지금 갱신'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: dashboard
+  cancel-in-progress: false   # 앞 실행이 끝나기 전 다음 실행은 대기
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      changed: ${{ steps.cmp.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install --quiet cryptography==43.0.3 playwright==1.48.0
+      - name: 크롬 준비 (저장해 둔 것 재사용)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: chromium-playwright-1.48.0
+      - run: python -m playwright install --with-deps chromium > /dev/null
+      - name: OneDrive에서 Master 받기
+        env:
+          SHARE_URL: ${{ secrets.ONEDRIVE_SHARE_URL }}
+        run: python fetch_browser.py "$RUNNER_TEMP/master.xlsx"
+      - name: 암호화된 현황판 만들기
+        id: build
+        env:
+          DASH_PASSWORD: ${{ secrets.DASH_PASSWORD }}
+        run: python build_site.py "$RUNNER_TEMP/master.xlsx" viewer.html site
+      - name: 바뀐 내용이 있는지 확인
+        id: cmp
+        run: |
+          live=$(curl -fsS "https://${GITHUB_REPOSITORY_OWNER,,}.github.io/${GITHUB_REPOSITORY#*/}/hash.txt" 2>/dev/null || echo none)
+          if [ "$live" = "${{ steps.build.outputs.hash }}" ] && [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "변경 없음 → 배포 생략"; echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "변경 있음 → 배포"; echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+          rm -f "$RUNNER_TEMP/master.xlsx"
+      - if: steps.cmp.outputs.changed == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
