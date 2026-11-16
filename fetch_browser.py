@@ -24,7 +24,7 @@ def is_master(b):
         return False
     try:
         wb = zipfile.ZipFile(io.BytesIO(b)).read("xl/workbook.xml").decode("utf-8", "ignore")
-        return "월별 Dry Powder" in wb or "DP_현황판" in wb
+        return "Dry Powder" in wb or "DP_현황판" in wb   # 통합 「Dry Powder」·예전 「월별 Dry Powder」 모두 인식
     except Exception:
         return False
 

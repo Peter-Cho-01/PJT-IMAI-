@@ -119,6 +119,46 @@ table{border-collapse:collapse;width:100%}
 .heat td.cash{background:repeating-linear-gradient(45deg,#1A2629 0 4px,#121C1F 4px 8px);color:var(--ink-3);font-weight:500;font-style:italic}
 .heat td.mat{background:var(--hmat);color:transparent}
 .heat td.cur{box-shadow:inset 0 0 0 2px var(--ink-3)}
+.dsub{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 10px}
+.dsub b{font-size:14px} .dsub span{color:var(--ink-3);font-size:12px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 4px 0 6px;vertical-align:0} .dot.up{background:var(--safe)} .dot.dn{background:var(--stress)}
+.dsm{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.dsm-c{background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px 8px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;min-width:0}
+.dsm-c:hover{border-color:var(--line-2)} .dsm-c.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.dsm-c .t{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.dsm-c .t b{font-family:var(--font-fig);font-stretch:88%;font-size:15px}
+.dsm-c .t span,.dsm-c .s{font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;font-size:12px;color:var(--ink-2);white-space:nowrap}
+.dsm-c .s{display:flex;justify-content:space-between;gap:6px;color:var(--ink-3);margin-top:2px}
+.dsm-c .s .neg{color:var(--breach);font-weight:700}
+.dsm-c .mini{height:74px;margin-top:6px} .dsm-c .mini svg{display:block;width:100%;height:74px}
+.dsel{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.dleg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--ink-2);margin:0 0 6px}
+.dleg span{display:inline-flex;align-items:center;gap:6px}
+.dleg .ln{display:inline-block;width:18px;border-top:2px solid var(--ink)} .dleg .ln.da{border-top:2px dashed var(--ink-3)}
+.dleg .bx{display:inline-block;width:10px;height:10px;border-radius:2px} .dleg .bx.hz{background:repeating-linear-gradient(45deg,#2A3A3E 0 3px,#121C1F 3px 6px);outline:1px solid var(--line-2)}
+.dch{position:relative} .dch svg{display:block;width:100%}
+.dch .tip{max-width:min(420px,90%);white-space:normal}
+.dch .tip .ev{display:block;font-size:11.5px;line-height:1.5} .dch .tip .ev.o{color:var(--stress)} .dch .tip .ev.i{color:var(--safe)} .dch .tip .ev.x{color:var(--ink-3)}
+.devwrap{max-height:380px;overflow:auto;border-top:1px solid var(--line)}
+.dev{width:100%;border-collapse:collapse}
+.dev th,.dev td{padding:7px 8px;border-bottom:1px solid var(--line);font-size:12.5px;text-align:left;vertical-align:top}
+.dev thead th{position:sticky;top:0;background:var(--paper);color:var(--ink-3);font-weight:600;font-size:11.5px;white-space:nowrap;z-index:1}
+.dev td.d,.dev td.r{white-space:nowrap;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums}
+.dev td.r{text-align:right} .dev td.r.up{color:var(--safe);font-weight:700} .dev td.r.dn{color:var(--stress);font-weight:700} .dev td.r.neg{color:var(--breach)}
+.dev tr.hl td{background:var(--accent-soft)}
+.dev .chip.x{background:var(--paper-2);color:var(--ink-3);font-weight:500}
+.dev .mut{color:var(--ink-3);font-size:11.5px}
+.dsm-c .mini svg{height:74px}
+@media (max-width:640px){.dsm{grid-template-columns:1fr 1fr;gap:8px} .dsm-c{padding:8px 9px 6px} .dsm-c .t{flex-direction:column;align-items:flex-start;gap:0} .dsm-c .s{font-size:11px} .dsm-c .mini,.dsm-c .mini svg{height:56px}}
+.dcap{color:var(--ink-3);font-size:11.5px;line-height:1.6;margin-top:8px}
+details.dtbl summary{cursor:pointer;font-weight:700;font-size:14px} details.dtbl summary .note{font-weight:400;color:var(--ink-3);font-size:12px;margin-left:8px}
+.dheat{border-spacing:2px}
+.dheat th,.dheat td{padding:6px 5px}
+.dheat td{min-width:50px;font-size:12px;font-weight:500}
+.dheat td.chg{font-weight:800;color:var(--ink)} .dheat td.l4.chg,.dheat td.l5.chg{color:#00140F}
+.dheat thead th.mo{text-align:left;color:var(--ink-2);border-left:2px solid var(--line-2);padding-left:6px}
+.dheat thead th.dd{font-size:11px;font-weight:600} .dheat thead th.dd.m1{border-left:2px solid var(--line-2)}
+.dheat td.m1{box-shadow:inset 2px 0 0 var(--line-2)}
 .heat tr.tot th,.heat tr.tot td{font-weight:700}
 .heat tr.tot td{background:var(--paper-2);color:var(--ink)} .heat tr.tot td.neg{background:var(--hneg)}
 .heat tr.tot th{border-top:1px solid var(--line-2)}
@@ -311,7 +351,7 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
   </form>
   <div class="drop" id="drop" tabindex="0" role="button" aria-label="Master 파일 선택">
     <h2>Master 엑셀 파일을 여기에 끌어다 놓으세요</h2>
-    <p>'월별 Dry Powder' 시트가 들어 있는 Master 파일(.xlsx)을 읽어<br>엑셀이 계산해 둔 값을 그대로 보여 줍니다.</p>
+    <p>'Dry Powder'(또는 '월별 Dry Powder') 시트가 들어 있는 Master 파일(.xlsx)을 읽어<br>엑셀이 계산해 둔 값을 그대로 보여 줍니다.</p>
     <span class="pill">파일 선택</span>
     <small>파일은 이 PC의 브라우저 안에서만 읽습니다. 서버나 외부로 보내지 않습니다.</small>
     <div class="loading" id="loading" hidden>읽는 중…</div>
@@ -333,6 +373,35 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
 <div class="page" id="page-dp">
   <section style="margin-top:0">
     <div class="kpis" id="kpis"></div>
+  </section>
+
+  <section id="dsec" hidden>
+    <div class="sec-h"><h2>일별 Dry Powder</h2><span class="note" id="dnote"></span></div>
+    <div class="panel">
+      <div class="dsub"><b>시리즈별 한눈에</b><span>흰 선 = 기준 B(기표 예정 딜까지 반영) · 점선 = 기준 A(기표완료만) · <i class="dot up"></i>DP 증가일 <i class="dot dn"></i>DP 감소일 · 카드를 누르면 아래에 크게 표시</span></div>
+      <div class="dsm" id="dsm"></div>
+    </div>
+    <div class="panel" id="dpanel" style="margin-top:14px">
+      <div class="dsub"><b id="dchT"></b><span id="dchS"></span></div>
+      <div class="seg dsel" id="dchSel"></div>
+      <div class="dleg"><span><i class="ln"></i>기준 B · 기표 예정 딜까지 반영</span><span><i class="ln da"></i>기준 A · 기표완료 딜만</span><span><i class="bx" style="background:var(--safe)"></i>▲ 유입 (상환·만기·환매)</span><span><i class="bx" style="background:var(--stress)"></i>▼ 투자 (딜 기표)</span><span><i class="bx hz"></i>만기 M-3 이후 (현금화 구간)</span></div>
+      <div class="dch" id="dch"></div>
+      <div class="dsub" style="margin-top:16px"><b>날짜별 일정과 DP 변화</b><span>차트에 마우스를 올리거나 행에 올리면 서로 같은 날짜가 표시됩니다</span></div>
+      <div class="devwrap" id="devwrap"><table class="dev" id="dev"></table></div>
+      <div class="dcap" id="dcap"></div>
+    </div>
+    <details class="panel dtbl" style="margin-top:14px">
+      <summary>일별 표로 보기 <span class="note">평일 날짜별 숫자 전체</span></summary>
+      <div class="ctrls" style="margin:12px 0">
+        <div class="seg" id="dbasis"><button data-b="A">기준 A · 기표완료</button><button data-b="B" class="on">기준 B · 기표 예정 딜까지 반영</button></div>
+        <div class="seg" id="dunit"><button data-u="amt" class="on">억원</button><button data-u="pct">운용금액 대비 %</button></div>
+      </div>
+      <div class="heatwrap" id="dwrap"><table class="heat dheat" id="dheat"></table></div>
+      <div class="scale"><span>그날 마감 기준 누적 (평일만, 주말·공휴일 입출금은 다음 평일에 반영)</span>
+        <span><b style="color:var(--ink)">굵은 숫자</b> = 전날 대비 변동</span>
+        <span><i class="sw" style="background:repeating-linear-gradient(45deg,#2A3A3E 0 3px,#121C1F 3px 6px)"></i>만기 M-3 이후 (현금화 구간)</span>
+        <span>색 기준은 월별과 같음 (남은 DP ÷ 운용금액)</span></div>
+    </details>
   </section>
 
   <section>
@@ -497,7 +566,7 @@ const XR = (() => {
 
 
 const APP = (() => {
-  const SHEETS_DP = ['월별 Dry Powder', 'DP_현황판'], DASH = 'Dash Board';
+  const SHEETS_DP = ['Dry Powder', '월별 Dry Powder', 'DP_현황판'], DASH = 'Dash Board';
   const EPOCH = Date.UTC(1899, 11, 30), DAY = 864e5;
   const toD = s => new Date(EPOCH + s * DAY);
   const ser = (y, m, d) => Math.round((Date.UTC(y, m, d) - EPOCH) / DAY);
@@ -526,7 +595,9 @@ const APP = (() => {
     const hA = heads[0];
     const mcols = []; for (let c = 5; c < 200; c++) { const v = V(L(c) + hA); if (!isN(v)) break; mcols.push(L(c)); }
     const months = mcols.map(c => V(c + hA));
-    const matCol = L(5 + mcols.length + 6);           // 숨김 IMA 만기일 열 (생성 스크립트 HM)
+    let matIdx = 5 + mcols.length + 6;                // 숨김 IMA 만기일 열 (생성 스크립트 HM, 예전 배치)
+    for (let c = 5; c < 400; c++) { if (txt(V(L(c) + hA)) === 'IMA만기') { matIdx = c; break; } }   // 통합 시트: 머리글 'IMA만기'로 찾기
+    const matCol = L(matIdx);
     function block(h, withMat) {
       const list = []; let tot = null;
       for (let r = h + 1; r <= h + 40; r++) {
@@ -558,11 +629,24 @@ const APP = (() => {
       const k = hlab[txt(V('C' + r))]; if (!k) continue;
       const im = ima.find(x => x.name === txt(V('B' + r))); if (im) im[k] = mcols.map(c => V(c + r));
     }
-    const kCol = L(5 + mcols.length + 2);   // 숨김 배분 열번호 열 (생성 스크립트 HK)
+    const kCol = L(matIdx - 4);             // 숨김 배분 열번호 열 (생성 스크립트 HK = IMA 만기 열 4칸 앞)
     ima.forEach(im => { im.bcol = V(kCol + im.A.row); });
     const pos = { start: V('G6'), end: V('H6'), dateCol: V('I6'), nameCol: V('J6'), visCol: V('K6') };
     const kw = [txt(V('N5')), txt(V('P5'))].filter(Boolean);
-    return { base, start: txt(V('C5')), months, ima, Atot: A.tot, Btot: B.tot, dcols, dtot, notes, pos, kw };
+    // Ⅰ 일별 표 (통합 「Dry Powder」 시트): B='IMA', C='만기 M-3' 머리글 2개 (기준 A, B). 머리글 다음 행 = 날짜, 그다음 = 요일
+    let daily = null;
+    const dheads = rowsB.filter(([, b, c]) => b === 'IMA' && c === '만기 M-3').map(x => x[0]);
+    if (dheads.length >= 2) {
+      const rd = dheads[0] + 1, ddc = [];
+      for (let c = 4; c < 400; c++) { const v = V(L(c) + rd); if (!isN(v)) break; ddc.push(L(c)); }
+      const dblock = h => { const o = {}; let tot = null;
+        for (let r = h + 3; r <= h + 40; r++) { const b = txt(V('B' + r));
+          if (b === '합계') { tot = ddc.map(c => V(c + r)); break; }
+          if (b) o[b] = ddc.map(c => V(c + r)); }
+        return { rows: o, tot }; };
+      if (ddc.length) daily = { dates: ddc.map(c => Math.floor(V(c + rd))), A: dblock(dheads[0]), B: dblock(dheads[1]) };
+    }
+    return { base, start: txt(V('C5')), months, ima, Atot: A.tot, Btot: B.tot, dcols, dtot, notes, pos, kw, daily };
   }
 
   // ---------- Dash Board 시트 읽기: IMA 블록(B열 IMA 이름 + C열 '설정일') ----------
@@ -680,13 +764,14 @@ const APP = (() => {
     return null;
   }
   function parseInv(dom, ovs, S) {
-    const names = new Set(S.ima.map(x => x.name)), out = { dom: {}, ovs: {}, domCats: [], ovsCats: [], items: {}, ok: { dom: false, ovs: false } };
+    const names = new Set(S.ima.map(x => x.name)), out = { dom: {}, ovs: {}, domCats: [], ovsCats: [], items: {}, plan: {}, ok: { dom: false, ovs: false } };
     const item = (ima, o) => (out.items[ima] = out.items[ima] || []).push(o);
     const add = (bag, cats, ima, cat, v) => { cat = cat || '(빈칸)'; if (!cats.includes(cat)) cats.push(cat); (bag[ima] = bag[ima] || {})[cat] = (bag[ima][cat] || 0) + v; };
     if (dom) { const h = findHead(dom, { ima: 'IMA 구분', nm: '프로젝트명', cat: '대구분', st: '기표일', mt: '만기일', amt: '금액(억원)' });
       if (h) { out.ok.dom = true; for (let r = h.row + 1; r <= dom.lastRow; r++) { const im = txt(dom.v(h.ima + r)); if (!names.has(im)) continue;
         const st = dom.v(h.st + r), mt = dom.v(h.mt + r), a = dom.v(h.amt + r);
-        if (isN(st) && st <= S.base && isN(mt) && mt > S.base && isN(a)) { add(out.dom, out.domCats, im, txt(dom.v(h.cat + r)), a); item(im, { side: '국내', name: txt(dom.v(h.nm + r)), cat: txt(dom.v(h.cat + r)) || '(빈칸)', amt: a, mat: mt }); } } } }
+        if (isN(st) && st <= S.base && isN(mt) && mt > S.base && isN(a)) { add(out.dom, out.domCats, im, txt(dom.v(h.cat + r)), a); item(im, { side: '국내', name: txt(dom.v(h.nm + r)), cat: txt(dom.v(h.cat + r)) || '(빈칸)', amt: a, mat: mt }); }
+        else if (isN(st) && st > S.base && isN(mt) && isN(a)) (out.plan[im] = out.plan[im] || []).push({ name: txt(dom.v(h.nm + r)), cat: txt(dom.v(h.cat + r)), amt: a, st, mat: mt }); } } }
     if (ovs) { const h = findHead(ovs, { ima: 'IMA 구분', nm: '펀드명', cat: '구분', st: '기표일자', amt: '투자잔액 (억원)' });
       if (h) { out.ok.ovs = true; for (let r = h.row + 1; r <= ovs.lastRow; r++) { const im = txt(ovs.v(h.ima + r)); if (!names.has(im)) continue;
         const st = ovs.v(h.st + r), a = ovs.v(h.amt + r);
@@ -715,6 +800,258 @@ const APP = (() => {
     if (isCur) cls.push('cur');
     const tip = `${im ? im.name : '합계'} ${isCur ? '현재' : fYM(m)}: ${amt(v)}억원${r != null ? ` (운용금액의 ${pct(r)})` : ''}`;
     return { c: cls.join(' '), t, tip };
+  }
+
+  let dbasis = 'B', dunit = 'amt';
+  // ---------- 일별 DP 차트: 시리즈별 한눈에 + 선택 시리즈 상세 + 날짜별 일정 ----------
+  let dsel = '전체';
+  const DOW = ['일', '월', '화', '수', '목', '금', '토'];
+  const fDw = s => { const d = toD(s); return `${d.getUTCMonth() + 1}/${d.getUTCDate()}(${DOW[d.getUTCDay()]})`; };
+  const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.round(Math.abs(v)).toLocaleString('ko-KR');
+  const short = (t, k) => { t = String(t || '').replace(/\s+/g, ' ').trim(); return t.length > k ? t.slice(0, k) + '…' : t; };
+  const niceStep = raw => { const p = Math.pow(10, Math.floor(Math.log10(raw || 1))); return [1, 2, 2.5, 5, 10].map(k => k * p).find(k => k >= raw); };
+  // 한 시리즈(IMA 1개 또는 전체)의 날짜별 값과 그날 일정
+  function dSeries(name) {
+    const D = S.daily, ds = D.dates, n = ds.length, all = name === '전체';
+    const names = all ? S.ima.map(x => x.name) : [name];
+    const B = (all ? D.B.tot : D.B.rows[name]) || [], A = (all ? D.A.tot : D.A.rows[name]) || [];
+    const at = d => { for (let i = 0; i < n; i++) if (ds[i] >= d) return i; return -1; };   // 주말·공휴일 → 다음 평일
+    const ev = ds.map(() => []);
+    AL.forEach(r => {
+      if (r.date == null || r.date < ds[0] || r.date > ds[n - 1]) return;
+      const i = at(r.date); if (i < 0) return;
+      names.forEach(nm => { const v = r.amts[nm]; if (!isN(v) || Math.abs(v) < 1e-9) return;
+        ev[i].push({ k: v > 0 ? 'out' : 'rep', ima: nm, name: r.name, type: r.type, v: -v, excl: r.excl, pre: r.date <= S.base, d: r.date }); });
+    });
+    // 기표완료 딜 만기 (국내 딜 인벤토리 만기일). 배분 시트 상환 행과 같은 날·같은 금액이면 한 번만 표시
+    if (INV) names.forEach(nm => (INV.items[nm] || []).forEach(x => {
+      if (!isN(x.mat) || x.mat <= S.base || x.mat > ds[n - 1]) return;
+      const i = at(x.mat); if (i < 0) return;
+      const dup = ev[i].find(e => e.k === 'rep' && e.ima === nm && !e.excl && !e.inv && Math.abs(e.v - x.amt) < 0.5);
+      if (dup) { dup.inv = x.name; return; }
+      ev[i].push({ k: 'mat', ima: nm, name: x.name, type: x.cat, v: x.amt, d: x.mat });
+    }));
+    // 기표예정 딜 만기 (국내 딜 인벤토리에 기표일 > 기준일로 등록된 딜) — 기준 B에만 반영, IMA 만기 이후 만기는 제외
+    if (INV) names.forEach(nm => { const im = S.ima.find(x => x.name === nm), MAT = im && im.mat ? im.mat : Infinity;
+      (INV.plan[nm] || []).forEach(x => {
+        if (x.mat <= S.base || x.mat > ds[n - 1] || x.mat > MAT) return;
+        const i = at(x.mat); if (i < 0) return;
+        const dup = ev[i].find(e => e.k === 'rep' && e.ima === nm && !e.excl && !e.inv && Math.abs(e.v - x.amt) < 0.5);
+        if (dup) { dup.inv = x.name; dup.plan = true; return; }
+        ev[i].push({ k: 'pmat', ima: nm, name: x.name + ' 만기', type: x.cat, v: x.amt, d: x.mat });
+      }); });
+    // 배분 시트 상환 1건 = 인벤토리 만기 여러 건 합계(같은 날·같은 IMA)면 상환 쪽 하나로 묶음
+    ev.forEach(e => e.filter(x => x.k === 'rep' && !x.excl && !x.inv).forEach(r => {
+      const ms = e.filter(x => (x.k === 'mat' || x.k === 'pmat') && x.ima === r.ima), sm = ms.reduce((t, x) => t + x.v, 0);
+      if (ms.length > 1 && Math.abs(sm - r.v) < 0.5) { r.inv = ms.map(x => x.name).join(', '); r.plan = ms.every(x => x.k === 'pmat'); ms.forEach(x => e.splice(e.indexOf(x), 1)); }
+    }));
+    const days = ds.map((d, i) => {
+      const b = B[i], b0 = i > 0 ? B[i - 1] : null, a = A[i], a0 = i > 0 ? A[i - 1] : null;
+      const dB = i > 0 && isN(b) && isN(b0) ? b - b0 : 0, dA = i > 0 && isN(a) && isN(a0) ? a - a0 : 0;
+      const e = ev[i];
+      if (i > 0) {   // 기준 A 변동 중 인벤토리 만기로 설명되지 않는 부분 = 해외펀드 환매 등
+        const expl = e.filter(x => x.k === 'mat' || (x.k === 'rep' && x.inv && !x.plan)).reduce((s, x) => s + x.v, 0);
+        if (dA - expl > 0.5) e.push({ k: 'oth', ima: all ? '' : name, name: '기타 유입 (해외펀드 환매 등)', v: dA - expl });
+      }
+      const live = e.filter(x => !x.excl && !x.pre);
+      const out = live.filter(x => x.k === 'out').reduce((s, x) => s - x.v, 0);     // 투자 총액 (양수)
+      const inn = i > 0 ? Math.max(0, dB + out) : 0;                                  // 시트 B 변동에서 거꾸로 구한 유입 총액
+      const listed = live.filter(x => x.k !== 'out').reduce((s, x) => s + x.v, 0);
+      return { d, i, b, a, dB, dA, ev: e, out: i > 0 ? out : 0, inn, gap: i > 0 && (inn > 0.5 || listed > 0.5) && Math.abs(inn - listed) > 0.5 };
+    });
+    const im = all ? null : S.ima.find(x => x.name === name);
+    return { name, all, ds, n, B, A, days, cashI: im && im.cash ? at(im.cash) : -1, cash: im ? im.cash : null, mat: im ? im.mat : null, aum: all ? col(S.dtot, '운용금액') : im ? aumOf(im) : null };
+  }
+  function dStats(X) {
+    const vb = X.B.map((v, i) => ({ v, i })).filter(q => isN(q.v));
+    const mn = vb.reduce((a, q) => (a == null || q.v < a.v ? q : a), null), last = vb[vb.length - 1];
+    const out = X.days.reduce((s, q) => s + q.out, 0), inn = X.days.reduce((s, q) => s + q.inn, 0);
+    return { cur: vb.length ? vb[0].v : null, mn, last, out, inn };
+  }
+  function dSmall() {
+    const names = ['전체', ...S.ima.filter(im => S.daily.B.rows[im.name]).map(im => im.name)];
+    $('dsm').innerHTML = names.map(nm => {
+      const X = dSeries(nm), st = dStats(X);
+      return `<button class="dsm-c${nm === dsel ? ' on' : ''}" data-n="${esc(nm)}" aria-label="${esc(nm)} 일별 DP 크게 보기">
+        <div class="t"><b>${esc(nm)}</b><span>${amt(st.cur)} → ${st.last ? amt(st.last.v) : '—'}억</span></div>
+        <div class="s"><span>최저 <span class="${st.mn && st.mn.v < 0 ? 'neg' : ''}">${st.mn ? amt(st.mn.v) : '—'}</span>${st.mn ? ' · ' + fDw(X.ds[st.mn.i]) : ''}</span></div>
+        <div class="s"><span><span style="color:var(--stress)">투자 ${st.out > 0.5 ? '−' + amt(st.out) : '0'}</span> · <span style="color:var(--safe)">유입 ${st.inn > 0.5 ? '+' + amt(st.inn) : '0'}</span></span></div>
+        <div class="mini" data-n="${esc(nm)}"></div></button>`;
+    }).join('');
+    document.querySelectorAll('#dsm .dsm-c').forEach(el => el.onclick = () => { dsel = el.dataset.n; document.querySelectorAll('#dsm .dsm-c').forEach(x => x.classList.toggle('on', x === el)); dDetail(); if (window.innerWidth < 900) $('dpanel').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    document.querySelectorAll('#dsm .mini').forEach(el => dMini(el, dSeries(el.dataset.n)));
+  }
+  function stepPath(arr, x0, bw, Y) {
+    let d = '', on = false;
+    arr.forEach((v, i) => { if (!isN(v)) { on = false; return; } const a = x0 + bw * i, b = a + bw, y = Y(v).toFixed(1);
+      d += on ? `L${a.toFixed(1)} ${y}H${b.toFixed(1)}` : `M${a.toFixed(1)} ${y}H${b.toFixed(1)}`; on = true; });
+    return d;
+  }
+  const HATCH = `<pattern id="dhz" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#121C1F"/><rect width="3" height="6" fill="#22323A"/></pattern>`;
+  function dMini(el, X) {
+    const W = el.clientWidth || 260, H = el.clientHeight || 74, pt = 4, pb = 4, n = X.n, bw = W / n;
+    const vals = [...X.B, ...X.A].filter(isN); if (!vals.length) { el.innerHTML = ''; return; }
+    let lo = Math.min(0, ...vals), hi = Math.max(0, ...vals); if (hi - lo < 1) hi = lo + 1;
+    const Y = v => pt + (H - pt - pb) * (1 - (v - lo) / (hi - lo));
+    let sv = `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true"><defs>${HATCH.replace('dhz', 'dhz' + esc(X.name))}</defs>`;
+    if (X.cashI >= 0) sv += `<rect x="${bw * X.cashI}" y="0" width="${W - bw * X.cashI}" height="${H}" fill="url(#dhz${esc(X.name)})" opacity=".9"/>`;
+    if (lo < 0) sv += `<rect x="0" y="${Y(0)}" width="${W}" height="${H - pb - Y(0)}" fill="#3A1714" opacity=".7"/>`;
+    sv += `<line x1="0" x2="${W}" y1="${Y(0)}" y2="${Y(0)}" stroke="#4A6168"/>`;
+    sv += `<path d="${stepPath(X.A, 0, bw, Y)}" fill="none" stroke="#8A9DA2" stroke-width="1.2" stroke-dasharray="3 3"/>`;
+    sv += `<path d="${stepPath(X.B, 0, bw, Y)}" fill="none" stroke="#F2F7F7" stroke-width="1.6"/>`;
+    X.days.forEach(q => { if (Math.abs(q.dB) > 0.5 && isN(q.b)) sv += `<circle cx="${(bw * q.i).toFixed(1)}" cy="${Y(q.b).toFixed(1)}" r="2.6" fill="${q.dB > 0 ? '#4FBFA8' : '#E6A54A'}" stroke="#141F23" stroke-width="1"/>`; });
+    el.innerHTML = sv + '</svg>';
+  }
+  const evTxt = (e, all) => `${all && e.ima ? '[' + esc(e.ima) + '] ' : ''}${esc(e.name)}${e.inv ? ' <span class="mut">(= 인벤토리 ' + esc(short(e.inv, 30)) + ')</span>' : ''}`;
+  let dHL = null;
+  function dDetail() {
+    const X = dSeries(dsel), st = dStats(X), ds = X.ds, n = X.n;
+    $('dchSel').innerHTML = ['전체', ...S.ima.filter(im => S.daily.B.rows[im.name]).map(im => im.name)].map(nm => `<button data-n="${esc(nm)}" class="${nm === dsel ? 'on' : ''}">${esc(nm)}</button>`).join('');
+    document.querySelectorAll('#dchSel button').forEach(b => b.onclick = () => { dsel = b.dataset.n; document.querySelectorAll('#dsm .dsm-c').forEach(x => x.classList.toggle('on', x.dataset.n === dsel)); dDetail(); });
+    $('dchT').textContent = (X.all ? '전체 IMA 합계' : X.name) + ' · 일별 DP 흐름';
+    $('dchS').innerHTML = `현재 기준 B <b style="color:var(--ink)">${amt(st.cur)}</b>억 → ${st.last ? fDw(ds[st.last.i]) + ' <b style="color:var(--ink)">' + amt(st.last.v) + '</b>억' : '—'} · 최저 <b style="color:${st.mn && st.mn.v < 0 ? 'var(--breach)' : 'var(--ink)'}">${st.mn ? amt(st.mn.v) : '—'}</b>${st.mn ? ' (' + fDw(ds[st.mn.i]) + ')' : ''}` +
+      (X.all ? '' : ` · 만기 M-3 ${fD(X.cash)}`) + (isN(X.aum) ? ` · 운용금액 ${amt(X.aum)}억` : '');
+    // ---- 차트 ----
+    const el = $('dch'), W = el.clientWidth || 1000, mob = W < 640;
+    const pl = mob ? 46 : 60, pr = mob ? 8 : 138, pt = 14, ph = mob ? 180 : 240, gap = 12, lh = mob ? 92 : 124, pb = 24;
+    const H = pt + ph + gap + lh + pb, iw = W - pl - pr, bw = iw / n, XC = i => pl + bw * (i + .5);
+    const vals = [...X.B, ...X.A].filter(isN);
+    let lo = Math.min(0, ...vals), hi = Math.max(0, ...vals);
+    const stp = niceStep((hi - lo) / (mob ? 4 : 5) || 1); hi = Math.ceil(hi / stp) * stp; lo = Math.floor(lo / stp) * stp; if (hi === lo) hi = lo + stp;
+    const Y = v => pt + ph * (1 - (v - lo) / (hi - lo));
+    let sv = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(X.name)} 일별 Dry Powder 차트"><defs>${HATCH}</defs>`;
+    if (X.cashI >= 0) { const x = pl + bw * X.cashI; sv += `<rect x="${x}" y="${pt}" width="${pl + iw - x}" height="${ph + gap + lh}" fill="url(#dhz)"/><text x="${x + 6}" y="${pt + 13}" font-size="11" fill="#B8C8CB">만기 M-3 ${fD(X.cash).slice(5).replace('-', '/')} 이후 · 현금화 구간</text>`; }
+    if (lo < 0) sv += `<rect x="${pl}" y="${Y(0)}" width="${iw}" height="${pt + ph - Y(0)}" fill="#3A1714" opacity=".75"/><text x="${pl + 6}" y="${pt + ph - 6}" font-size="11" fill="#F07264">0 아래 = 자금 부족</text>`;
+    for (let v = lo; v <= hi + 1e-9; v += stp) sv += `<line x1="${pl}" x2="${pl + iw}" y1="${Y(v)}" y2="${Y(v)}" stroke="${Math.abs(v) < 1e-9 ? '#4A6168' : '#1C2B30'}"/><text x="${pl - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="#8A9DA2">${Math.round(v).toLocaleString('ko-KR')}</text>`;
+    // 월 경계 + 축 글자
+    const axY = pt + ph + gap + lh + 16;
+    const axl = [];
+    ds.forEach((d, i) => { if (i === 0 || toD(d).getUTCMonth() !== toD(ds[i - 1]).getUTCMonth()) {
+      const x = pl + bw * i; if (i > 0) sv += `<line x1="${x}" x2="${x}" y1="${pt}" y2="${pt + ph + gap + lh}" stroke="#1C2B30"/>`;
+      if (axl.length && x - axl[axl.length - 1].x < 40) axl.pop();   // 붙어 있으면 앞 글자 생략
+      axl.push({ x, t: toD(d).getUTCMonth() === 0 || i === 0 ? fYM(d) : (toD(d).getUTCMonth() + 1) + '월' }); } });
+    axl.forEach(a => sv += `<text x="${a.x + 3}" y="${axY}" font-size="11" fill="#8A9DA2">${a.t}</text>`);
+    sv += `<path d="${stepPath(X.A, pl, bw, Y)}" fill="none" stroke="#8A9DA2" stroke-width="1.5" stroke-dasharray="5 4"/>`;
+    sv += `<path d="${stepPath(X.B, pl, bw, Y)}" fill="none" stroke="#F2F7F7" stroke-width="2"/>`;
+    X.days.forEach(q => { if (Math.abs(q.dB) > 0.5 && isN(q.b)) sv += `<circle cx="${(pl + bw * q.i).toFixed(1)}" cy="${Y(q.b).toFixed(1)}" r="4" fill="${q.dB > 0 ? '#4FBFA8' : '#E6A54A'}" stroke="#0F181B" stroke-width="2"/>`; });
+    if (!mob) {   // 오른쪽 끝 직접 표기
+      const lb = [...X.B.keys()].reverse().find(i => isN(X.B[i])), la = [...X.A.keys()].reverse().find(i => isN(X.A[i]));
+      let yb = lb != null ? Y(X.B[lb]) : null, ya = la != null ? Y(X.A[la]) : null;
+      const G = 40;   // 3줄 묶음 높이 — 겹치면 위아래로 벌림
+      if (yb != null && ya != null && Math.abs(yb - ya) < G) { if (yb <= ya) { yb -= (G - (ya - yb)) / 2; ya = yb + G; } else { ya -= (G - (yb - ya)) / 2; yb = ya + G; } }
+      const lab = (i, y, t, d, v, c1, c2) => { const x = pl + bw * (i + 1) + 6;
+        return `<text x="${x}" y="${y - 6}" font-size="11" fill="${c1}" font-weight="700">${t}</text><text x="${x}" y="${y + 6}" font-size="10.5" fill="${c2}">${d}</text><text x="${x}" y="${y + 18}" font-size="11" fill="${c2}">${v}</text>`; };
+      if (yb != null) sv += lab(lb, yb, '기준 B', '기표 예정 딜까지 반영', amt(X.B[lb]), '#F2F7F7', '#B8C8CB');
+      if (ya != null) sv += lab(la, ya, '기준 A', '기표완료 딜만 반영', amt(X.A[la]), '#B8C8CB', '#8A9DA2');
+    }
+    // ---- 일정 막대 (유입 ▲ 위 / 투자 ▼ 아래) ----
+    const lt = pt + ph + gap, mid = lt + lh / 2, rowH = 13, maxBar = lh / 2 - (mob ? 6 : 2 * rowH + 4);
+    const gmax = Math.max(1, ...X.days.map(q => Math.max(q.inn, q.out)));
+    sv += `<rect x="${pl}" y="${lt}" width="${iw}" height="${lh}" fill="#0B1315" opacity=".55"/><line x1="${pl}" x2="${pl + iw}" y1="${mid}" y2="${mid}" stroke="#2E434A"/>`;
+    sv += `<text x="${pl - 8}" y="${mid - 6}" text-anchor="end" font-size="11" fill="#4FBFA8">유입▲</text><text x="${pl - 8}" y="${mid + 14}" text-anchor="end" font-size="11" fill="#E6A54A">투자▼</text>`;
+    const bwid = Math.max(2, Math.min(14, bw * .72));
+    X.days.forEach(q => {
+      if (q.inn > 0.5) { const h = Math.max(2, q.inn / gmax * maxBar); sv += `<rect x="${XC(q.i) - bwid / 2}" y="${mid - 1 - h}" width="${bwid}" height="${h}" rx="1.5" fill="#4FBFA8"/>`; }
+      if (q.out > 0.5) { const h = Math.max(2, q.out / gmax * maxBar); sv += `<rect x="${XC(q.i) - bwid / 2}" y="${mid + 1}" width="${bwid}" height="${h}" rx="1.5" fill="#E6A54A"/>`; }
+    });
+    if (!mob) {   // 큰 일정부터 딜 이름 직접 표기 (겹치면 생략 → 마우스 올리면 전부 보임)
+      const cx = document.createElement('canvas').getContext('2d'); cx.font = '11px ' + getComputedStyle(document.body).fontFamily;
+      const cand = [];
+      X.days.forEach(q => {
+        const live = q.ev.filter(e => !e.excl && !e.pre);
+        [['up', q.inn, live.filter(e => e.k !== 'out')], ['dn', q.out, live.filter(e => e.k === 'out')]].forEach(([side, v, es]) => {
+          if (v <= 0.5) return; es.sort((a, b) => Math.abs(b.v) - Math.abs(a.v));
+          const nm = es.length ? short(es[0].name, 12) + (es.length > 1 ? ` 외 ${es.length - 1}` : '') : '';
+          cand.push({ side, v, i: q.i, t: `${side === 'up' ? '+' : '−'}${amt(v)} ${nm}`.trim() });
+        });
+      });
+      cand.sort((a, b) => b.v - a.v);
+      const used = { up: [[], []], dn: [[], []] };
+      cand.forEach(c => {
+        const w = cx.measureText(c.t).width + 8; let x = XC(c.i); x = Math.max(pl + w / 2, Math.min(pl + iw - w / 2, x));
+        const a = x - w / 2, b = x + w / 2;
+        for (let r = 0; r < 2; r++) {
+          if (used[c.side][r].some(([p, q2]) => a < q2 && b > p)) continue;
+          used[c.side][r].push([a, b]);
+          const y = c.side === 'up' ? lt + 11 + r * rowH : lt + lh - 4 - r * rowH;
+          sv += `<text x="${x}" y="${y}" text-anchor="middle" font-size="11" fill="${c.side === 'up' ? '#7FD6C3' : '#F0BE78'}">${esc(c.t)}</text>`;
+          break;
+        }
+      });
+    }
+    sv += `<line id="dcx" y1="${pt}" y2="${pt + ph + gap + lh}" stroke="#5FB7B5" opacity="0"/><rect id="dcz" x="${pl}" y="${pt}" width="${iw}" height="${ph + gap + lh}" fill="transparent"/></svg><div class="tip" id="dctip" hidden></div>`;
+    el.innerHTML = sv;
+    const tip = el.querySelector('#dctip'), cxl = el.querySelector('#dcx'), cz = el.querySelector('#dcz');
+    const show = (i, fromTable) => {
+      const q = X.days[i]; if (!q) return;
+      cxl.setAttribute('x1', XC(i)); cxl.setAttribute('x2', XC(i)); cxl.setAttribute('opacity', 1);
+      const evs = q.ev.slice().sort((a, b) => (a.k === 'out') - (b.k === 'out') || Math.abs(b.v) - Math.abs(a.v));
+      const lines = evs.slice(0, 10).map(e => `<span class="ev ${e.excl || e.pre ? 'x' : e.k === 'out' ? 'o' : 'i'}">${e.k === 'out' ? '▼' : '▲'} ${evTxt(e, X.all)} ${sgn(e.v)}${e.excl ? ' · 기준 B 제외' : e.pre ? ' · 기준일 반영' : ''}</span>`).join('') + (evs.length > 10 ? `<span class="ev x">외 ${evs.length - 10}건</span>` : '');
+      tip.innerHTML = `<b>${fD(q.d)} (${DOW[toD(q.d).getUTCDay()]})</b> · ${esc(X.all ? '전체' : X.name)}<br>기준 B <b>${amt(q.b)}</b>${Math.abs(q.dB) > 0.5 ? ` (전날 ${sgn(q.dB)})` : ''} · 기준 A <b>${amt(q.a)}</b>${lines ? '<br>' + lines : ''}${q.gap ? `<span class="ev x">시트 반영 유입 ${sgn(q.inn)} (같은 달 상환·만기는 시트 규칙상 큰 쪽만 반영)</span>` : ''}`;
+      tip.hidden = false;
+      const r = el.getBoundingClientRect(), px = XC(i) * r.width / W, tw = tip.offsetWidth || 260;
+      tip.style.left = (px + 14 + tw > r.width ? Math.max(0, px - 14 - tw) : px + 14) + 'px'; tip.style.top = '6px';
+      document.querySelectorAll('#dev tr.hl').forEach(t => t.classList.remove('hl'));
+      const tr = document.querySelector(`#dev tr[data-i="${i}"]`); if (tr) { tr.classList.add('hl'); if (!fromTable) { const w = $('devwrap'); if (tr.offsetTop < w.scrollTop + 30 || tr.offsetTop > w.scrollTop + w.clientHeight - 40) w.scrollTop = tr.offsetTop - 40; } }
+    };
+    const hide = () => { tip.hidden = true; cxl.setAttribute('opacity', 0); document.querySelectorAll('#dev tr.hl').forEach(t => t.classList.remove('hl')); };
+    cz.onmousemove = e => { const r = el.getBoundingClientRect(), sx = (e.clientX - r.left) * W / r.width; show(Math.max(0, Math.min(n - 1, Math.floor((sx - pl) / bw)))); };
+    cz.onmouseleave = hide;
+    cz.ontouchstart = e => { const t = e.touches[0], r = el.getBoundingClientRect(), sx = (t.clientX - r.left) * W / r.width; show(Math.max(0, Math.min(n - 1, Math.floor((sx - pl) / bw)))); };
+    dHL = { show, hide };
+    // ---- 날짜별 일정 표 ----
+    let h = `<thead><tr><th>날짜</th><th style="text-align:right">기준 B 변동</th><th style="text-align:right">변동 후 기준 B</th><th>일정 (${X.all ? '[IMA] ' : ''}딜명 · DP 영향)</th></tr></thead><tbody>`, cnt = 0;
+    X.days.forEach(q => {
+      if (!q.ev.length && Math.abs(q.dB) < 0.5) return; cnt++;
+      const evs = q.ev.slice().sort((a, b) => (a.k === 'out') - (b.k === 'out') || Math.abs(b.v) - Math.abs(a.v));
+      const chips = evs.map(e => `<span class="chip ${e.excl || e.pre ? 'x' : e.k === 'out' ? 'out' : 'in'}" title="${esc((e.ima ? '[' + e.ima + '] ' : '') + e.name + (e.d && e.d !== q.d ? ' · 원래 날짜 ' + fD(e.d) : '') + (e.k === 'mat' ? ' · 국내 딜 인벤토리 만기 (기표완료)' : e.k === 'pmat' ? ' · 국내 딜 인벤토리 만기 (기표예정 딜, 기준 B만 반영)' : ''))}">${X.all && e.ima ? '[' + esc(e.ima) + '] ' : ''}${esc(short(e.name, 22))} ${sgn(e.v)}${e.excl ? ' · B 제외' : ''}</span>`).join('');
+      const note = q.ev.some(e => e.pre) ? '<div class="mut">기준일 당일 일정 · 시작값에 이미 포함</div>' : q.gap ? `<div class="mut">시트 반영 유입 ${sgn(q.inn)} · 같은 달 상환·만기는 큰 쪽만 반영</div>` : '';
+      h += `<tr data-i="${q.i}"><td class="d">${fD(q.d)} (${DOW[toD(q.d).getUTCDay()]})</td><td class="r ${q.dB > 0.5 ? 'up' : q.dB < -0.5 ? 'dn' : ''}">${Math.abs(q.dB) > 0.5 ? sgn(q.dB) : '0'}</td><td class="r${isN(q.b) && q.b < 0 ? ' neg' : ''}">${amt(q.b)}</td><td>${chips || '<span class="mut">일정 표시 없음 (시트 계산 변동)</span>'}${note}</td></tr>`;
+    });
+    if (!cnt) h += '<tr><td colspan="4" class="none">6개월 안에 예정된 일정 없음</td></tr>';
+    $('dev').innerHTML = h + '</tbody>';
+    document.querySelectorAll('#dev tr[data-i]').forEach(tr => { tr.onmouseenter = () => show(+tr.dataset.i, true); tr.onmouseleave = hide; });
+    $('dcap').innerHTML = '선과 금액은 Dry Powder 시트 일별 표 값 그대로입니다. 막대는 그날 기준 B 변동을 투자(배분 시트의 그날 투자 합계)와 유입(변동 + 투자)으로 나눈 것이고, 딜 이름은 S3~G2 배분 시트·국내 딜 인벤토리 만기일에서 가져왔습니다. 주말·공휴일 일정은 다음 평일에 표시되며, 회색 칩은 기준 B 계산에서 빠지는 행입니다.';
+  }
+  function daily() {
+    const D = S.daily; $('dsec').hidden = !D; if (!D) return;
+    const ds = D.dates;
+    $('dnote').textContent = `${fD(ds[0])} ~ ${fD(ds[ds.length - 1])} · 평일 ${ds.length}일`;
+    if (dsel !== '전체' && !D.B.rows[dsel]) dsel = '전체';
+    dSmall(); dDetail(); dTable();
+  }
+  let dRT = null;
+  let dW = 0;   // 화면 폭이 바뀌거나 숨겨진 탭에서 돌아올 때 다시 그림
+  const dRO = typeof ResizeObserver === 'function' ? new ResizeObserver(() => { const w = $('dch').clientWidth; if (!w || Math.abs(w - dW) < 4) return; dW = w;
+    clearTimeout(dRT); dRT = setTimeout(() => { if (S && S.daily && !$('dsec').hidden) { document.querySelectorAll('#dsm .mini').forEach(el => dMini(el, dSeries(el.dataset.n))); dDetail(); } }, 150); }) : null;
+  if (dRO) setTimeout(() => dRO.observe($('dch')), 0);
+  function dTable() {
+    const D = S.daily; if (!D) return;
+    const key = dbasis, ds = D.dates;
+    let mo = '', prevM = null, span = 0;
+    ds.forEach((d, i) => { const m = toD(d).getUTCMonth(); if (m !== prevM) { if (prevM !== null) mo += `<th class="mo" colspan="${span}">${fYM(ds[i - span])}</th>`; prevM = m; span = 1; } else span++; if (i === ds.length - 1) mo += `<th class="mo" colspan="${span}">${fYM(ds[i - span + 1])}</th>`; });
+    const m1 = ds.map((d, i) => i > 0 && toD(d).getUTCMonth() !== toD(ds[i - 1]).getUTCMonth());
+    let h = `<thead><tr><th class="rowh"></th><th></th>${mo}</tr><tr><th class="rowh">IMA</th><th class="cd">만기 M-3</th>${ds.map((d, i) => { const x = toD(d); return `<th class="dd${m1[i] ? ' m1' : ''}">${x.getUTCMonth() + 1}/${x.getUTCDate()}</th>`; }).join('')}</tr></thead><tbody>`;
+    S.ima.forEach(im => {
+      const vals = D[key].rows[im.name]; if (!vals) return;
+      const aum = aumOf(im);
+      h += `<tr><th class="rowh" data-n="${esc(im.name)}">${esc(im.name)}</th><th class="cd">${fD(im.cash)}</th>`;
+      h += vals.map((v, i) => {
+        const d = ds[i];
+        if (!isN(v)) return `<td class="mat${m1[i] ? ' m1' : ''}"></td>`;
+        const r = isN(aum) && aum > 0 ? v / aum : null, cls = [];
+        if (im.cash && d >= im.cash) cls.push('cash'); else if (v < 0) cls.push('neg'); else if (r != null) cls.push('l' + level(r));
+        if (i > 0 && isN(vals[i - 1]) && Math.abs(v - vals[i - 1]) > 0.005) cls.push('chg');
+        if (m1[i]) cls.push('m1');
+        const t = dunit === 'pct' && r != null ? pct(r, 0) : amt(v);
+        const dv = i > 0 && isN(vals[i - 1]) ? v - vals[i - 1] : null;
+        return `<td class="${cls.join(' ')}" title="${esc(im.name)} ${fD(d)}: ${amt(v)}억원${dv ? ` (전날 대비 ${dv > 0 ? '+' : ''}${amt(dv)})` : ''}">${t}</td>`;
+      }).join('') + '</tr>';
+    });
+    const tot = D[key].tot || [], aumT = col(S.dtot, '운용금액');
+    h += `<tr class="tot"><th class="rowh">합계</th><th class="cd"></th>${tot.map((v, i) => `<td class="${isN(v) && v < 0 ? 'neg' : ''}${i > 0 && isN(v) && isN(tot[i - 1]) && Math.abs(v - tot[i - 1]) > 0.005 ? ' chg' : ''}${m1[i] ? ' m1' : ''}">${dunit === 'pct' && isN(v) && isN(aumT) && aumT > 0 ? pct(v / aumT, 0) : amt(v)}</td>`).join('')}</tr></tbody>`;
+    $('dheat').innerHTML = h;
+    document.querySelectorAll('#dheat th.rowh[data-n]').forEach(el => el.onclick = () => openIMA(el.dataset.n));
   }
 
   function kpis() {
@@ -1037,7 +1374,7 @@ const APP = (() => {
   function fDT(iso) { const d = new Date(iso); if (isNaN(d)) return ''; const p = n => String(n).padStart(2, '0'); return `${d.getFullYear() % 100}.${p(d.getMonth() + 1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; }
   function render() {
     $('meta').innerHTML = `<span>기준일 <b>${fD(S.base)}</b></span><span>파일 <b>${esc(fileName)}</b>${srcOD ? ` · OneDrive 저장 <b>${esc(fDT(srcOD.mod))}</b>` : ''}${srcNote ? ` · ${srcNote}` : ''}</span><span>IMA <b>${S.ima.length}</b>개 · 월 <b>${S.months.length}</b>개</span>`;
-    kpis(); heat(); mix(); sched(); timeline(); cards(); notesFill(); imaSel();
+    kpis(); daily(); heat(); mix(); sched(); timeline(); cards(); notesFill(); imaSel();
   }
 
   async function load(file) {
@@ -1071,6 +1408,8 @@ const APP = (() => {
     ['dragleave', 'drop'].forEach(t => document.addEventListener(t, e => { e.preventDefault(); dr.classList.remove('over'); }));
     document.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (f) load(f); });
     document.querySelectorAll('#basis button').forEach(b => b.onclick = () => { basis = b.dataset.b; document.querySelectorAll('#basis button').forEach(x => x.classList.toggle('on', x === b)); heat(); });
+    document.querySelectorAll('#dbasis button').forEach(b => b.onclick = () => { dbasis = b.dataset.b; document.querySelectorAll('#dbasis button').forEach(x => x.classList.toggle('on', x === b)); dTable(); });
+    document.querySelectorAll('#dunit button').forEach(b => b.onclick = () => { dunit = b.dataset.u; document.querySelectorAll('#dunit button').forEach(x => x.classList.toggle('on', x === b)); dTable(); });
     document.querySelectorAll('#unit button').forEach(b => b.onclick = () => { unit = b.dataset.u; document.querySelectorAll('#unit button').forEach(x => x.classList.toggle('on', x === b)); heat(); });
     const go = pg => {
       if (pg !== 'appx') pg = 'dp';

@@ -13,7 +13,7 @@ PW = os.environ.get("DASH_PASSWORD", "")
 if len(PW) < 8:
     sys.exit("실패: 저장소 Secrets에 DASH_PASSWORD(8자 이상, 12자 이상 권장)가 없습니다.")
 ITER = 600_000
-NEED = ['월별 Dry Powder', 'DP_현황판', 'Dash Board', 'S3~G2 배분', '국내 딜 인벤토리', '해외 딜 인벤토리']
+NEED = ['Dry Powder', '월별 Dry Powder', 'DP_현황판', 'Dash Board', 'S3~G2 배분', '국내 딜 인벤토리', '해외 딜 인벤토리']
 
 
 def slim(path):
@@ -30,8 +30,8 @@ def slim(path):
         if nm in NEED:
             t = relmap[rid]; t = t.lstrip('/') if t.startswith('/') else 'xl/' + t
             keep.append((nm, rid, t, el)); found.append(nm)
-    if not any(n in found for n in ('월별 Dry Powder', 'DP_현황판')):
-        sys.exit('실패: Master에 월별 Dry Powder 시트가 없습니다.')
+    if not any(n in found for n in ('Dry Powder', '월별 Dry Powder', 'DP_현황판')):
+        sys.exit('실패: Master에 Dry Powder(또는 월별 Dry Powder) 시트가 없습니다.')
     sst = re.findall(r'<si>.*?</si>|<si/>', R('xl/sharedStrings.xml'), flags=re.S) if 'xl/sharedStrings.xml' in z.namelist() else []
     remap, used = {}, []
 
