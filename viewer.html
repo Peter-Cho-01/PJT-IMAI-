@@ -119,6 +119,103 @@ table{border-collapse:collapse;width:100%}
 .heat td.cash{background:repeating-linear-gradient(45deg,#1A2629 0 4px,#121C1F 4px 8px);color:var(--ink-3);font-weight:500;font-style:italic}
 .heat td.mat{background:var(--hmat);color:transparent}
 .heat td.cur{box-shadow:inset 0 0 0 2px var(--ink-3)}
+.btn.sm{height:28px;padding:0 10px;font-size:12px}
+.simkpi{display:flex;flex-wrap:wrap;gap:8px 22px;margin:0 0 12px;font-size:12.5px;color:var(--ink-2)}
+.simkpi b{font-family:var(--font-fig);font-stretch:82%;font-size:15px;color:var(--ink)}
+.simt,.simd{width:100%;border-collapse:collapse}
+.simt th,.simt td,.simd th,.simd td{padding:7px 8px;border-bottom:1px solid var(--line);font-size:12.5px;vertical-align:middle;text-align:left}
+.simt thead th,.simd thead th{color:var(--ink-3);font-weight:600;font-size:11.5px;white-space:nowrap}
+.simt td.r,.simt th.r{text-align:right;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;white-space:nowrap}
+.simt td.arrow{color:var(--ink-3);text-align:center;padding:0 2px}
+.simt td.now{color:var(--ink-2)} .simt td.aft{font-weight:700;color:var(--ink)}
+.simt .dlt{display:inline-flex;align-items:center;gap:6px;justify-content:flex-end;min-width:118px}
+.simt .dlt .bp{min-width:52px;text-align:right;font-weight:700}
+.simt .dlt .bp.up{color:var(--safe)} .simt .dlt .bp.dn{color:var(--stress)} .simt .dlt .bp.z{color:var(--ink-3);font-weight:500}
+.simt .dbar{position:relative;width:60px;height:8px;background:var(--track);border-radius:4px}
+.simt .dbar i{position:absolute;top:0;bottom:0;border-radius:4px} .simt .dbar::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;border-left:1px solid var(--line-2)}
+.simt tr.tot td,.simt tr.tot th{font-weight:700;border-top:1px solid var(--line-2)}
+.simt .mut,.simd .mut{color:var(--ink-3);font-size:11.5px}
+.simch{margin:4px 0 18px}
+.sch-h{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;margin:0 0 10px} .sch-h b{font-size:14px}
+.sch-h .lg{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-2)} .sch-h .lg i{display:inline-block;width:18px;border-radius:2px}
+.sch-h .lg i.g{height:10px;background:var(--safe)} .sch-h .lg i.c{height:4px;background:#9BE6D3}
+.sch{display:flex;flex-direction:column;gap:4px}
+.sch-r,.sch-ax{display:grid;grid-template-columns:48px 1fr 230px;gap:12px;align-items:center}
+.sch-r{background:transparent;border:1px solid transparent;border-radius:8px;padding:6px 8px;cursor:pointer;color:var(--ink);font:inherit;text-align:left}
+.sch-r:hover{background:var(--paper-2)} .sch-r.on{border-color:var(--accent);background:var(--accent-soft)}
+.sch-r .nm{font-family:var(--font-fig);font-stretch:88%;font-weight:700;font-size:15px}
+.sch .trk{position:relative;height:26px}
+.sch .trk .z{position:absolute;left:50%;top:-4px;bottom:-4px;border-left:1px solid var(--line-2)}
+.sch .trk i{position:absolute;border-radius:3px}
+.sch .trk i.g{top:3px;height:14px} .sch .trk i.c{top:19px;height:5px}
+.sch .trk i.g.p{background:var(--safe)} .sch .trk i.g.m{background:var(--stress)} .sch .trk i.c.p{background:#9BE6D3} .sch .trk i.c.m{background:#F0BE78}
+.sch-r .val{display:flex;flex-direction:column;line-height:1.3} .sch-r .val b{font-family:var(--font-fig);font-stretch:82%;font-size:17px;color:var(--ink-3)}
+.sch-r .val b.up{color:var(--safe)} .sch-r .val b.dn{color:var(--stress)} .sch-r .val small{color:var(--ink-3);font-size:11.5px;font-family:var(--font-fig);font-stretch:85%}
+.sch-r .val em{color:var(--breach);font-style:normal}
+.sch-ax .trk{height:16px} .sch-ax .tick{position:absolute;transform:translateX(-50%);font-size:10.5px;color:var(--ink-3);font-family:var(--font-fig)}
+@media (max-width:640px){.sch-r,.sch-ax{grid-template-columns:36px 1fr 120px;gap:8px} .sch-r .val b{font-size:15px} .sch-r .val small{font-size:10.5px}}
+.simsel{margin:0 0 14px} .simsel button{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;gap:2px}
+.simsel button small{font-size:10.5px;font-weight:700} .simsel button small.up{color:var(--safe)} .simsel button small.dn{color:var(--stress)}
+.simsel button.on small{color:var(--accent-ink)} .simsel button:has(small){height:46px}
+#simhero .hero-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:0 0 14px}
+#simhero .hero-h b{font-family:var(--font-fig);font-stretch:88%;font-size:26px} #simhero .hero-h span{color:var(--ink-3);font-size:12.5px}
+.hks{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:0 0 18px}
+.hk{background:var(--paper-2);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.hk .v{flex-wrap:wrap}
+.hk .l{color:var(--ink-3);font-size:12px} .hk .v{display:flex;align-items:baseline;gap:10px;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums}
+.hk .now{font-size:20px;color:var(--ink-2)} .hk .ar{color:var(--ink-3);font-size:18px} .hk .aft{font-size:30px;font-weight:700;color:var(--ink)}
+.hk .d{font-family:var(--font-fig);font-stretch:85%;font-size:18px;font-weight:700} .hk .d.up{color:var(--safe)} .hk .d.dn{color:var(--stress)} .hk .d.z{color:var(--ink-3);font-size:12.5px;font-weight:500;font-family:var(--font-ui)}
+.ladder{margin:0 0 20px} .ladder .lgd{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:11.5px;color:var(--ink-3);margin:0 0 8px}
+.ladder .lgd span{display:inline-flex;align-items:center;gap:6px} .ladder .lgd .pt{position:static;transform:none;display:inline-block}
+.ladder .lgd .rl{display:inline-block;width:2px;height:12px} .rl.h{background:#8A9DA2} .rl.f{background:#C9A227}
+.ln{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center;height:42px}
+.ln .ll{color:var(--ink-2);font-size:12.5px;font-weight:600}
+.ln .lt{position:relative;height:100%;border-bottom:1px solid var(--line)}
+.ln.ax{height:20px} .ln.ax .lt{border:0} .ln .tk{position:absolute;top:2px;transform:translateX(-50%);font-size:10.5px;color:var(--ink-3);font-family:var(--font-fig)}
+.ln .ref{position:absolute;top:0;bottom:0;border-left:2px dashed} .ln .ref.h{border-color:#8A9DA2} .ln .ref.f{border-color:#C9A227}
+.ln .ref em{position:absolute;top:-1px;left:4px;font-style:normal;font-size:10.5px;white-space:nowrap;color:var(--ink-3)}
+.ln .ref.f em{top:auto;bottom:1px;color:#C9A227}
+.ln .mv{position:absolute;top:50%;height:6px;margin-top:-3px;border-radius:3px} .ln .mv.up{background:rgba(79,191,168,.55)} .ln .mv.dn{background:rgba(230,165,74,.55)}
+.pt{position:absolute;top:50%;width:14px;height:14px;margin-top:-7px;transform:translateX(-50%);border-radius:50%}
+.pt.now{background:var(--paper);border:2px solid var(--ink-2)} .pt.aft{border:2px solid var(--paper)} .pt.aft.up{background:var(--safe)} .pt.aft.dn{background:var(--stress)}
+.wf-h{color:var(--ink-3);font-size:12px;font-weight:600;margin:0 0 8px}
+.wf{display:grid;grid-template-columns:minmax(180px,340px) 1fr 76px;gap:6px 12px;align-items:center;font-size:12.5px}
+.wf .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .wf .n small{display:block;color:var(--ink-3);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wf .n.tot{font-weight:700;border-top:1px solid var(--line-2);padding-top:6px}
+.wf .wt{position:relative;height:18px} .wf .wt .z0{position:absolute;top:-4px;bottom:-4px;border-left:1px solid var(--line-2)}
+.wf .wt i{position:absolute;top:2px;height:14px;border-radius:3px} .wf .wt i.up{background:var(--safe)} .wf .wt i.dn{background:var(--stress)} .wf .wt i.tot{top:0;height:18px}
+.wf b{text-align:right;font-family:var(--font-fig);font-stretch:82%;font-size:14px} .wf b.up{color:var(--safe)} .wf b.dn{color:var(--stress)}
+.simd input.am{width:70px;height:26px;border:1px solid var(--line-2);border-radius:5px;background:var(--paper-2);color:var(--ink);padding:0 6px;font-family:var(--font-fig);font-variant-numeric:tabular-nums;text-align:right}
+.simd .eff{font-family:var(--font-fig);font-stretch:82%;font-weight:700;font-size:13px;white-space:nowrap} .simd .eff.up{color:var(--safe)} .simd .eff.dn{color:var(--stress)}
+.simd .src{color:var(--ink-3);font-size:11.5px}
+details.simcmp summary{font-weight:700}
+@media (max-width:640px){.hks{grid-template-columns:1fr 1fr;gap:8px} .hk{padding:10px 12px} .hk:nth-child(3){grid-column:1 / -1} .hk .now{font-size:15px} .hk .d{font-size:15px} .hk .aft{font-size:22px} .wf{grid-template-columns:120px 1fr 58px} .ln{grid-template-columns:40px 1fr} .ladder .lgd span:last-child{display:none}}
+.simser{background:var(--paper-2);border-radius:8px;padding:12px 14px;margin:0 0 14px}
+.sskpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 18px}
+.sskpi div{display:flex;flex-direction:column;gap:2px} .sskpi span{color:var(--ink-3);font-size:11.5px}
+.sskpi b{font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;font-size:15px} .sskpi b.up,.ssl b.up{color:var(--safe)} .sskpi b.dn,.ssl b.dn{color:var(--stress)}
+.ssh{margin:12px 0 6px;color:var(--ink-3);font-size:11.5px;font-weight:600}
+.ssl{display:grid;grid-template-columns:minmax(160px,320px) 1fr 70px;gap:6px 12px;align-items:center;font-size:12.5px}
+.ssl .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .ssl .n small{display:block;color:var(--ink-3);font-size:11px}
+.ssl .bar2{height:10px;background:var(--track);border-radius:3px;overflow:hidden} .ssl .bar2 i{display:block;height:100%;border-radius:3px}
+.ssl b{text-align:right;font-family:var(--font-fig);font-stretch:82%}
+.simt tr.sel th,.simt tr.sel td{background:var(--accent-soft)}
+.simd .ichip.dim{opacity:.4}
+.simd td.tm{min-width:130px} .simd input.tmi{width:110px;height:26px;border:1px solid var(--line-2);border-radius:5px;background:var(--paper-2);color:var(--ink);padding:0 6px;font-family:var(--font-fig)} .simd input.tmi.bad{border-color:var(--breach)} .simd .mt{margin-top:2px;white-space:nowrap}
+.simas{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0 0 10px;font-size:12px;color:var(--ink-2)}
+.simas label{display:inline-flex;align-items:center;gap:6px}
+.simas input,.simd input.rt{width:62px;height:26px;border:1px solid var(--line-2);border-radius:5px;background:var(--paper-2);color:var(--ink);padding:0 6px;font-family:var(--font-fig);font-variant-numeric:tabular-nums;text-align:right}
+.simd tr.mon td{background:var(--paper-2);color:var(--ink-2);font-weight:700;font-size:12px;padding:6px 8px}
+.simd tr.off td{opacity:.55}
+.simd tr.on td{background:rgba(95,183,181,.07)}
+.simd td.d{white-space:nowrap;font-family:var(--font-fig);font-stretch:82%;color:var(--ink-2)}
+.simd td.nm{min-width:220px;line-height:1.45}
+.simd input[type=checkbox]{width:17px;height:17px;accent-color:var(--accent);cursor:pointer}
+.simd .ichip{display:inline-flex;gap:5px;align-items:baseline;margin:0 6px 4px 0;padding:2px 8px;border-radius:5px;background:var(--paper-2);font-size:12px;white-space:nowrap;font-family:var(--font-fig);font-stretch:85%}
+.simd .ichip b{font-weight:700} .simd .ichip .eff.up{color:var(--safe);font-weight:700} .simd .ichip .eff.dn{color:var(--stress);font-weight:700} .simd .ichip .src{color:var(--ink-3);font-size:11px} .simd .ichip .up{color:var(--safe);font-weight:700} .simd .ichip .dn{color:var(--stress);font-weight:700}
+.simd .ichip.inc{outline:1px solid var(--line-2)}
+.simd .ichip input.am{width:56px;height:22px;border:1px solid var(--line-2);border-radius:4px;background:var(--paper);color:var(--ink);padding:0 4px;font-family:var(--font-fig);font-variant-numeric:tabular-nums;text-align:right;font-size:12px}
+.simd tr.chg td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
 .dsub{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 10px}
 .dsub b{font-size:14px} .dsub span{color:var(--ink-3);font-size:12px}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 4px 0 6px;vertical-align:0} .dot.up{background:var(--safe)} .dot.dn{background:var(--stress)}
@@ -150,6 +247,9 @@ table{border-collapse:collapse;width:100%}
 .dev .mut{color:var(--ink-3);font-size:11.5px}
 .dsm-c .mini svg{height:74px}
 @media (max-width:640px){.dsm{grid-template-columns:1fr 1fr;gap:8px} .dsm-c{padding:8px 9px 6px} .dsm-c .t{flex-direction:column;align-items:flex-start;gap:0} .dsm-c .s{font-size:11px} .dsm-c .mini,.dsm-c .mini svg{height:56px}}
+@media (max-width:640px){.tabs{max-width:100%;overflow-x:auto} .tabs button{padding:0 10px}
+ .simt th:nth-child(3),.simt td:nth-child(3),.simt td.arrow,.simt thead th:nth-child(5),.simt thead th:nth-child(9){display:none}
+ .simt .dbar{display:none} .simt .dlt{min-width:0} .simd td.nm{min-width:150px} .simas label{font-size:11.5px}}
 .dcap{color:var(--ink-3);font-size:11.5px;line-height:1.6;margin-top:8px}
 details.dtbl summary{cursor:pointer;font-weight:700;font-size:14px} details.dtbl summary .note{font-weight:400;color:var(--ink-3);font-size:12px;margin-left:8px}
 .dheat{border-spacing:2px}
@@ -235,6 +335,8 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
 .dsel button{border:1px solid var(--line-2);background:var(--paper-2);color:var(--ink-2);height:26px;min-width:38px;padding:0 8px;border-radius:6px;cursor:pointer;font-family:var(--font-fig);font-stretch:88%;font-weight:700;font-size:12px}
 .dsel button:hover{border-color:var(--accent);color:var(--ink)}
 .dsel button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.dsel{gap:8px} .dsel button{height:38px;min-width:60px;padding:0 16px;font-size:15px;border-radius:8px}
+@media (max-width:640px){.dsel button{height:36px;min-width:52px;padding:0 12px;font-size:14px}}
 @media (max-width:900px){.imasel{top:0;position:static}}
 /* ---- 자산 구성 차트 ---- */
 .mix{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:12px}
@@ -322,7 +424,7 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
 .tabs button:hover{color:var(--ink);background:var(--paper-2)}
 .tabs button.on{background:var(--accent);color:var(--accent-ink)}
 .page>section:first-child{margin-top:0}
-.pagenav{display:flex;justify-content:flex-end;margin-top:28px}
+.pagenav{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:28px}
 @media (max-width:1100px){.grid2{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:900px){.tl{grid-template-columns:40px 1fr} .tl .amt{grid-column:2;text-align:left} .tl .axis{grid-column:2}}
 @media (max-width:900px){main{padding:20px 16px 40px} .top{padding:8px 16px} .top h1{white-space:normal} .two,.kv{grid-template-columns:1fr} .dh,.db{padding-left:16px;padding-right:16px}}
@@ -331,7 +433,7 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
 <body>
 <header class="top">
   <h1>IMA Dry Powder 현황판</h1>
-  <nav class="tabs" id="tabs" hidden aria-label="페이지"><button data-p="dp" class="on">월별 Dry Powder</button><button data-p="appx">Appendix · IMA 현황</button></nav>
+  <nav class="tabs" id="tabs" hidden aria-label="페이지"><button data-p="dp" class="on">Dry Powder</button><button data-p="sim">수익률 시뮬레이션</button><button data-p="appx">Appendix</button></nav>
   <div class="meta" id="meta"></div>
   <div class="sp"></div>
   <button class="btn" id="odRefresh" hidden>OneDrive 새로고침</button>
@@ -436,7 +538,7 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
     </section>
   </div>
 
-  <div class="pagenav"><button class="btn" data-go="appx">Appendix · IMA 현황 보기 →</button></div>
+  <div class="pagenav"><button class="btn" data-go="sim">수익률 시뮬레이션 →</button><button class="btn" data-go="appx">Appendix →</button></div>
 </div>
 <div class="page" id="page-appx" hidden>
     <div class="imasel"><span class="lab">IMA 선택</span><div class="seg" id="imaSel"></div><span class="note">누르면 해당 IMA의 Dash Board 정보·자산 구성이 열립니다</span></div>
@@ -454,7 +556,31 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
       </div>
     </section>
     <details class="notes"><summary>계산 기준 (월별 Dry Powder 시트 하단 설명)</summary><div id="notes"></div></details>
-  <div class="pagenav"><button class="btn" data-go="dp">← 월별 Dry Powder로</button></div>
+  <div class="pagenav"><button class="btn" data-go="dp">← Dry Powder로</button></div>
+</div>
+<div class="page" id="page-sim" hidden>
+  <section style="margin-top:0">
+    <div class="sec-h"><h2>시리즈별 수익률 시뮬레이션</h2><span class="note" id="simnote"></span><span class="sp"></span>
+      <div class="ctrls"><button class="btn sm" id="simReset">Master 상태로 (전체 초기화)</button></div></div>
+    <div class="seg dsel simsel" id="simsel"></div>
+    <div class="panel" id="simhero"></div>
+  </section>
+  <section>
+    <div class="sec-h"><h2 id="simdh">배분 딜</h2><span class="note">체크 = 이 시리즈가 기표한다고 가정 · 금액·금리·기간을 고치면 바로 반영 (Master에는 저장 안 됨)</span><span class="sp"></span>
+      <div class="ctrls"><button class="btn sm" id="simAll">이 시리즈 딜 전부 체크</button><button class="btn sm" id="simNone">이 시리즈 새 딜 해제</button></div></div>
+    <div class="panel">
+      <div class="simas" id="simas"></div>
+      <div class="tblwrap"><table class="simd" id="simd"></table></div>
+    </div>
+  </section>
+  <details class="notes simcmp"><summary>전체 시리즈 비교</summary>
+    <div class="simkpi" id="simkpi"></div>
+    <div class="simch" id="simch"></div>
+    <div class="tblwrap"><table class="simt" id="simt"></table></div>
+    <div class="dcap" id="simcap"></div>
+  </details>
+  <details class="notes"><summary>계산 방식과 검증 결과</summary><div id="simhow"></div></details>
+  <div class="pagenav"><button class="btn" data-go="dp">← Dry Powder로</button><button class="btn" data-go="appx">Appendix →</button></div>
 </div>
 <div class="foot">이 화면은 Master 파일의 월별 Dry Powder·Dash Board·S3~G2 배분 시트에 엑셀이 저장해 둔 값을 읽어 표시합니다. 월별 DP 값은 다시 계산하지 않으며, 투자 여력·자금 흐름은 그 값을 더하고 빼서 보여 주는 것입니다. 값이 이상하면 Master 엑셀에서 확인하세요.</div>
 </main>
@@ -542,7 +668,7 @@ const XR = (() => {
         const a = m[1], inner = m[2] || '';
         const r = /\br="([A-Z]+)(\d+)"/.exec(a); if (!r) continue;
         const t = (/\bt="(\w+)"/.exec(a) || [])[1];
-        const vm = /<v>([\s\S]*?)<\/v>/.exec(inner);
+        const vm = /<v(?:\s[^>]*)?>([\s\S]*?)<\/v>/.exec(inner);   // <v xml:space="preserve"> 도 읽음
         let v = null;
         if (t === 'inlineStr') v = texts(inner);
         else if (vm) {
@@ -710,10 +836,11 @@ const APP = (() => {
       if (!name || !type) continue;                               // 유형 빈칸 = 소계·비율 행
       const dRaw = sh.v(C(p.dateCol) + r), date = isN(dRaw) ? Math.floor(dRaw) : null;
       const amts = {};
-      S.ima.forEach(im => { if (isN(im.bcol)) { const v = sh.v(C(im.bcol) + r); if (isN(v) && Math.abs(v) > 1e-9) amts[im.name] = v; } });
+      const srcs = {};
+      S.ima.forEach(im => { if (isN(im.bcol)) { const v = sh.v(C(im.bcol) + r); if (isN(v) && Math.abs(v) > 1e-9) { amts[im.name] = v; srcs[im.name] = txt(sh.v(C(im.bcol + 1) + r)); } } });
       if (!Object.keys(amts).length) continue;
       rows.push({ row: r, name, type, term: txt(sh.v(C(p.nameCol + 2) + r)), rate: sh.v(C(p.nameCol + 3) + r), date, dateTxt: txt(dRaw),
-        vis: isN(p.visCol) ? txt(sh.v(C(p.visCol) + r)) : '', excl: S.kw.some(k => name.includes(k)), amts });
+        vis: isN(p.visCol) ? txt(sh.v(C(p.visCol) + r)) : '', excl: S.kw.some(k => name.includes(k)), amts, srcs });
     }
     return rows;
   }
@@ -782,7 +909,7 @@ const APP = (() => {
   }
 
   // ---------- 화면 ----------
-  let srcOD = null, srcNote = '', S = null, DB = {}, AL = [], INV = null, mixBase = 'aum', basis = 'B', unit = 'amt', fileName = '', lastFocus = null, flowSel = '전체', flowSpan = 12;
+  let srcOD = null, srcNote = '', S = null, DB = {}, AL = [], INV = null, FUND = {}, mixBase = 'aum', basis = 'B', unit = 'amt', fileName = '', lastFocus = null, flowSel = '전체', flowSpan = 12;
   const $ = id => document.getElementById(id);
   const col = (d, key) => { const k = Object.keys(d || {}).find(x => x.replace(/\s/g, '').startsWith(key)); return k ? d[k] : null; };
   const aumOf = im => col(im.D, '운용금액');
@@ -803,6 +930,333 @@ const APP = (() => {
   }
 
   let dbasis = 'B', dunit = 'amt';
+  // ---------- 수익률 시뮬레이션: IMA 시트 예상 Gross 계산 방식을 옮겨 배분 딜을 넣고 빼 봄 ----------
+  // IMA 시트 위쪽(제원·Snapshot·기표예정 목록)에서 라벨로 값 읽기
+  function parseFund(sh) {
+    if (!sh) return null;
+    const V = k => sh.v(k), P = { name: '' };
+    const lab = { '설정일': 'st', '만기일': 'mat', '운용금액(억)': 'aum', '현금화기준일': 'cash', '운용보수': 'fee', '기준수익률': 'hurdle', '성과배분 고객': 'share', 'Gross': 'gross', '고객': 'cust' };
+    for (let r = 2; r <= 17; r++) for (let c = 1; c <= 30; c++) { const t = txt(V(L(c) + r)); if (lab[t] && !(lab[t] in P)) P[lab[t]] = V(L(c + 1) + r); }
+    for (let r = 18; r <= 30 && !P.mrow; r++) if (txt(V('B' + r)) === 'No' && txt(V('C' + r)) === '자산 분류') P.mrow = r;
+    for (let r = 40; r <= 80; r++) { const t = txt(V('B' + r)); if (t === 'MMF수익률') P.mmf = V('B' + (r + 1)); if (t === '수익률 (연환산)') P.grow = r; }
+    for (let r = 185; r <= 195; r++) if (txt(V('B' + r)).startsWith('재투자금리')) P.reinv = V('C' + r);
+    if (!P.mrow || !P.grow || ![P.st, P.mat, P.aum].every(isN)) return null;
+    if (!isN(P.cash)) P.cash = edate(P.mat, -3);
+    const months = [];
+    for (let c = 4; c <= 70; c++) { const m = V(L(c) + P.mrow); if (isN(m) && m > 20000) months.push({ m: Math.floor(m), g: V(L(c) + P.grow), c }); }
+    P.grossOk = isN(P.gross);
+    let mx = null;
+    if (P.grossOk) months.forEach(x => { if (isN(x.g) && Math.abs(x.g - P.gross) < 1e-11) mx = x.m; });
+    if (mx == null) { const ok = months.filter(x => isN(x.g)); mx = ok.length ? ok[ok.length - 1].m : eom(P.mat); }
+    P.mx = eom(mx);
+    // 수익 Snapshot: MMF 수익(60행)·유동성자산 수익(58행) — Gross 기준월까지 합 (금리 가정 바꿀 때 사용)
+    let rM = 0, rL = 0;
+    for (let r = P.grow - 12; r < P.grow; r++) { const t = txt(V('C' + r)); if (t === 'MMF') rM = r; if (t === '유동성자산') rL = r; }
+    const sumRow = r => r ? months.filter(x => x.m <= P.mx).reduce((t, x) => t + (isN(V(L(x.c) + r)) ? V(L(x.c) + r) : 0), 0) : 0;
+    P.mmfInc = sumRow(rM); P.liqInc = sumRow(rL);
+    // MMF 잔액(자산 Snapshot 'MMF (AUM-5+6)' 행) 중 양수인 부분 × 일수/365 — 노는 돈에만 MMF 금리를 적용하기 위함
+    let rB = 0; for (let r = P.mrow + 1; r < P.grow; r++) if (/^MMF\s*\(/.test(txt(V('C' + r)))) { rB = r; break; }
+    P.mmfPos = 0; P.mmfNeg = 0;
+    if (rB) months.filter(x => x.m <= P.mx).forEach(x => { const b = V(L(x.c) + rB); if (!isN(b)) return;
+      const em = eom(x.m), d = Math.max(0, em - Math.max(ser(toD(em).getUTCFullYear(), toD(em).getUTCMonth(), 1) - 1, P.st)) / 365;
+      if (b > 0) P.mmfPos += b * d; else P.mmfNeg += b * d; });
+    // 기표예정 목록 (95~115행: 자산명·기표일·만기일·금액·수익률)
+    P.plan = [];
+    for (let r = 95; r <= 115; r++) {
+      const nm = txt(V('C' + r)), d0 = V('F' + r), d1 = V('G' + r), a = V('H' + r), rt = V('I' + r);
+      if (nm && isN(d0) && d0 > 20000 && isN(a) && a > 0) P.plan.push({ name: nm, d0: Math.floor(d0), d1: isN(d1) && d1 > 20000 ? Math.floor(d1) : null, amt: a, rate: isN(rt) ? rt : 0 });
+    }
+    return P;
+  }
+  const SIMA = { mmf: null, pim: 0.05, reinv: null, by: {} };   // by[IMA] = 시리즈별 덮어쓰기
+  let simSel = 'S1';
+  const rateOf = (P, k) => { const o = SIMA.by[P.name] || {}; if (o[k] != null) return o[k]; if (SIMA[k] != null) return SIMA[k]; return k === 'pim' ? 0.05 : k === 'mmf' ? (isN(P.mmf) ? P.mmf : 0.027) : (isN(P.reinv) ? P.reinv : 0.055); };   // 화면에서 바꿀 수 있는 가정 (null = IMA 시트 값)
+  // 딜 하나(금액 a, 금리 r, 기표일 F, 만기일 Dm, 재원)가 Gross 기준월까지 누적수익에 더하는 값 (억원)
+  function simCum(P, a, r, F, Dm, src) {
+    const S7 = P.st, S8 = P.mat, S12 = P.cash, mmf = rateOf(P, 'mmf'), rv = rateOf(P, 'reinv'), pim = rateOf(P, 'pim');
+    const pimco = /^pim/i.test(String(src || '').trim());
+    const dayOf = s => toD(s).getUTCDate();
+    let m = ser(toD(S7).getUTCFullYear(), toD(S7).getUTCMonth(), 1), tot = 0;
+    const eF = eom(F), eMin = eom(Math.min(Dm, S12)), eD = eom(Dm), e2s = edate(Dm, 2), e2 = eom(e2s), eS12 = eom(S12), eS8 = eom(S8);
+    while (m <= P.mx) {
+      const em = eom(m), days = dayOf(em);
+      if (em <= eS8) {
+        let it = 0;
+        if (eF <= em) {
+          if (em <= eMin) it = a * r * (eF === em ? days - dayOf(F) : days) / 365;
+          else if (eD < em && em < e2) it = 0;
+          else if (e2 <= em && em < eS12) it = a * rv * (e2 === em ? days - dayOf(e2s) : days) / 365;
+        }
+        const held = F <= em && Dm >= m && em < eS12, cut = pimco && eF <= em;
+        const mday = Math.max(0, em - Math.max(m - 1, S7));
+        const mm = a * mmf * mday / 365 * ((held ? -1 : 0) + (cut ? 1 : 0));
+        const lq = cut ? -a * pim * (eF === em ? days - dayOf(F) : days) / 365 : 0;
+        tot += it + mm + lq;
+      }
+      m = edate(m, 1);
+    }
+    return tot;
+  }
+  const simYrs = P => (Math.min(P.mx, P.mat) - P.st) / 365;
+  const simCust = (P, g) => (isN(P.hurdle) && isN(P.fee) && isN(P.share)) ? P.hurdle + Math.max(g - P.fee - P.hurdle, 0) * P.share : null;
+  // 기간 글자 → 개월 ("3M", "1Y", "6.5Y", "2~3Y"는 짧은 쪽)
+  const termMon = t => { const m = /([\d.]+)\s*(?:~\s*[\d.]+\s*)?([MY])/i.exec(String(t || '')); if (!m) return null; const n = parseFloat(m[1]); return /y/i.test(m[2]) ? Math.round(n * 12) : Math.round(n); };
+  // 기간 입력: "3M", "18M", "2Y", "1.5Y" 또는 만기일 "2027-06-30" / "27-06-30"
+  function parseTerm(t) {
+    t = String(t || '').trim(); if (!t) return null;
+    let m = /^(\d{2,4})[-./](\d{1,2})[-./](\d{1,2})$/.exec(t);
+    if (m) { let y = +m[1]; if (y < 100) y += 2000; return { date: ser(y, +m[2] - 1, +m[3]) }; }
+    const mo = termMon(t); return mo ? { mon: mo } : null;
+  }
+  function termEnd(d, F) {   // 화면 기간 입력 > 배분 시트 기간 > 없음(M-3까지)
+    const t = d.mat != null ? d.mat : parseTerm(d.term);
+    if (!t) return 2958465;
+    return t.date != null ? t.date : edate(F, t.mon);
+  }
+  let SIM = null;
+  const simBase = d => d.included ? true : d.mixed ? null : false;   // Master 상태 (null = IMA마다 Master 그대로)
+  function simBuild() {   // (Master 상태로 = 다시 만들기 → 금리·금액·기간 수정 모두 초기화)
+    const deals = [];
+    const plain = s => String(s || '').replace(/[\s()（）·,]/g, '');
+    AL.forEach(r => {
+      if (/맞추기/.test(r.name)) return;                               // MMF↔PIMCO 내부 이동은 딜 아님
+      const pos = Object.entries(r.amts).filter(([k, v]) => v > 0);
+      if (!pos.length) return;                                         // 상환(음수) 행 제외
+      const d = { row: r.row, name: r.name, type: r.type, term: r.term, date: r.date, dateTxt: r.dateTxt, rate0: isN(r.rate) ? r.rate : null, excl: r.excl, legs: [] };
+      pos.forEach(([im, a]) => {
+        const P = FUND[im];
+        const leg = { im, a, src: r.srcs ? r.srcs[im] : '', P, inc: null, note: '' };
+        if (P) {   // Master Gross에 이미 들어 있는 딜인지: IMA 시트 기표예정 목록과 금액(같은 딜명·날짜 행 합계 포함)·날짜 대조
+          const grp = AL.filter(x => x.name === r.name && x.date === r.date).reduce((t, x) => t + (x.amts[im] > 0 ? x.amts[im] : 0), 0);
+          leg.inc = P.plan.find(p => (Math.abs(p.amt - a) < 0.5 || Math.abs(p.amt - grp) < 0.5) &&
+            (r.date != null ? Math.abs(p.d0 - r.date) <= 15 : plain(p.name).slice(0, 2) === plain(r.name).slice(0, 2))) || null;
+          if (leg.inc && Math.abs(leg.inc.amt - a) >= 0.5) leg.share = a / leg.inc.amt;
+        }
+        d.legs.push(leg);
+      });
+      // IMA 시트가 있는 IMA 기준으로: 전부 반영 / 일부만 반영(혼합) / 새 딜
+      const legP = d.legs.filter(l => l.P);
+      d.included = legP.length > 0 && legP.every(l => l.inc);
+      d.mixed = !d.included && legP.some(l => l.inc);
+      d.past = r.date != null && r.date <= S.base && !d.included && !d.mixed;
+      d.tbd = r.date == null && !d.included && !d.mixed;
+      d.on = simBase(d);
+      const li = d.legs.find(l => l.inc); d.rate = li ? (li.inc.rate || d.rate0) : d.rate0;
+      deals.push(d);
+    });
+    SIM = { deals };
+  }
+  // 딜 한 다리(IMA) = 시리즈별 상태: l.on(기표 여부) · l.amt(금액). 금리·기간은 딜 공통 (d.rate, d.mat)
+  function legBase(l) { return l.inc ? { a: l.a, r: l.inc.rate, F: l.inc.d0, Dm: l.inc.d1 ?? 2958465 } : null; }
+  const legDis = (d, l) => !l.inc && (d.date == null || d.date <= S.base);
+  function legScen(d, l, on = l.on) {
+    if (!on) return null;
+    const a = isN(l.amt) ? l.amt : l.a, r = isN(d.rate) ? d.rate : null;
+    if (l.inc) { const F = l.inc.d0; return { a, r: r ?? l.inc.rate, F, Dm: d.mat != null ? termEnd(d, F) : (l.inc.d1 ?? 2958465) }; }
+    if (legDis(d, l) || r == null) return undefined;    // 계산 불가
+    return { a, r, F: d.date, Dm: termEnd(d, d.date) };
+  }
+  const legCum = (P, x, src) => x ? simCum(P, x.a, x.r, x.F, x.Dm, src) : 0;
+  function simLeg(d, l) {   // Master 대비 Gross 변화 (소수), 계산 불가면 null
+    const P = l.P; if (!P) return null;
+    const sc = legScen(d, l); if (sc === undefined) return null;
+    const v = legCum(P, sc, l.src) - legCum(P, legBase(l), l.src);
+    return Math.abs(v) < 1e-9 ? 0 : v / P.aum / simYrs(P);
+  }
+  function legOwn(d, l) {   // 지금 금액·금리·기간으로 이 시리즈가 이 딜을 하면 Gross에 더해지는 몫
+    const P = l.P; if (!P) return null;
+    const sc = legScen(d, l, true);
+    return sc ? legCum(P, sc, l.src) / P.aum / simYrs(P) : null;
+  }
+  function baseAdj() { return 0; }
+  const bpTxt = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v * 1e4).toFixed(1);
+  function serStat(name) {
+    const P = FUND[name]; if (!P) return null;
+    const items = [];
+    SIM.deals.forEach(d => d.legs.forEach(l => { if (l.im !== name) return; const v = simLeg(d, l); if (v) items.push({ d, l, v }); }));
+    const dg = items.reduce((t, x) => t + x.v, 0), g0 = P.grossOk ? P.gross : null, g1 = g0 != null ? g0 + dg : null;
+    const cf0 = g0 != null ? simCust(P, g0) : null, cf1 = g1 != null ? simCust(P, g1) : null, c0 = isN(P.cust) ? P.cust : null;
+    const c1 = c0 != null && cf0 != null && cf1 != null ? c0 + cf1 - cf0 : null;
+    return { P, items, dg, g0, g1, c0, c1 };
+  }
+  function simInit() {
+    if (!S) return;
+    simBuild();
+    SIM.deals.forEach(d => d.legs.forEach(l => { l.on = !!l.inc; }));
+    if (!FUND[simSel]) simSel = Object.keys(FUND).find(n => S.ima.some(im => im.name === n)) || simSel;
+    simAssump();
+    $('simReset').onclick = () => simInit();
+    $('simAll').onclick = () => { SIM.deals.forEach(d => d.legs.forEach(l => { if (l.im === simSel && !legDis(d, l) && (isN(d.rate) || l.inc)) l.on = true; })); simAll(); };
+    $('simNone').onclick = () => { SIM.deals.forEach(d => d.legs.forEach(l => { if (l.im === simSel && !l.inc) l.on = false; })); simAll(); };
+    simPick(); simAll();
+  }
+  function simAssump() {   // 금리 가정은 Master 값 고정
+    const ms = [...new Set(Object.values(FUND).map(x => x.mmf).filter(isN))], rs = [...new Set(Object.values(FUND).map(x => x.reinv).filter(isN))];
+    const f = a => a.map(v => pct(v, 2)).join('/');
+    $('simas').innerHTML = `<span class="mut">금리·기간은 같은 딜의 다른 시리즈에도 공통 적용 · 체크·금액은 이 시리즈만 · 계산 가정(Master 값 고정): 자금 비용 MMF ${f(ms)} · PIMCO 5.00% · 딜 만기 2개월 뒤 재투자금리 ${f(rs)}</span>`;
+  }
+  function simAll() { simList(); simHero(); simResults(); }
+  function simUpd() { simHero(); simResults(); simChips(); }
+  function simPick() {
+    const names = S.ima.filter(im => FUND[im.name]).map(im => im.name);
+    $('simsel').innerHTML = names.map(n => { const st = serStat(n), ch = st && st.items.length;
+      return `<button data-n="${esc(n)}" class="${n === simSel ? 'on' : ''}">${esc(n)}${ch ? `<small class="${st.dg >= 0 ? 'up' : 'dn'}">${bpTxt(st.dg)}</small>` : ''}</button>`; }).join('') +
+      (S.ima.some(im => !FUND[im.name]) ? `<span class="mut" style="align-self:center">${esc(S.ima.filter(im => !FUND[im.name]).map(im => im.name).join(', '))}: IMA 시트 없음</span>` : '');
+    document.querySelectorAll('#simsel button').forEach(b => b.onclick = () => { simSel = b.dataset.n; simPick(); simList(); simHero(); });
+  }
+  function simHero() {
+    const st = serStat(simSel), el = $('simhero'); if (!st) { el.innerHTML = ''; return; }
+    const { P, items, dg, g0, g1, c0, c1 } = st;
+    const cls = v => Math.abs(v) < 5e-7 ? 'z' : v > 0 ? 'up' : 'dn';
+    const big = (lab, a, b, d, sub) => `<div class="hk"><span class="l">${lab}</span>${a != null ? `<div class="v"><span class="now">${pct(a, 2)}</span><span class="ar">→</span><span class="aft">${pct(b, 2)}</span></div><span class="d ${cls(d)}">${Math.abs(d) < 5e-7 ? '변화 없음' : bpTxt(d) + 'bp'}</span>` : `<div class="v"><span class="now">${sub}</span></div>`}</div>`;
+    const netAmt = items.reduce((t, x) => t + ((legScen(x.d, x.l) || {}).a || 0) - ((legBase(x.l) || {}).a || 0), 0);
+    let h = `<div class="hero-h"><b>${esc(simSel)}</b><span>운용금액 ${amt(P.aum)}억 · 기준수익률 ${isN(P.hurdle) ? pct(P.hurdle, 2) : '미입력'} · 운용보수 ${isN(P.fee) ? pct(P.fee, 2) : '미입력'} · 성과배분(고객) ${isN(P.share) ? pct(P.share, 0) : '미입력'} · 만기 M-3 ${fD(P.cash)} · 만기 ${fD(P.mat)}</span></div>`;
+    h += `<div class="hks">${big('예상 Gross (연환산)', g0, g1, dg, 'Master Gross 미산출 (IMA 시트 오류)')}${big('예상 고객 수익률', c0, c1, c1 != null ? c1 - c0 : 0, '보수·기준수익률 미입력으로 미산출')}` +
+      `<div class="hk"><span class="l">바뀐 딜</span><div class="v"><span class="aft">${items.length}건</span></div><span class="d z">${items.length ? (Math.abs(netAmt) > 0.05 ? `순투자 ${netAmt > 0 ? '+' : '−'}${amt(Math.abs(netAmt))}억` : '금액 변화 없음') : '아래 목록에서 딜을 체크하거나 고쳐 보세요'}</span></div></div>`;
+    // 수익률 사다리: 기준수익률 · 성과보수 시작(기준+운용보수) · 현재 → 선택 후
+    if (g0 != null) {
+      const pts = [g0, g1, c0, c1, P.hurdle, isN(P.hurdle) && isN(P.fee) ? P.hurdle + P.fee : null].filter(isN);
+      let lo = Math.floor((Math.min(...pts) - 0.002) * 400) / 400, hi = Math.ceil((Math.max(...pts) + 0.002) * 400) / 400;
+      const X = v => ((v - lo) / (hi - lo) * 100).toFixed(2) + '%';
+      const step = (hi - lo) > 0.03 ? 0.005 : 0.0025; let ticks = '';
+      for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) ticks += `<span class="tk" style="left:${X(v)}">${(v * 100).toFixed(2)}%</span>`;
+      const ref = (v, t, c) => isN(v) ? `<span class="ref ${c}" style="left:${X(v)}"><em>${t} ${pct(v, 2)}</em></span>` : '';
+      const lane = (lab, a, b) => a == null ? '' : `<div class="ln"><span class="ll">${lab}</span><div class="lt">${ref(P.hurdle, '기준수익률', 'h')}${isN(P.hurdle) && isN(P.fee) ? ref(P.hurdle + P.fee, '성과보수 시작', 'f') : ''}` +
+        (Math.abs(b - a) > 5e-7 ? `<span class="mv ${b > a ? 'up' : 'dn'}" style="left:${X(Math.min(a, b))};width:calc(${X(Math.max(a, b))} - ${X(Math.min(a, b))})"></span>` : '') +
+        `<span class="pt now" style="left:${X(a)}" title="현재 ${pct(a, 2)}"></span><span class="pt aft ${b >= a ? 'up' : 'dn'}" style="left:${X(b)}" title="선택 후 ${pct(b, 2)}"></span></div></div>`;
+      h += `<div class="ladder"><div class="lgd"><span><i class="pt now"></i>현재 (Master)</span><span><i class="pt aft up"></i>선택 후</span><span><i class="rl h"></i>기준수익률</span><span><i class="rl f"></i>성과보수 시작 = 기준수익률 + 운용보수 (Gross가 이 선을 넘는 만큼 고객 몫 ${isN(P.share) ? pct(P.share, 0) : ''} 추가)</span></div>` +
+        lane('Gross', g0, g1) + lane('고객', c0, c1) + `<div class="ln ax"><span class="ll"></span><div class="lt">${ticks}</div></div></div>`;
+    }
+    // 변화 내역: bp 폭포 (큰 순서, 누적)
+    if (items.length) {
+      const its = items.slice().sort((a, b) => Math.abs(b.v) - Math.abs(a.v));
+      let cum = 0; const segs = its.map(x => { const s0 = cum; cum += x.v; return { ...x, s0, s1: cum }; });
+      const lo = Math.min(0, ...segs.map(x => Math.min(x.s0, x.s1))), hi = Math.max(0, ...segs.map(x => Math.max(x.s0, x.s1))), span = Math.max(hi - lo, 1e-6);
+      const X = v => ((v - lo) / span * 100).toFixed(2);
+      h += `<div class="wf-h">무엇이 얼마나 바꿨나 (bp, 큰 순서로 쌓음)</div><div class="wf">` + segs.map(x => {
+        const sc = legScen(x.d, x.l), b = legBase(x.l);
+        const sub = !sc ? 'Master 반영 딜 → 기표 안 함' : !b ? `새로 기표 · ${amt(sc.a)}억 · ${pct(sc.r, 2)} · 만기 ${sc.Dm >= 2958465 ? 'M-3까지' : fD(sc.Dm)}` : `Master 딜 수정 · ${amt(b.a)}→${amt(sc.a)}억 · ${pct(b.r, 2)}→${pct(sc.r, 2)}${sc.Dm !== b.Dm ? ` · 만기 ${fD(b.Dm)}→${fD(sc.Dm)}` : ''}`;
+        return `<span class="n" title="${esc(x.d.name)}">${esc(x.d.name)}<small>${esc(sub)}</small></span><div class="wt"><span class="z0" style="left:${X(0)}%"></span><i class="${x.v >= 0 ? 'up' : 'dn'}" style="left:${X(Math.min(x.s0, x.s1))}%;width:${Math.max(0.6, Math.abs(X(x.s1) - X(x.s0))).toFixed(2)}%"></i></div><b class="${x.v >= 0 ? 'up' : 'dn'}">${bpTxt(x.v)}bp</b>`;
+      }).join('') + `<span class="n tot">합계</span><div class="wt"><span class="z0" style="left:${X(0)}%"></span><i class="tot ${dg >= 0 ? 'up' : 'dn'}" style="left:${X(Math.min(0, dg))}%;width:${Math.max(0.6, Math.abs(X(dg) - X(0))).toFixed(2)}%"></i></div><b class="${dg >= 0 ? 'up' : 'dn'}">${bpTxt(dg)}bp</b></div>`;
+    }
+    el.innerHTML = h;
+    $('simdh').textContent = `${simSel} 배분 딜`;
+    $('simnote').textContent = `기준 = Master ${simSel} 시트 예상 Gross(P7) · 기준일 ${fD(S.base)}`;
+  }
+  function simResults() {
+    const ds = SIM.deals;
+    const rows = S.ima.map(im => {
+      const P = FUND[im.name]; let dg = P ? baseAdj(P) : 0, n = 0, amtSel = 0;
+      ds.forEach(d => d.legs.forEach(l => { if (l.im !== im.name) return; const v = simLeg(d, l); if (v) { dg += v; n++; amtSel += (legScen(d, l)?.a || 0) - (legBase(l)?.a || 0); } }));
+      return { im, P, dg, n, amtSel };
+    });
+    const mxAbs = Math.max(5e-4, ...rows.map(r => Math.abs(r.dg)));
+    const bar = v => { const w = Math.min(50, Math.abs(v) / mxAbs * 50); return `<span class="dbar"><i style="${v >= 0 ? `left:50%;width:${w}%;background:var(--safe)` : `right:50%;width:${w}%;background:var(--stress)`}"></i></span>`; };
+    const dcell = v => `<span class="dlt">${bar(v)}<span class="bp ${Math.abs(v) < 5e-7 ? 'z' : v > 0 ? 'up' : 'dn'}">${Math.abs(v) < 5e-7 ? '0.0' : bpTxt(v)}bp</span></span>`;
+    let h = `<thead><tr><th>IMA</th><th class="r">운용금액</th><th class="r">기준수익률</th><th class="r">예상 Gross 현재</th><th></th><th class="r">선택 후</th><th class="r">변화</th><th class="r">예상 고객 현재</th><th></th><th class="r">선택 후</th><th class="r">변화</th><th class="r">바뀐 딜</th></tr></thead><tbody>`;
+    let tA = 0, tG0 = 0, tG1 = 0;
+    rows.forEach(({ im, P, dg, n, amtSel }) => {
+      if (!P) { h += `<tr><th>${esc(im.name)}</th><td class="r">${amt(aumOf(im))}</td><td colspan="10" class="mut">IMA 시트가 없거나 제원(설정일·만기일·운용금액)을 읽지 못해 계산하지 않음</td></tr>`; return; }
+      const g0 = P.grossOk ? P.gross : null, g1 = g0 != null ? g0 + dg : null;
+      const c0 = isN(P.cust) ? P.cust : null, cf0 = g0 != null ? simCust(P, g0) : null, cf1 = g1 != null ? simCust(P, g1) : null;
+      const c1 = c0 != null && cf0 != null && cf1 != null ? c0 + (cf1 - cf0) : null;
+      if (g0 != null) { tA += P.aum; tG0 += P.aum * g0; tG1 += P.aum * g1; }
+      h += `<tr><th>${esc(im.name)}</th><td class="r">${amt(P.aum)}</td><td class="r">${isN(P.hurdle) ? pct(P.hurdle, 2) : '<span class="mut">미입력</span>'}</td>` +
+        (g0 != null ? `<td class="r now">${pct(g0, 2)}</td><td class="arrow">→</td><td class="r aft">${pct(g1, 2)}</td><td class="r">${dcell(dg)}</td>`
+          : `<td class="r mut" colspan="2">Master Gross 미산출</td><td class="r mut">—</td><td class="r">${dcell(dg)}</td>`) +
+        (c1 != null ? `<td class="r now">${pct(c0, 2)}</td><td class="arrow">→</td><td class="r aft">${pct(c1, 2)}</td><td class="r">${dcell(c1 - c0)}</td>`
+          : `<td class="r mut" colspan="4">${g0 == null ? '—' : '보수·기준수익률 미입력으로 미산출'}</td>`) +
+        `<td class="r">${n ? `${n}건${Math.abs(amtSel) > 0.05 ? ` · ${amtSel > 0 ? '+' : '−'}${amt(Math.abs(amtSel))}억` : ''}` : '<span class="mut">−</span>'}</td></tr>`;
+    });
+    if (tA > 0) h += `<tr class="tot"><th>합계·가중</th><td class="r">${amt(tA)}</td><td></td><td class="r">${pct(tG0 / tA, 2)}</td><td class="arrow">→</td><td class="r aft">${pct(tG1 / tA, 2)}</td><td class="r">${dcell((tG1 - tG0) / tA)}</td><td colspan="5" class="mut">운용금액 가중평균 (Gross 산출된 IMA만)</td></tr>`;
+    $('simt').innerHTML = h + '</tbody>';
+    simChart(rows);
+    const on = ds.flatMap(d => d.legs).filter(l => l.on && !l.inc), off = ds.flatMap(d => d.legs).filter(l => !l.on && l.inc);
+    const chg = ds.filter(d => d.legs.some(l => simLeg(d, l))).length;
+    const rateNote = [SIMA.mmf != null ? `MMF ${pct(SIMA.mmf, 2)}` : '', SIMA.pim !== 0.05 ? `PIMCO ${pct(SIMA.pim, 2)}` : '', SIMA.reinv != null ? `재투자 ${pct(SIMA.reinv, 2)}` : ''].filter(Boolean).join(' · ');
+    $('simkpi').innerHTML = `<span>새로 기표 가정 <b>${on.length}</b>건 (시리즈별 배분 기준)</span><span>Master 반영 딜 중 해제 <b>${off.length}</b>건</span><span>값이 바뀐 딜 <b>${chg}</b>건</span>${rateNote ? `<span>금리 가정 변경: <b>${rateNote}</b></span>` : ''}<span>기준 = Master IMA 시트 예상 Gross (P7) · 기준일 ${fD(S.base)}</span>`;
+    $('simnote').textContent = `배분 시트 ${S.pos.start}~${S.pos.end}행 · IMA ${Object.keys(FUND).length}개 계산`;
+    $('simcap').innerHTML = '변화 = 체크·수정한 딜(금액·금리·기간)의 이자수익 − 자금 재원(MMF 또는 PIMCO)에서 빠지는 수익을 IMA 시트 예상 Gross 계산 방식대로 더한 값입니다. 고객 수익률 = 기준수익률 + MAX(Gross − 운용보수 − 기준수익률, 0) × 고객 성과배분율 (Master 식).';
+  }  function simMat(d) {   // 기간 칸 아래 계산된 만기일·보유 끝 표시
+    const el = document.querySelector(`#simd .mt[data-mt="${d.row}"]`); if (!el) return;
+    const li = d.legs.find(l => l.inc), F = li ? li.inc.d0 : d.date; if (F == null) { el.textContent = ''; return; }
+    const Dm = d.mat != null || !li ? termEnd(d, F) : (li.inc.d1 ?? 2958465);
+    const cash = Math.min(...d.legs.filter(l => l.P).map(l => l.P.cash));
+    el.textContent = Dm >= 2958465 ? '만기 없음 → M-3까지 보유' : `만기 ${fD(Dm)}${isFinite(cash) && Dm > cash ? ' (M-3 이후 → M-3까지 보유)' : ''}`;
+  }  function simChart(rows) {   // 시리즈별 수익률 변화: 가운데 0 기준 막대 (굵은 막대 = 예상 Gross, 얇은 막대 = 예상 고객)
+    const R = rows.filter(r => r.P).map(r => {
+      const P = r.P, g0 = P.grossOk ? P.gross : null, g1 = g0 != null ? g0 + r.dg : null;
+      const cf0 = g0 != null ? simCust(P, g0) : null, cf1 = g1 != null ? simCust(P, g1) : null, c0 = isN(P.cust) ? P.cust : null;
+      return { n: r.im.name, P, g0, g1, dg: r.dg, c0, c1: c0 != null && cf0 != null && cf1 != null ? c0 + cf1 - cf0 : null, dc: cf0 != null && cf1 != null ? cf1 - cf0 : null };
+    });
+    const mx = Math.max(5e-4, ...R.map(r => Math.abs(r.dg)), ...R.map(r => Math.abs(r.dc || 0)));
+    const any = R.some(r => Math.abs(r.dg) > 5e-7);
+    const w = v => Math.min(50, Math.abs(v) / mx * 50).toFixed(2);
+    const bar = (v, cls) => Math.abs(v) < 5e-7 ? '' : `<i class="${cls} ${v > 0 ? 'p' : 'm'}" style="${v > 0 ? 'left:50%' : 'right:50%'};width:${w(v)}%"></i>`;
+    const tk = [-1, -0.5, 0.5, 1].map(f => `<span class="tick" style="left:${50 + f * 50}%">${bpTxt(f * mx)}</span>`).join('');
+    $('simch').innerHTML = `<div class="sch-h"><b>시리즈별 수익률 변화</b><span class="lg"><i class="g"></i>예상 Gross</span><span class="lg"><i class="c"></i>예상 고객 수익률</span><span class="mut">${any ? '줄을 누르면 그 시리즈 화면으로' : '딜을 체크하거나 금액·금리·기간을 바꾸면 여기 막대로 표시됩니다'}</span></div>` +
+      `<div class="sch">` + R.map(r => {
+        const hurdleMiss = r.g1 != null && isN(r.P.hurdle) && isN(r.P.fee) && r.g1 - r.P.fee < r.P.hurdle;
+        return `<button class="sch-r${simSel === r.n ? ' on' : ''}" data-n="${esc(r.n)}" title="${esc(r.n)} 예상 Gross ${r.g0 != null ? pct(r.g0, 2) + ' → ' + pct(r.g1, 2) : '미산출'} · 고객 ${r.c1 != null ? pct(r.c0, 2) + ' → ' + pct(r.c1, 2) : '미산출'}">
+          <span class="nm">${esc(r.n)}</span>
+          <span class="trk"><span class="z"></span>${bar(r.dg, 'g')}${r.dc != null ? bar(r.dc, 'c') : ''}</span>
+          <span class="val"><b class="${Math.abs(r.dg) < 5e-7 ? '' : r.dg > 0 ? 'up' : 'dn'}">${Math.abs(r.dg) < 5e-7 ? '0.0' : bpTxt(r.dg)}bp</b><small>${r.g0 != null ? pct(r.g0, 2) + ' → ' + pct(r.g1, 2) : 'Gross 미산출'}${r.dc != null && Math.abs(r.dc) > 5e-7 ? ` · 고객 ${bpTxt(r.dc)}bp` : ''}${hurdleMiss ? ' · <em>기준수익률+보수 미달</em>' : ''}</small></span></button>`; }).join('') +
+      `<div class="sch-ax"><span></span><span class="trk">${tk}<span class="tick z0" style="left:50%">0</span></span><span></span></div></div>`;
+    document.querySelectorAll('#simch .sch-r').forEach(el => el.onclick = () => { simSel = el.dataset.n; simPick(); simList(); simHero(); simChart(rows);
+      $('page-sim').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+  }  function simChips() {   // 행별 기여 bp·체크 표시만 다시 (입력 칸은 그대로 두어 타이핑이 끊기지 않게)
+    document.querySelectorAll('#simd tr[data-k]').forEach(tr => {
+      const d = SIM.deals.find(x => x.row === +tr.dataset.k); if (!d) return; const l = d.legs[+tr.dataset.j];
+      const v = legOwn(d, l), el = tr.querySelector('.eff');
+      if (el) { el.className = 'eff ' + (v == null ? '' : v >= 0 ? 'up' : 'dn'); el.textContent = v == null ? (isN(d.rate) ? '' : '금리 입력') : bpTxt(v) + 'bp'; }
+      tr.classList.toggle('on', !!l.on); tr.classList.toggle('chg', !!simLeg(d, l));
+      const cb = tr.querySelector('input[type=checkbox]'); if (cb) cb.checked = !!l.on;
+    });
+    simPick();
+  }
+  function simList() {
+    const rows = [];
+    SIM.deals.forEach(d => d.legs.forEach((l, j) => { if (l.im === simSel) rows.push({ d, l, j }); }));
+    rows.sort((a, b) => (a.d.date ?? 9e9) - (b.d.date ?? 9e9) || a.d.row - b.d.row);
+    let g = `<thead><tr><th></th><th>인출예정일</th><th>딜명</th><th class="r">금액(억)</th><th class="r">금리 %</th><th>기간·만기</th><th>재원</th><th class="r" title="지금 금액·금리·기간으로 이 시리즈가 이 딜을 하면 예상 Gross에 더해지는 몫">기표 시 기여</th><th>상태</th></tr></thead><tbody>`, mon = null;
+    rows.forEach(({ d, l, j }) => {
+      const mk = d.date != null ? fYM(d.date) : '미정';
+      if (mk !== mon) { mon = mk; g += `<tr class="mon"><td colspan="9">${d.date != null ? toD(d.date).getUTCFullYear() + '년 ' + (toD(d.date).getUTCMonth() + 1) + '월' : '날짜 미정 (TBD)'}</td></tr>`; }
+      const dis = legDis(d, l) ? 'disabled' : '';
+      const others = d.legs.filter(x => x.im !== simSel).map(x => `${x.im} ${amt(x.a)}`).join(' · ');
+      const st = l.inc ? '<span class="pill2 grn">Master 반영됨</span>' : d.date != null && d.date <= S.base ? '<span class="pill2 amb" title="기준일 이전·당일 인출 행: 이미 기표완료로 Master에 들어 있거나 날짜 오기일 수 있음">기준일 이전 날짜</span>' : d.date == null ? '<span class="pill2 mut">날짜 미정</span>' : !isN(d.rate) ? '<span class="pill2 amb">금리 입력 필요</span>' : d.excl ? '<span class="pill2 mut">목표 배정</span>' : '';
+      g += `<tr data-k="${d.row}" data-j="${j}" class="${dis ? 'off' : ''}"><td><input type="checkbox" ${l.on ? 'checked' : ''} ${dis} aria-label="${esc(simSel + ' ' + d.name)} 기표 가정"></td>` +
+        `<td class="d">${d.date != null ? fD(d.date).slice(2) : esc(d.dateTxt || '미정')}</td>` +
+        `<td class="nm">${esc(d.name)} <span class="tag ${esc(d.type)}">${esc(d.type)}</span>${others ? `<div class="mut">같은 딜 다른 시리즈: ${esc(others)}</div>` : ''}</td>` +
+        `<td class="r"><input class="am" inputmode="decimal" value="${+(isN(l.amt) ? l.amt : l.a).toFixed(2)}" ${dis} aria-label="금액(억)"></td>` +
+        `<td class="r"><input class="rt" inputmode="decimal" value="${isN(d.rate) ? (d.rate * 100).toFixed(2) : ''}" placeholder="%" ${dis} aria-label="금리 %"></td>` +
+        `<td class="tm"><input class="tmi" value="${esc(d.matTxt ?? (l.inc ? fD(l.inc.d1).slice(2) : (d.term || '')))}" placeholder="6M, 2Y, 27-06-30" ${dis} aria-label="기간 또는 만기일"><div class="mut mt" data-mt="${d.row}"></div></td>` +
+        `<td><span class="src">${/^pim/i.test(l.src || '') ? 'PIMCO' : 'MMF'}</span></td>` +
+        `<td class="r"><span class="eff"></span></td><td>${st}</td></tr>`;
+    });
+    if (!rows.length) g += `<tr><td colspan="9" class="none">${esc(simSel)}에 배분된 딜이 없습니다</td></tr>`;
+    $('simd').innerHTML = g + '</tbody>';
+    const ctx = el => { const tr = el.closest('tr'); const d = SIM.deals.find(x => x.row === +tr.dataset.k); return { d, l: d.legs[+tr.dataset.j] }; };
+    const turnOn = (d, l) => { if (!l.on && !legDis(d, l)) l.on = true; };
+    document.querySelectorAll('#simd input[type=checkbox]').forEach(el => el.onchange = () => { const { l } = ctx(el); l.on = el.checked; simUpd(); });
+    document.querySelectorAll('#simd input.rt').forEach(el => el.oninput = () => { const { d, l } = ctx(el); const v = parseFloat(el.value.replace(',', '.')); d.rate = isFinite(v) ? v / 100 : null; if (d.rate != null) turnOn(d, l); simUpd(); });
+    document.querySelectorAll('#simd input.am').forEach(el => el.oninput = () => { const { d, l } = ctx(el); const v = parseFloat(el.value.replace(',', '.')); l.amt = isFinite(v) && v >= 0 ? v : null; turnOn(d, l); simUpd(); });
+    document.querySelectorAll('#simd input.tmi').forEach(el => el.oninput = () => { const { d, l } = ctx(el);
+      d.matTxt = el.value; const t = parseTerm(el.value), li = d.legs.find(x => x.inc);
+      const same = li ? (t && t.date === li.inc.d1) : (String(el.value).trim() === String(d.term || '').trim());
+      d.mat = same || !String(el.value).trim() ? null : t;
+      el.classList.toggle('bad', !!String(el.value).trim() && !t);
+      if (d.mat) turnOn(d, l); simMat(d); simUpd(); });
+    SIM.deals.forEach(simMat);
+    simChips();
+    $('simhow').innerHTML = `<p><b>무엇을 계산하나</b> — IMA 시트 P7 '예상 Gross'(= 설정일부터 Gross 기준월까지 누적수익 ÷ 운용금액 ÷ 기간)에 체크한 딜이 더하는 누적수익을 같은 방식으로 계산해 더합니다. 이미 IMA 시트 기표예정 목록(인벤토리 기표예정)에 있는 딜은 'Master 반영됨'으로 표시되고, 체크를 풀면 그만큼 빠진 값을 보여 줍니다.</p>
+      <p><b>딜 수익</b> — 기표 달부터 min(딜 만기, 만기 M-3) 달까지 금액 × 금리 × 일수/365. 딜 만기 뒤 2개월 대기 후 M-3 전 달까지 재투자금리로 재투자 (IMA 시트 '재투자감안' 식 그대로).</p>
+      <p><b>자금 비용</b> — 배분 시트 '투자재원'이 MMF면 보유 기간 동안 MMF 수익률만큼, PIMCO면 기표 달부터 PIMCO 기대수익률만큼 빠지고 만기 뒤 원금은 MMF로 돌아온다고 봅니다.</p>
+      <p><b>바꿔 볼 수 있는 값</b> — 시리즈별 딜 체크·금액, 딜 공통 금리·기간("6M", "2Y" 또는 만기일 "27-06-30"). 자금 비용·재투자금리는 Master 값으로 고정입니다.</p><p hidden><b>이전</b> — 딜 체크, 딜 금리, IMA별 금액, MMF·PIMCO·재투자 금리. MMF·PIMCO 금리를 바꾸면 체크한 딜뿐 아니라 이미 있는 MMF·유동성 자산 수익도 다시 계산합니다. MMF는 IMA 시트 44행 MMF 잔액 중 <b>양수인 달(노는 돈)에만</b> 새 금리를 적용합니다. Master 60행은 음수 잔액에도 MMF 금리를 곱해 비용으로 잡기 때문에, MMF 잔액이 음수인 달이 많은 시리즈(S2 등)는 Master에서 B60을 올리면 오히려 Gross가 내려갑니다 — 현황판은 이 부분을 따르지 않습니다. 재투자금리는 이미 있는 딜에는 적용하지 못하고(Master 현금흐름 표를 현황판에 싣지 않음) 체크·수정한 딜에만 적용됩니다.</p>
+      <p><b>근사인 부분</b> — 해외펀드(Global)는 분배금 일정 대신 연 수익률로 계산합니다. 기간이 '2~3Y'처럼 범위면 짧은 쪽, 기간이 없으면 M-3까지 보유로 봅니다. 이자 입금이 MMF에 쌓여 생기는 추가 수익은 빼서 실제보다 아주 조금(0.1bp 안팎) 작게 나옵니다.</p>
+      <p><b>검증 (11/16 Master)</b> — 인벤토리 기표예정 딜 금액·금리·만기를 바꿔 LibreOffice로 Master를 다시 계산한 값과 비교: S2 한화호텔 CP +300억 실제 +8.50bp / 계산 +8.44bp, S2 투썸 +300억 +5.66 / +5.58, S1 HD현대 EB 금리 0→5% +6.73 / +6.62, S3 CJ프레시웨이 변경 +1.91 / +2.21. S6 CJ프레시웨이 +300억은 Master +64.2bp / 계산 +1.8bp — Master '유동성' 시트의 S6 PIMCO 환매 행 USD 금액이 고정값이라 PIMCO 수익 감소가 Master에 반영되지 않기 때문 (Master 확인 필요).</p>`;
+  }
+
   // ---------- 일별 DP 차트: 시리즈별 한눈에 + 선택 시리즈 상세 + 날짜별 일정 ----------
   let dsel = '전체';
   const DOW = ['일', '월', '화', '수', '목', '금', '토'];
@@ -1374,7 +1828,7 @@ const APP = (() => {
   function fDT(iso) { const d = new Date(iso); if (isNaN(d)) return ''; const p = n => String(n).padStart(2, '0'); return `${d.getFullYear() % 100}.${p(d.getMonth() + 1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; }
   function render() {
     $('meta').innerHTML = `<span>기준일 <b>${fD(S.base)}</b></span><span>파일 <b>${esc(fileName)}</b>${srcOD ? ` · OneDrive 저장 <b>${esc(fDT(srcOD.mod))}</b>` : ''}${srcNote ? ` · ${srcNote}` : ''}</span><span>IMA <b>${S.ima.length}</b>개 · 월 <b>${S.months.length}</b>개</span>`;
-    kpis(); daily(); heat(); mix(); sched(); timeline(); cards(); notesFill(); imaSel();
+    kpis(); daily(); heat(); mix(); sched(); timeline(); cards(); notesFill(); imaSel(); simInit();
   }
 
   async function load(file) {
@@ -1390,6 +1844,8 @@ const APP = (() => {
       derive(S, AL);
       try { INV = parseInv(await book.sheet('국내 딜 인벤토리'), await book.sheet('해외 딜 인벤토리'), S); } catch (e) { INV = null; }
       window.__INV = INV;
+      FUND = {}; for (const im of S.ima) { try { const f = parseFund(await book.sheet(im.name)); if (f) { f.name = im.name; FUND[im.name] = f; } } catch (e) {} }
+      window.__FUND = FUND;
       $('empty').hidden = true; $('app').hidden = false; $('reopen').hidden = false; $('tabs').hidden = false;
       APP.go(location.hash.slice(1));
       render(); document.body.classList.add('ready');
@@ -1412,8 +1868,8 @@ const APP = (() => {
     document.querySelectorAll('#dunit button').forEach(b => b.onclick = () => { dunit = b.dataset.u; document.querySelectorAll('#dunit button').forEach(x => x.classList.toggle('on', x === b)); dTable(); });
     document.querySelectorAll('#unit button').forEach(b => b.onclick = () => { unit = b.dataset.u; document.querySelectorAll('#unit button').forEach(x => x.classList.toggle('on', x === b)); heat(); });
     const go = pg => {
-      if (pg !== 'appx') pg = 'dp';
-      $('page-dp').hidden = pg !== 'dp'; $('page-appx').hidden = pg !== 'appx';
+      if (pg !== 'appx' && pg !== 'sim') pg = 'dp';
+      $('page-dp').hidden = pg !== 'dp'; $('page-appx').hidden = pg !== 'appx'; $('page-sim').hidden = pg !== 'sim';
       document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.p === pg));
       try { if (location.hash !== '#' + pg) history.replaceState(null, '', '#' + pg); } catch (e) {}
       window.scrollTo(0, 0);

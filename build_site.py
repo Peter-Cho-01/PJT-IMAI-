@@ -14,6 +14,9 @@ if len(PW) < 8:
     sys.exit("실패: 저장소 Secrets에 DASH_PASSWORD(8자 이상, 12자 이상 권장)가 없습니다.")
 ITER = 600_000
 NEED = ['Dry Powder', '월별 Dry Powder', 'DP_현황판', 'Dash Board', 'S3~G2 배분', '국내 딜 인벤토리', '해외 딜 인벤토리']
+IMA_SHEET = re.compile(r'^[SG]\d{1,2}$')          # S1~S7, G1… IMA 시트 (수익률 시뮬레이션용, 위쪽 행만)
+IMA_ROWS = set(range(1, 64)) | set(range(95, 116)) | set(range(185, 196))   # 제원·Snapshot(22~63)·기표예정 목록(95~115)·재투자금리(189~190)
+IMA_MAXCOL = 53                                       # A~BA열만 (오른쪽 계산용 열 제외)
 
 
 def slim(path):
@@ -27,7 +30,7 @@ def slim(path):
     keep, found = [], []
     for m in re.finditer(r'<sheet\b[^>]*/>', wbx):
         el = m.group(0); nm = html.unescape(re.search(r'name="([^"]+)"', el).group(1)); rid = re.search(r'r:id="([^"]+)"', el).group(1)
-        if nm in NEED:
+        if nm in NEED or IMA_SHEET.match(nm):
             t = relmap[rid]; t = t.lstrip('/') if t.startswith('/') else 'xl/' + t
             keep.append((nm, rid, t, el)); found.append(nm)
     if not any(n in found for n in ('Dry Powder', '월별 Dry Powder', 'DP_현황판')):
@@ -55,6 +58,14 @@ def slim(path):
             x = R(t)
             x = re.sub(r'<f\b[^>]*/>|<f\b[^>]*>.*?</f>', '', x, flags=re.S)
             x = re.sub(r'<(conditionalFormatting|dataValidations|extLst)\b.*?</\1>', '', x, flags=re.S)
+            if IMA_SHEET.match(nm):   # 큰 현금흐름 표(196행~)는 빼고 필요한 행만
+                x = re.sub(r'<row\b[^>]*?\br="(\d+)"[^>]*?(?:/>|>.*?</row>)', lambda m: m.group(0) if int(m.group(1)) in IMA_ROWS else '', x, flags=re.S)
+                x = re.sub(r'<(mergeCells|hyperlinks|rowBreaks|colBreaks)\b.*?</\1>', '', x, flags=re.S)
+                def _col(ref):
+                    n = 0
+                    for ch in re.match(r'[A-Z]+', ref).group(0): n = n * 26 + ord(ch) - 64
+                    return n
+                x = re.sub(r'<c\b[^>]*?\br="([A-Z]+)\d+"[^>]*?(?:/>|>.*?</c>)', lambda m: m.group(0) if _col(m.group(1)) <= IMA_MAXCOL else '', x, flags=re.S)
             x = re.sub(r'<c(\s[^>]*?[^/])>(.*?)</c>', fix, x, flags=re.S)
             put(t, x)
         put('xl/sharedStrings.xml', '<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' + ''.join(used) + '</sst>')

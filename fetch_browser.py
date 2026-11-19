@@ -3,13 +3,22 @@
 - 링크·주소·화면 내용은 기록에 남기지 않는다 (호스트·건수만 표시). 화면 캡처도 저장하지 않는다.
 usage: SHARE_URL=... python fetch_browser.py OUT.xlsx
 """
-import functools, io, json, os, re, sys, time, urllib.parse, zipfile
+import functools, io, json, os, re, sys, threading, time, urllib.parse, zipfile
 from playwright.sync_api import sync_playwright
 
 print = functools.partial(print, flush=True)          # 기록이 실시간으로 보이게
 T0 = time.time()
 BUDGET = int(os.environ.get("FETCH_BUDGET", "180"))   # 전체 제한 시간(초)
 left = lambda: BUDGET - (time.time() - T0)
+
+
+def _watchdog():   # 어디서 멈추든 제한 시간 + 20초에 기록을 남기고 끝냄 (GitHub 5분 제한 전에)
+    print(f"실패: {BUDGET + 20}초 안에 받지 못해 중단했습니다. 위 기록을 캡처해 보내 주세요.")
+    sys.stdout.flush()
+    os._exit(1)
+
+
+_wd = threading.Timer(BUDGET + 20, _watchdog); _wd.daemon = True; _wd.start()
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "master.xlsx"
 LINK = (os.environ.get("SHARE_URL") or "").strip()
@@ -29,6 +38,22 @@ def is_master(b):
         return False
 
 
+def why(r, b):
+    """받은 내용이 엑셀이 아닐 때 무엇이었는지 (주소·본문은 남기지 않고 종류만)"""
+    if is_master(b):
+        return "성공"
+    ct = (r.headers.get("content-type") or "?").split(";")[0]
+    low = b[:200000].lower() if b else b""
+    hint = []
+    if "login." in host(r.url) or b"login.live.com" in low or b"login.microsoftonline" in low:
+        hint.append("로그인 요구 화면으로 보임 → 파일 공유 설정 확인 필요")
+    if b[:2] == b"PK":
+        hint.append("엑셀 파일이지만 Dry Powder 시트 없음")
+    if b"itemnotfound" in low or b"not found" in low or b"\xec\xb0\xbe\xec\x9d\x84 \xec\x88\x98 \xec\x97\x86" in low:
+        hint.append("파일을 찾을 수 없다는 화면으로 보임")
+    return f"실패 · 최종 {host(r.url)} · {ct}" + (" · " + " / ".join(hint) if hint else "")
+
+
 def save(b, how):
     open(OUT, "wb").write(b)
     print(f"Master 받기 성공 ({how}, {len(b)/1e6:.1f}MB, 총 {time.time() - T0:.0f}초)")
@@ -36,7 +61,12 @@ def save(b, how):
     os._exit(0)   # 크롬 종료를 기다리지 않고 바로 끝냄 (남은 크롬은 실행 서버 정리 때 함께 종료)
 
 
-found_urls, direct_files, json_resps, seen_hosts = [], [], [], set()
+found_urls, direct_files, json_resps, seen_hosts, finished = [], [], [], set(), set()
+gid = lambda o: getattr(o, "_guid", None) or id(o)
+
+
+def on_finished(req):
+    finished.add(gid(req))
 KEYS = ("@content.downloadUrl", "@microsoft.graph.downloadUrl", "downloadUrl")
 
 
@@ -56,8 +86,10 @@ scanned = [0]
 
 
 def scan_json():
-    new, scanned[0] = json_resps[scanned[0]:], len(json_resps)
-    for resp in new:
+    pend = []
+    for resp in json_resps[scanned[0]:]:
+        if gid(resp.request) not in finished:   # 아직 내려받는 중인 응답은 읽지 않음 (읽다가 멈추는 것 방지)
+            pend.append(resp); continue
         try:
             t = resp.text()
         except Exception:
@@ -67,6 +99,7 @@ def scan_json():
                 v = m.group(1).replace('\\/', '/').encode().decode("unicode_escape")
                 if v.startswith(("https://", "http://127.0.0.1")) and v not in found_urls:
                     found_urls.append(v)
+    del json_resps[:]; json_resps.extend(pend); scanned[0] = 0
 
 
 with sync_playwright() as pw:
@@ -74,6 +107,7 @@ with sync_playwright() as pw:
     ctx = br.new_context(user_agent=UA, locale="ko-KR", accept_downloads=True, viewport={"width": 1400, "height": 900})
     page = ctx.new_page()
     page.on("response", on_response)
+    page.on("requestfinished", on_finished)
     try:
         page.goto(LINK, wait_until="domcontentloaded", timeout=45000)
         # 가장 빠른 C 방식을 페이지가 다 뜨기 전에 먼저 시도 (게스트 쿠키가 생긴 직후)
@@ -82,11 +116,12 @@ with sync_playwright() as pw:
             _q = [(a, b) for a, b in urllib.parse.parse_qsl(_p.query, keep_blank_values=True) if a != "download"] + [("download", "1")]
             _r = ctx.request.get(urllib.parse.urlunsplit((_p.scheme, _p.netloc, _p.path, urllib.parse.urlencode(_q), "")), timeout=30000, max_redirects=10)
             _b = _r.body() if _r.ok else b""
-            print(f"- C(빠른 시도): HTTP {_r.status} · {len(_b):,}바이트 · {'성공' if is_master(_b) else '실패 → 페이지 로딩 후 다시 시도'}")
+            print(f"- C(빠른 시도): HTTP {_r.status} · {len(_b):,}바이트 · {why(_r, _b)}")
             if is_master(_b):
                 save(_b, "C. 공유 링크 + download=1 (빠른 시도)")
         except Exception as e:
             print(f"- C(빠른 시도): 실패 ({type(e).__name__})")
+        print("- 페이지 내용 확인 중 (최대 30초)")
         # 내려받기 주소가 보이면 바로 진행, 아니면 최대 20초까지만 기다림
         for _ in range(40):
             scan_json()
@@ -111,7 +146,7 @@ with sync_playwright() as pw:
         try:
             r = ctx.request.get(url, timeout=int(min(30, left()) * 1000), max_redirects=10)
             b = r.body() if r.ok else b""
-            print(f"- {how}: HTTP {r.status} · {host(r.url)} · {len(b):,}바이트 · {time.time() - t1:.0f}초 · {'성공' if is_master(b) else '실패'}")
+            print(f"- {how}: HTTP {r.status} · {len(b):,}바이트 · {time.time() - t1:.0f}초 · {why(r, b)}")
             if is_master(b):
                 save(b, how)
         except Exception as e:
