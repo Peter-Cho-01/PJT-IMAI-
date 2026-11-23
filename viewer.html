@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IMA Dry Powder 현황판</title>
+<title>IMA 현황판</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
@@ -455,8 +455,8 @@ details.notes div{color:var(--ink-3);font-size:13.3px;line-height:1.75;margin-to
 </head>
 <body>
 <header class="top">
-  <h1>IMA Dry Powder 현황판</h1>
-  <nav class="tabs" id="tabs" hidden aria-label="페이지"><button data-p="g2" class="on">시리즈 대시보드</button><button data-p="dp">Dry Powder</button><button data-p="sim">수익률 시뮬레이션</button><button data-p="appx">Appendix</button></nav>
+  <h1>IMA 현황판</h1>
+  <nav class="tabs" id="tabs" hidden aria-label="페이지"><button data-p="g2" class="on">시리즈 운용현황</button><button data-p="sim">수익률 시뮬레이션</button><button data-p="dp">Dry Powder</button><button data-p="appx">Appendix</button></nav>
   <div class="meta" id="meta"></div>
   <div class="sp"></div>
   <button class="btn" id="odRefresh" hidden>OneDrive 새로고침</button>
@@ -467,7 +467,7 @@ details.notes div{color:var(--ink-3);font-size:13.3px;line-height:1.75;margin-to
 
 <div class="empty" id="empty">
   <form class="lock" id="lock" hidden autocomplete="off">
-    <h2>IMA Dry Powder 현황판</h2>
+    <h2>IMA 현황판</h2>
     <p>비밀번호를 입력하면 최신 데이터가 열립니다.</p>
     <input type="password" id="pw" placeholder="비밀번호" aria-label="비밀번호" autocomplete="current-password">
     <button class="go" type="submit" id="pwGo">열기</button>
@@ -566,9 +566,9 @@ details.notes div{color:var(--ink-3);font-size:13.3px;line-height:1.75;margin-to
 </div>
 <div class="page" id="page-g2" hidden>
   <section style="margin-top:0">
-    <div class="sec-h"><h2>시리즈 대시보드</h2><span class="note">Master 기준일 보유·배분 딜로 자동 생성</span></div>
+    <div class="sec-h"><h2>시리즈 운용현황</h2><span class="note">Master 기준일 보유·배분 딜로 자동 생성</span></div>
     <div class="seg dsel" id="g2sel"></div>
-    <iframe id="g2frame" title="시리즈 대시보드" style="width:100%;height:1600px;border:0;border-radius:10px;background:var(--canvas);display:block"></iframe>
+    <iframe id="g2frame" title="시리즈 운용현황" style="width:100%;height:1600px;border:0;border-radius:10px;background:var(--canvas);display:block"></iframe>
   </section>
   <div class="pagenav"><button class="btn" data-go="dp">Dry Powder →</button></div>
 </div>
@@ -1689,7 +1689,7 @@ const APP = (() => {
     const names = S.ima.filter(im => FUND[im.name]).map(im => im.name);
     $('simsel').innerHTML = names.map(n => { const st = serStat(n), ch = st && st.items.length;
       return `<button data-n="${esc(n)}" class="${n === simSel ? 'on' : ''}">${esc(n)}${ch ? `<small class="${st.dg >= 0 ? 'up' : 'dn'}">${bpTxt(st.dg)}</small>` : ''}</button>`; }).join('') +
-      (S.ima.some(im => !FUND[im.name]) ? `<span class="mut" style="align-self:center">${esc(S.ima.filter(im => !FUND[im.name]).map(im => im.name).join(', '))}: IMA 시트 없음</span>` : '');
+      '';
     document.querySelectorAll('#simsel button').forEach(b => b.onclick = () => { simSel = b.dataset.n; simPick(); simList(); simHero(); });
   }
   function simHero() {
@@ -1931,7 +1931,7 @@ const APP = (() => {
     if (!names.length) { $('g2sel').innerHTML = '<span class="mut">IMA 시트를 읽지 못했습니다</span>'; return; }
     if (!names.includes(g2Sel)) g2Sel = names.includes('S2') ? 'S2' : names[0];
     $('g2sel').innerHTML = names.map(n => `<button data-n="${esc(n)}" class="${n === g2Sel ? 'on' : ''}">${esc(n)}</button>`).join('') +
-      (S.ima.some(im => !FUND[im.name]) ? `<span class="mut" style="align-self:center">${esc(S.ima.filter(im => !FUND[im.name]).map(im => im.name).join(', '))}: IMA 시트 없음</span>` : '');
+      '';
     document.querySelectorAll('#g2sel button').forEach(b => b.onclick = () => { g2Sel = b.dataset.n; g2Init(); });
     const st = g2State(g2Sel); window.__G2 = st;
     let tpl = document.getElementById('g2tpl').textContent.replace(/<\\\/script/g, '</script');
