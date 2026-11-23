@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IMA Dry Powder 현황판</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=Gothic+A1:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 /* 웹폰트가 막힌 내부망에서는 맑은 고딕으로 표시 */
 :root{
@@ -22,42 +21,65 @@
   --hneg:#8E2A22; --hmat:#070B0C;
   --shadow:0 0 0 1px #26393F,0 10px 28px rgba(0,0,0,.45);
   color-scheme:dark;
-  --font-ui:"Gothic A1","Pretendard","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",sans-serif;
-  --font-fig:"Archivo","Pretendard","Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  --font-ui:"Pretendard Variable","Pretendard","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",sans-serif;
+  --font-fig:"Pretendard Variable","Pretendard","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",sans-serif;
 }
+
+/* ---- 라이트 모드 ---- */
+html[data-theme=light]{
+  --canvas:#F4F6F9; --paper:#FFFFFF; --paper-2:#F1F4F8;
+  --ink:#1F2A44; --ink-2:#44506A; --ink-3:#7A8696;
+  --line:#E3E7ED; --line-2:#C9D1DC;
+  --accent:#0F6E73; --accent-ink:#FFFFFF; --accent-soft:#DDF0EF;
+  --safe:#0F8A74; --stress:#C27A12; --breach:#D9343F;
+  --safe-soft:#DDF0EF; --stress-soft:#FFF1CC; --breach-soft:#FDE0E5;
+  --seg-1:#2E7BD6; --seg-3:#7B6FD0; --track:#E9EDF3;
+  --h0:#F1F4F8; --h1:#D7EFE9; --h2:#A8DCCD; --h3:#6CC0AA; --h4:#2E9C83; --h5:#0F6E73;
+  --hneg:#F6C5C1; --hmat:#DDE3EA; --hz1:#E9EDF3; --hz2:#FFFFFF;
+  --shadow:0 0 0 1px #E3E7ED,0 6px 18px rgba(31,42,68,.08);
+  color-scheme:light}
+html[data-theme=light] .heat td.l1,html[data-theme=light] .heat td.l2{color:#1F2A44}
+html[data-theme=light] .heat td.l4,html[data-theme=light] .heat td.l5,html[data-theme=light] .dheat td.l4.chg,html[data-theme=light] .dheat td.l5.chg{color:#fff}
+html[data-theme=light] .heat td.neg,html[data-theme=light] .heat tr.sub td.neg{color:#8E1B14}
+html[data-theme=light] .tip{background:#FFFFFF;color:#1F2A44}
+html[data-theme=light] .tag.Loan{background:#DCE8F8;color:#0057B8}
+html[data-theme=light] .sch-h .lg i.c,html[data-theme=light] .sch .trk i.c.p{background:#6CC0AA}
+.themesw{display:inline-flex;gap:2px;padding:3px;background:var(--canvas);border:1px solid var(--line-2);border-radius:8px}
+.themesw button{background:transparent;border:0;border-radius:6px;color:var(--ink-3);height:28px;padding:0 12px;cursor:pointer;font-size:13.3px;font-weight:600;white-space:nowrap}
+.themesw button.on{background:var(--ink);color:var(--paper)}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html,body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font-ui);font-size:13px;line-height:1.55;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
+html,body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font-ui);font-size:14.3px;line-height:1.55;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
 button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .fig,.kpi .v,.card .aum,.mgrid .v,.heat td,.tbl td.r,.yrow .y,.delta,.kv .v,.dkpi .v{font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.01em}
 .top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:20px;min-height:56px;padding:8px 32px;background:var(--paper);border-bottom:1px solid var(--line);flex-wrap:wrap}
-.top h1{font-family:var(--font-fig);font-stretch:88%;font-size:17px;margin:0;font-weight:700;white-space:nowrap}
-.top .meta{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--ink-3)}
+.top h1{font-family:var(--font-fig);font-stretch:88%;font-size:18.3px;margin:0;font-weight:700;white-space:nowrap}
+.top .meta{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:13.3px;color:var(--ink-3)}
 .top .meta b{color:var(--ink-2);font-weight:600}
 .top .sp{flex:1}
-.btn{background:var(--paper);border:1px solid var(--line-2);color:var(--ink);height:34px;border-radius:6px;padding:0 14px;cursor:pointer;white-space:nowrap;font-size:13px}
+.btn{background:var(--paper);border:1px solid var(--line-2);color:var(--ink);height:34px;border-radius:6px;padding:0 14px;cursor:pointer;white-space:nowrap;font-size:14.3px}
 .btn:hover{border-color:var(--accent);color:var(--accent)}
 main{max-width:1480px;margin:0 auto;padding:28px 32px 56px}
 .empty{min-height:calc(100vh - 56px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:16px}
 .lock{width:min(420px,100%);border:1px solid var(--line-2);border-radius:12px;background:var(--paper);padding:28px 26px;box-shadow:var(--shadow);text-align:center}
-.lock h2{margin:0 0 6px;font-size:18px;font-weight:700}
-.lock p{margin:0 0 16px;color:var(--ink-2);font-size:13px;line-height:1.6}
-.lock input[type=password]{width:100%;height:42px;border:1px solid var(--line-2);border-radius:8px;padding:0 12px;font-size:15px;background:var(--paper);color:var(--ink);box-sizing:border-box}
-.lock .go{width:100%;height:42px;margin-top:10px;border:0;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:14px;cursor:pointer}
-.lock label{display:flex;gap:6px;align-items:center;justify-content:center;margin-top:12px;color:var(--ink-3);font-size:12px}
-.lock small{display:block;margin-top:12px;color:var(--ink-3);font-size:11.5px}
+.lock h2{margin:0 0 6px;font-size:19.3px;font-weight:700}
+.lock p{margin:0 0 16px;color:var(--ink-2);font-size:14.3px;line-height:1.6}
+.lock input[type=password]{width:100%;height:42px;border:1px solid var(--line-2);border-radius:8px;padding:0 12px;font-size:16.3px;background:var(--paper);color:var(--ink);box-sizing:border-box}
+.lock .go{width:100%;height:42px;margin-top:10px;border:0;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:15.3px;cursor:pointer}
+.lock label{display:flex;gap:6px;align-items:center;justify-content:center;margin-top:12px;color:var(--ink-3);font-size:13.3px}
+.lock small{display:block;margin-top:12px;color:var(--ink-3);font-size:12.8px}
 .od{width:min(640px,100%);border:1px solid var(--line-2);border-radius:12px;background:var(--paper);padding:22px 24px;box-shadow:var(--shadow)}
-.od h2{margin:0 0 6px;font-size:16px;font-weight:700}
-.od p{margin:4px 0 12px;color:var(--ink-2);font-size:13px;line-height:1.6}
+.od h2{margin:0 0 6px;font-size:17.3px;font-weight:700}
+.od p{margin:4px 0 12px;color:var(--ink-2);font-size:14.3px;line-height:1.6}
 .od .row{display:flex;gap:8px;flex-wrap:wrap}
-.od input{flex:1 1 260px;min-width:0;height:36px;border:1px solid var(--line-2);border-radius:6px;padding:0 10px;font-size:13px;background:var(--paper);color:var(--ink)}
+.od input{flex:1 1 260px;min-width:0;height:36px;border:1px solid var(--line-2);border-radius:6px;padding:0 10px;font-size:14.3px;background:var(--paper);color:var(--ink)}
 .od .go{height:36px;border:0;border-radius:6px;padding:0 16px;background:var(--accent);color:var(--accent-ink);font-weight:600;cursor:pointer}
-.od small{display:block;margin-top:10px;color:var(--ink-3);font-size:11.5px;line-height:1.5}
-.od .lnk{background:none;border:0;color:var(--ink-3);text-decoration:underline;cursor:pointer;font-size:11.5px;padding:0}
+.od small{display:block;margin-top:10px;color:var(--ink-3);font-size:12.8px;line-height:1.5}
+.od .lnk{background:none;border:0;color:var(--ink-3);text-decoration:underline;cursor:pointer;font-size:12.8px;padding:0}
 .drop{width:min(640px,100%);border:2px dashed var(--line-2);border-radius:12px;background:var(--paper);padding:56px 32px;text-align:center;cursor:pointer;transition:.15s;box-shadow:var(--shadow)}
 .drop.over{border-color:var(--accent);background:var(--accent-soft)}
-.drop h2{margin:0 0 8px;font-size:19px;font-weight:700}
+.drop h2{margin:0 0 8px;font-size:20.3px;font-weight:700}
 .drop p{margin:6px 0;color:var(--ink-2);line-height:1.7}
 .drop .pill{display:inline-block;margin-top:14px;padding:8px 18px;border-radius:6px;background:var(--accent);color:var(--accent-ink);font-weight:600}
 .drop small{display:block;margin-top:16px;color:var(--ink-3)}
@@ -65,40 +87,40 @@ main{max-width:1480px;margin:0 auto;padding:28px 32px 56px}
 .loading{color:var(--accent);font-weight:600;margin-top:12px}
 section{margin-top:30px}
 .sec-h{display:flex;align-items:baseline;gap:12px;margin:0 0 12px;flex-wrap:wrap}
-.sec-h h2{font-size:16px;margin:0;font-weight:700}
-.sec-h .note{color:var(--ink-3);font-size:12px}
+.sec-h h2{font-size:17.3px;margin:0;font-weight:700}
+.sec-h .note{color:var(--ink-3);font-size:13.3px}
 .sec-h .sp{flex:1}
 .panel{background:var(--paper);border-radius:10px;box-shadow:var(--shadow);padding:20px 22px;min-width:0}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 .kpi{background:var(--paper);border-radius:10px;box-shadow:var(--shadow);padding:18px 20px;position:relative;overflow:hidden}
 .kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c,var(--accent))}
-.kpi .l{color:var(--ink-2);font-size:12px}
-.kpi .v{font-size:28px;font-weight:650;line-height:1.1;margin-top:6px}
-.kpi .v small{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--ink-2);margin-left:4px}
-.kpi .s{color:var(--ink-3);font-size:11.5px;margin-top:6px;line-height:1.45}
+.kpi .l{color:var(--ink-2);font-size:13.3px}
+.kpi .v{font-size:29.3px;font-weight:650;line-height:1.1;margin-top:6px}
+.kpi .v small{font-family:var(--font-ui);font-size:14.3px;font-weight:500;color:var(--ink-2);margin-left:4px}
+.kpi .s{color:var(--ink-3);font-size:12.8px;margin-top:6px;line-height:1.45}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
 .card{background:var(--paper);border:1px solid transparent;border-radius:10px;box-shadow:var(--shadow);padding:16px 18px;cursor:pointer;transition:.12s;text-align:left;width:100%}
 .card:hover{border-color:var(--accent)}
 .card .hd{display:flex;align-items:center;gap:8px}
-.card .nm{font-family:var(--font-fig);font-stretch:88%;font-size:18px;font-weight:700}
-.card .aum{margin-left:auto;font-weight:600;font-size:14px;color:var(--ink-2)}
-.card .per{color:var(--ink-3);font-size:11.5px;margin-top:3px}
-.card .more{display:block;margin-top:10px;color:var(--accent);font-size:11.5px;font-weight:600}
+.card .nm{font-family:var(--font-fig);font-stretch:88%;font-size:19.3px;font-weight:700}
+.card .aum{margin-left:auto;font-weight:600;font-size:15.3px;color:var(--ink-2)}
+.card .per{color:var(--ink-3);font-size:12.8px;margin-top:3px}
+.card .more{display:block;margin-top:10px;color:var(--accent);font-size:12.8px;font-weight:600}
 .bar{display:flex;gap:2px;height:8px;border-radius:4px;overflow:hidden;background:var(--track);margin:12px 0 6px}
 .bar i{display:block;height:100%}
-.legend{display:flex;gap:12px;font-size:11.5px;color:var(--ink-2);flex-wrap:wrap}
+.legend{display:flex;gap:12px;font-size:12.8px;color:var(--ink-2);flex-wrap:wrap}
 .legend span:before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px;background:var(--c)}
 .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-top:12px}
 .mgrid div{display:flex;justify-content:space-between;gap:6px}
-.mgrid .k{color:var(--ink-2);font-size:12.5px}
-.mgrid .v{font-weight:600;font-size:14px}
+.mgrid .k{color:var(--ink-2);font-size:13.8px}
+.mgrid .v{font-weight:600;font-size:15.3px}
 .mgrid .v.neg{color:var(--breach)}
-.yrow{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3)}
-.yrow .y{font-size:17px;font-weight:600;color:var(--ink)}
-.delta{margin-left:auto;font-weight:600;font-size:12px;padding:2px 8px;border-radius:999px}
+.yrow{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:13.3px;color:var(--ink-3)}
+.yrow .y{font-size:18.3px;font-weight:600;color:var(--ink)}
+.delta{margin-left:auto;font-weight:600;font-size:13.3px;padding:2px 8px;border-radius:999px}
 .delta.pos{background:var(--safe-soft);color:var(--safe)} .delta.neg{background:var(--breach-soft);color:var(--breach)} .delta.na{background:var(--paper-2);color:var(--ink-3)}
 .seg{display:inline-flex;gap:4px;flex-wrap:wrap}
-.seg button{border:1px solid var(--line-2);background:var(--paper);height:28px;padding:0 12px;border-radius:999px;cursor:pointer;color:var(--ink-2);font-size:12px}
+.seg button{border:1px solid var(--line-2);background:var(--paper);height:28px;padding:0 12px;border-radius:999px;cursor:pointer;color:var(--ink-2);font-size:13.3px}
 .seg button:hover{border-color:var(--ink-3);color:var(--ink)}
 .seg button.on{background:var(--ink);border-color:var(--ink);color:var(--paper);font-weight:600}
 .ctrls{display:flex;gap:10px;flex-wrap:wrap}
@@ -107,24 +129,24 @@ section{margin-top:30px}
 table{border-collapse:collapse;width:100%}
 .heat{border-collapse:separate;border-spacing:3px}
 .heat th,.heat td{padding:9px 7px;text-align:right;white-space:nowrap}
-.heat thead th{background:var(--paper);color:var(--ink-3);font-weight:600;font-size:11.5px;padding-bottom:6px}
+.heat thead th{background:var(--paper);color:var(--ink-3);font-weight:600;font-size:12.8px;padding-bottom:6px}
 .heat thead th.yr{color:var(--ink-2)}
-.heat th.rowh{text-align:left;font-family:var(--font-fig);font-stretch:88%;font-weight:700;font-size:14px;padding-right:12px;cursor:pointer;position:sticky;left:0;background:var(--paper);z-index:1;color:var(--ink)}
+.heat th.rowh{text-align:left;font-family:var(--font-fig);font-stretch:88%;font-weight:700;font-size:15.3px;padding-right:12px;cursor:pointer;position:sticky;left:0;background:var(--paper);z-index:1;color:var(--ink)}
 .heat th.rowh:hover{color:var(--accent)}
-.heat th.cd{text-align:left;color:var(--ink-3);font-weight:500;font-size:11.5px;font-family:var(--font-fig);font-stretch:82%}
-.heat td{border-radius:4px;font-size:13px;font-weight:600;min-width:62px;background:var(--h0);color:var(--ink-2)}
+.heat th.cd{text-align:left;color:var(--ink-3);font-weight:500;font-size:12.8px;font-family:var(--font-fig);font-stretch:82%}
+.heat td{border-radius:4px;font-size:14.3px;font-weight:600;min-width:62px;background:var(--h0);color:var(--ink-2)}
 .heat td.l1{background:var(--h1);color:#CFE9E2} .heat td.l2{background:var(--h2);color:#E4F6F1}
 .heat td.l3{background:var(--h3);color:#fff} .heat td.l4{background:var(--h4);color:#05201B} .heat td.l5{background:var(--h5);color:#05201B}
 .heat td.neg{background:var(--hneg);color:#FFE3DE;font-weight:700}
-.heat td.cash{background:repeating-linear-gradient(45deg,#1A2629 0 4px,#121C1F 4px 8px);color:var(--ink-3);font-weight:500;font-style:italic}
+.heat td.cash{background:repeating-linear-gradient(45deg,var(--hz1,#1A2629) 0 4px,var(--hz2,#121C1F) 4px 8px);color:var(--ink-3);font-weight:500;font-style:italic}
 .heat td.mat{background:var(--hmat);color:transparent}
 .heat td.cur{box-shadow:inset 0 0 0 2px var(--ink-3)}
-.btn.sm{height:28px;padding:0 10px;font-size:12px}
-.simkpi{display:flex;flex-wrap:wrap;gap:8px 22px;margin:0 0 12px;font-size:12.5px;color:var(--ink-2)}
-.simkpi b{font-family:var(--font-fig);font-stretch:82%;font-size:15px;color:var(--ink)}
+.btn.sm{height:28px;padding:0 10px;font-size:13.3px}
+.simkpi{display:flex;flex-wrap:wrap;gap:8px 22px;margin:0 0 12px;font-size:13.8px;color:var(--ink-2)}
+.simkpi b{font-family:var(--font-fig);font-stretch:82%;font-size:16.3px;color:var(--ink)}
 .simt,.simd{width:100%;border-collapse:collapse}
-.simt th,.simt td,.simd th,.simd td{padding:7px 8px;border-bottom:1px solid var(--line);font-size:12.5px;vertical-align:middle;text-align:left}
-.simt thead th,.simd thead th{color:var(--ink-3);font-weight:600;font-size:11.5px;white-space:nowrap}
+.simt th,.simt td,.simd th,.simd td{padding:7px 8px;border-bottom:1px solid var(--line);font-size:13.8px;vertical-align:middle;text-align:left}
+.simt thead th,.simd thead th{color:var(--ink-3);font-weight:600;font-size:12.8px;white-space:nowrap}
 .simt td.r,.simt th.r{text-align:right;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;white-space:nowrap}
 .simt td.arrow{color:var(--ink-3);text-align:center;padding:0 2px}
 .simt td.now{color:var(--ink-2)} .simt td.aft{font-weight:700;color:var(--ink)}
@@ -134,148 +156,149 @@ table{border-collapse:collapse;width:100%}
 .simt .dbar{position:relative;width:60px;height:8px;background:var(--track);border-radius:4px}
 .simt .dbar i{position:absolute;top:0;bottom:0;border-radius:4px} .simt .dbar::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;border-left:1px solid var(--line-2)}
 .simt tr.tot td,.simt tr.tot th{font-weight:700;border-top:1px solid var(--line-2)}
-.simt .mut,.simd .mut{color:var(--ink-3);font-size:11.5px}
+.simt .mut,.simd .mut{color:var(--ink-3);font-size:12.8px}
 .simch{margin:4px 0 18px}
-.sch-h{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;margin:0 0 10px} .sch-h b{font-size:14px}
-.sch-h .lg{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-2)} .sch-h .lg i{display:inline-block;width:18px;border-radius:2px}
+.sch-h{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;margin:0 0 10px} .sch-h b{font-size:15.3px}
+.sch-h .lg{display:inline-flex;align-items:center;gap:6px;font-size:13.3px;color:var(--ink-2)} .sch-h .lg i{display:inline-block;width:18px;border-radius:2px}
 .sch-h .lg i.g{height:10px;background:var(--safe)} .sch-h .lg i.c{height:4px;background:#9BE6D3}
 .sch{display:flex;flex-direction:column;gap:4px}
 .sch-r,.sch-ax{display:grid;grid-template-columns:48px 1fr 230px;gap:12px;align-items:center}
 .sch-r{background:transparent;border:1px solid transparent;border-radius:8px;padding:6px 8px;cursor:pointer;color:var(--ink);font:inherit;text-align:left}
 .sch-r:hover{background:var(--paper-2)} .sch-r.on{border-color:var(--accent);background:var(--accent-soft)}
-.sch-r .nm{font-family:var(--font-fig);font-stretch:88%;font-weight:700;font-size:15px}
+.sch-r .nm{font-family:var(--font-fig);font-stretch:88%;font-weight:700;font-size:16.3px}
 .sch .trk{position:relative;height:26px}
 .sch .trk .z{position:absolute;left:50%;top:-4px;bottom:-4px;border-left:1px solid var(--line-2)}
 .sch .trk i{position:absolute;border-radius:3px}
 .sch .trk i.g{top:3px;height:14px} .sch .trk i.c{top:19px;height:5px}
 .sch .trk i.g.p{background:var(--safe)} .sch .trk i.g.m{background:var(--stress)} .sch .trk i.c.p{background:#9BE6D3} .sch .trk i.c.m{background:#F0BE78}
-.sch-r .val{display:flex;flex-direction:column;line-height:1.3} .sch-r .val b{font-family:var(--font-fig);font-stretch:82%;font-size:17px;color:var(--ink-3)}
-.sch-r .val b.up{color:var(--safe)} .sch-r .val b.dn{color:var(--stress)} .sch-r .val small{color:var(--ink-3);font-size:11.5px;font-family:var(--font-fig);font-stretch:85%}
+.sch-r .val{display:flex;flex-direction:column;line-height:1.3} .sch-r .val b{font-family:var(--font-fig);font-stretch:82%;font-size:18.3px;color:var(--ink-3)}
+.sch-r .val b.up{color:var(--safe)} .sch-r .val b.dn{color:var(--stress)} .sch-r .val small{color:var(--ink-3);font-size:12.8px;font-family:var(--font-fig);font-stretch:85%}
 .sch-r .val em{color:var(--breach);font-style:normal}
-.sch-ax .trk{height:16px} .sch-ax .tick{position:absolute;transform:translateX(-50%);font-size:10.5px;color:var(--ink-3);font-family:var(--font-fig)}
-@media (max-width:640px){.sch-r,.sch-ax{grid-template-columns:36px 1fr 120px;gap:8px} .sch-r .val b{font-size:15px} .sch-r .val small{font-size:10.5px}}
+.sch-ax .trk{height:16px} .sch-ax .tick{position:absolute;transform:translateX(-50%);font-size:11.8px;color:var(--ink-3);font-family:var(--font-fig)}
+@media (max-width:640px){.sch-r,.sch-ax{grid-template-columns:36px 1fr 120px;gap:8px} .sch-r .val b{font-size:16.3px} .sch-r .val small{font-size:11.8px}}
 .simsel{margin:0 0 14px} .simsel button{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;gap:2px}
-.simsel button small{font-size:10.5px;font-weight:700} .simsel button small.up{color:var(--safe)} .simsel button small.dn{color:var(--stress)}
+.simsel button small{font-size:11.8px;font-weight:700} .simsel button small.up{color:var(--safe)} .simsel button small.dn{color:var(--stress)}
 .simsel button.on small{color:var(--accent-ink)} .simsel button:has(small){height:46px}
 #simhero .hero-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:0 0 14px}
-#simhero .hero-h b{font-family:var(--font-fig);font-stretch:88%;font-size:26px} #simhero .hero-h span{color:var(--ink-3);font-size:12.5px}
+#simhero .hero-h b{font-family:var(--font-fig);font-stretch:88%;font-size:27.3px} #simhero .hero-h span{color:var(--ink-3);font-size:13.8px}
 .hks{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:0 0 18px}
 .hk{background:var(--paper-2);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
 .hk .v{flex-wrap:wrap}
-.hk .l{color:var(--ink-3);font-size:12px} .hk .v{display:flex;align-items:baseline;gap:10px;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums}
-.hk .now{font-size:20px;color:var(--ink-2)} .hk .ar{color:var(--ink-3);font-size:18px} .hk .aft{font-size:30px;font-weight:700;color:var(--ink)}
-.hk .d{font-family:var(--font-fig);font-stretch:85%;font-size:18px;font-weight:700} .hk .d.up{color:var(--safe)} .hk .d.dn{color:var(--stress)} .hk .d.z{color:var(--ink-3);font-size:12.5px;font-weight:500;font-family:var(--font-ui)}
-.ladder{margin:0 0 20px} .ladder .lgd{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:11.5px;color:var(--ink-3);margin:0 0 8px}
+.hk .l{color:var(--ink-3);font-size:13.3px} .hk .v{display:flex;align-items:baseline;gap:10px;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums}
+.hk .now{font-size:21.3px;color:var(--ink-2)} .hk .ar{color:var(--ink-3);font-size:19.3px} .hk .aft{font-size:31.3px;font-weight:700;color:var(--ink)}
+.hk .d{font-family:var(--font-fig);font-stretch:85%;font-size:19.3px;font-weight:700} .hk .d.up{color:var(--safe)} .hk .d.dn{color:var(--stress)} .hk .d.z{color:var(--ink-3);font-size:13.8px;font-weight:500;font-family:var(--font-ui)}
+.ladder{margin:0 0 20px} .ladder .lgd{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.8px;color:var(--ink-3);margin:0 0 8px}
 .ladder .lgd span{display:inline-flex;align-items:center;gap:6px} .ladder .lgd .pt{position:static;transform:none;display:inline-block}
 .ladder .lgd .rl{display:inline-block;width:2px;height:12px} .rl.h{background:#8A9DA2} .rl.f{background:#C9A227}
 .ln{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center;height:42px}
-.ln .ll{color:var(--ink-2);font-size:12.5px;font-weight:600}
+.ln .ll{color:var(--ink-2);font-size:13.8px;font-weight:600}
 .ln .lt{position:relative;height:100%;border-bottom:1px solid var(--line)}
-.ln.ax{height:20px} .ln.ax .lt{border:0} .ln .tk{position:absolute;top:2px;transform:translateX(-50%);font-size:10.5px;color:var(--ink-3);font-family:var(--font-fig)}
+.ln.ax{height:20px} .ln.ax .lt{border:0} .ln .tk{position:absolute;top:2px;transform:translateX(-50%);font-size:11.8px;color:var(--ink-3);font-family:var(--font-fig)}
 .ln .ref{position:absolute;top:0;bottom:0;border-left:2px dashed} .ln .ref.h{border-color:#8A9DA2} .ln .ref.f{border-color:#C9A227}
-.ln .ref em{position:absolute;top:-1px;left:4px;font-style:normal;font-size:10.5px;white-space:nowrap;color:var(--ink-3)}
+.ln .ref em{position:absolute;top:-1px;left:4px;font-style:normal;font-size:11.8px;white-space:nowrap;color:var(--ink-3)}
 .ln .ref.f em{top:auto;bottom:1px;color:#C9A227}
 .ln .mv{position:absolute;top:50%;height:6px;margin-top:-3px;border-radius:3px} .ln .mv.up{background:rgba(79,191,168,.55)} .ln .mv.dn{background:rgba(230,165,74,.55)}
 .pt{position:absolute;top:50%;width:14px;height:14px;margin-top:-7px;transform:translateX(-50%);border-radius:50%}
 .pt.now{background:var(--paper);border:2px solid var(--ink-2)} .pt.aft{border:2px solid var(--paper)} .pt.aft.up{background:var(--safe)} .pt.aft.dn{background:var(--stress)}
-.wf-h{color:var(--ink-3);font-size:12px;font-weight:600;margin:0 0 8px}
-.wf{display:grid;grid-template-columns:minmax(180px,340px) 1fr 76px;gap:6px 12px;align-items:center;font-size:12.5px}
-.wf .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .wf .n small{display:block;color:var(--ink-3);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wf-h{color:var(--ink-3);font-size:13.3px;font-weight:600;margin:0 0 8px}
+.wf{display:grid;grid-template-columns:minmax(180px,340px) 1fr 76px;gap:6px 12px;align-items:center;font-size:13.8px}
+.wf .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .wf .n small{display:block;color:var(--ink-3);font-size:12.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .wf .n.tot{font-weight:700;border-top:1px solid var(--line-2);padding-top:6px}
 .wf .wt{position:relative;height:18px} .wf .wt .z0{position:absolute;top:-4px;bottom:-4px;border-left:1px solid var(--line-2)}
 .wf .wt i{position:absolute;top:2px;height:14px;border-radius:3px} .wf .wt i.up{background:var(--safe)} .wf .wt i.dn{background:var(--stress)} .wf .wt i.tot{top:0;height:18px}
-.wf b{text-align:right;font-family:var(--font-fig);font-stretch:82%;font-size:14px} .wf b.up{color:var(--safe)} .wf b.dn{color:var(--stress)}
+.wf b{text-align:right;font-family:var(--font-fig);font-stretch:82%;font-size:15.3px} .wf b.up{color:var(--safe)} .wf b.dn{color:var(--stress)}
 .simd input.am{width:70px;height:26px;border:1px solid var(--line-2);border-radius:5px;background:var(--paper-2);color:var(--ink);padding:0 6px;font-family:var(--font-fig);font-variant-numeric:tabular-nums;text-align:right}
-.simd .eff{font-family:var(--font-fig);font-stretch:82%;font-weight:700;font-size:13px;white-space:nowrap} .simd .eff.up{color:var(--safe)} .simd .eff.dn{color:var(--stress)}
-.simd .src{color:var(--ink-3);font-size:11.5px}
+.simd .eff{font-family:var(--font-fig);font-stretch:82%;font-weight:700;font-size:14.3px;white-space:nowrap} .simd .eff.up{color:var(--safe)} .simd .eff.dn{color:var(--stress)}
+.simd .src{color:var(--ink-3);font-size:12.8px}
+.simd tr.goal input.rt,.simd tr.goal input.tmi{border-color:var(--stress)} .simd tr.goal td.nm{color:var(--ink)}
 details.simcmp summary{font-weight:700}
-@media (max-width:640px){.hks{grid-template-columns:1fr 1fr;gap:8px} .hk{padding:10px 12px} .hk:nth-child(3){grid-column:1 / -1} .hk .now{font-size:15px} .hk .d{font-size:15px} .hk .aft{font-size:22px} .wf{grid-template-columns:120px 1fr 58px} .ln{grid-template-columns:40px 1fr} .ladder .lgd span:last-child{display:none}}
+@media (max-width:640px){.hks{grid-template-columns:1fr 1fr;gap:8px} .hk{padding:10px 12px} .hk:nth-child(3){grid-column:1 / -1} .hk .now{font-size:16.3px} .hk .d{font-size:16.3px} .hk .aft{font-size:23.3px} .wf{grid-template-columns:120px 1fr 58px} .ln{grid-template-columns:40px 1fr} .ladder .lgd span:last-child{display:none}}
 .simser{background:var(--paper-2);border-radius:8px;padding:12px 14px;margin:0 0 14px}
 .sskpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 18px}
-.sskpi div{display:flex;flex-direction:column;gap:2px} .sskpi span{color:var(--ink-3);font-size:11.5px}
-.sskpi b{font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;font-size:15px} .sskpi b.up,.ssl b.up{color:var(--safe)} .sskpi b.dn,.ssl b.dn{color:var(--stress)}
-.ssh{margin:12px 0 6px;color:var(--ink-3);font-size:11.5px;font-weight:600}
-.ssl{display:grid;grid-template-columns:minmax(160px,320px) 1fr 70px;gap:6px 12px;align-items:center;font-size:12.5px}
-.ssl .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .ssl .n small{display:block;color:var(--ink-3);font-size:11px}
+.sskpi div{display:flex;flex-direction:column;gap:2px} .sskpi span{color:var(--ink-3);font-size:12.8px}
+.sskpi b{font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;font-size:16.3px} .sskpi b.up,.ssl b.up{color:var(--safe)} .sskpi b.dn,.ssl b.dn{color:var(--stress)}
+.ssh{margin:12px 0 6px;color:var(--ink-3);font-size:12.8px;font-weight:600}
+.ssl{display:grid;grid-template-columns:minmax(160px,320px) 1fr 70px;gap:6px 12px;align-items:center;font-size:13.8px}
+.ssl .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .ssl .n small{display:block;color:var(--ink-3);font-size:12.3px}
 .ssl .bar2{height:10px;background:var(--track);border-radius:3px;overflow:hidden} .ssl .bar2 i{display:block;height:100%;border-radius:3px}
 .ssl b{text-align:right;font-family:var(--font-fig);font-stretch:82%}
 .simt tr.sel th,.simt tr.sel td{background:var(--accent-soft)}
 .simd .ichip.dim{opacity:.4}
 .simd td.tm{min-width:130px} .simd input.tmi{width:110px;height:26px;border:1px solid var(--line-2);border-radius:5px;background:var(--paper-2);color:var(--ink);padding:0 6px;font-family:var(--font-fig)} .simd input.tmi.bad{border-color:var(--breach)} .simd .mt{margin-top:2px;white-space:nowrap}
-.simas{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0 0 10px;font-size:12px;color:var(--ink-2)}
+.simas{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0 0 10px;font-size:13.3px;color:var(--ink-2)}
 .simas label{display:inline-flex;align-items:center;gap:6px}
 .simas input,.simd input.rt{width:62px;height:26px;border:1px solid var(--line-2);border-radius:5px;background:var(--paper-2);color:var(--ink);padding:0 6px;font-family:var(--font-fig);font-variant-numeric:tabular-nums;text-align:right}
-.simd tr.mon td{background:var(--paper-2);color:var(--ink-2);font-weight:700;font-size:12px;padding:6px 8px}
+.simd tr.mon td{background:var(--paper-2);color:var(--ink-2);font-weight:700;font-size:13.3px;padding:6px 8px}
 .simd tr.off td{opacity:.55}
 .simd tr.on td{background:rgba(95,183,181,.07)}
 .simd td.d{white-space:nowrap;font-family:var(--font-fig);font-stretch:82%;color:var(--ink-2)}
 .simd td.nm{min-width:220px;line-height:1.45}
 .simd input[type=checkbox]{width:17px;height:17px;accent-color:var(--accent);cursor:pointer}
-.simd .ichip{display:inline-flex;gap:5px;align-items:baseline;margin:0 6px 4px 0;padding:2px 8px;border-radius:5px;background:var(--paper-2);font-size:12px;white-space:nowrap;font-family:var(--font-fig);font-stretch:85%}
-.simd .ichip b{font-weight:700} .simd .ichip .eff.up{color:var(--safe);font-weight:700} .simd .ichip .eff.dn{color:var(--stress);font-weight:700} .simd .ichip .src{color:var(--ink-3);font-size:11px} .simd .ichip .up{color:var(--safe);font-weight:700} .simd .ichip .dn{color:var(--stress);font-weight:700}
+.simd .ichip{display:inline-flex;gap:5px;align-items:baseline;margin:0 6px 4px 0;padding:2px 8px;border-radius:5px;background:var(--paper-2);font-size:13.3px;white-space:nowrap;font-family:var(--font-fig);font-stretch:85%}
+.simd .ichip b{font-weight:700} .simd .ichip .eff.up{color:var(--safe);font-weight:700} .simd .ichip .eff.dn{color:var(--stress);font-weight:700} .simd .ichip .src{color:var(--ink-3);font-size:12.3px} .simd .ichip .up{color:var(--safe);font-weight:700} .simd .ichip .dn{color:var(--stress);font-weight:700}
 .simd .ichip.inc{outline:1px solid var(--line-2)}
-.simd .ichip input.am{width:56px;height:22px;border:1px solid var(--line-2);border-radius:4px;background:var(--paper);color:var(--ink);padding:0 4px;font-family:var(--font-fig);font-variant-numeric:tabular-nums;text-align:right;font-size:12px}
+.simd .ichip input.am{width:56px;height:22px;border:1px solid var(--line-2);border-radius:4px;background:var(--paper);color:var(--ink);padding:0 4px;font-family:var(--font-fig);font-variant-numeric:tabular-nums;text-align:right;font-size:13.3px}
 .simd tr.chg td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
 .dsub{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 10px}
-.dsub b{font-size:14px} .dsub span{color:var(--ink-3);font-size:12px}
+.dsub b{font-size:15.3px} .dsub span{color:var(--ink-3);font-size:13.3px}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 4px 0 6px;vertical-align:0} .dot.up{background:var(--safe)} .dot.dn{background:var(--stress)}
 .dsm{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
 .dsm-c{background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px 8px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;min-width:0}
 .dsm-c:hover{border-color:var(--line-2)} .dsm-c.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
 .dsm-c .t{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.dsm-c .t b{font-family:var(--font-fig);font-stretch:88%;font-size:15px}
-.dsm-c .t span,.dsm-c .s{font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;font-size:12px;color:var(--ink-2);white-space:nowrap}
+.dsm-c .t b{font-family:var(--font-fig);font-stretch:88%;font-size:16.3px}
+.dsm-c .t span,.dsm-c .s{font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;font-size:13.3px;color:var(--ink-2);white-space:nowrap}
 .dsm-c .s{display:flex;justify-content:space-between;gap:6px;color:var(--ink-3);margin-top:2px}
 .dsm-c .s .neg{color:var(--breach);font-weight:700}
 .dsm-c .mini{height:74px;margin-top:6px} .dsm-c .mini svg{display:block;width:100%;height:74px}
 .dsel{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
-.dleg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--ink-2);margin:0 0 6px}
+.dleg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.3px;color:var(--ink-2);margin:0 0 6px}
 .dleg span{display:inline-flex;align-items:center;gap:6px}
 .dleg .ln{display:inline-block;width:18px;border-top:2px solid var(--ink)} .dleg .ln.da{border-top:2px dashed var(--ink-3)}
-.dleg .bx{display:inline-block;width:10px;height:10px;border-radius:2px} .dleg .bx.hz{background:repeating-linear-gradient(45deg,#2A3A3E 0 3px,#121C1F 3px 6px);outline:1px solid var(--line-2)}
+.dleg .bx{display:inline-block;width:10px;height:10px;border-radius:2px} .dleg .bx.hz{background:repeating-linear-gradient(45deg,var(--hz1,#2A3A3E) 0 3px,var(--hz2,#121C1F) 3px 6px);outline:1px solid var(--line-2)}
 .dch{position:relative} .dch svg{display:block;width:100%}
 .dch .tip{max-width:min(420px,90%);white-space:normal}
-.dch .tip .ev{display:block;font-size:11.5px;line-height:1.5} .dch .tip .ev.o{color:var(--stress)} .dch .tip .ev.i{color:var(--safe)} .dch .tip .ev.x{color:var(--ink-3)}
+.dch .tip .ev{display:block;font-size:12.8px;line-height:1.5} .dch .tip .ev.o{color:var(--stress)} .dch .tip .ev.i{color:var(--safe)} .dch .tip .ev.x{color:var(--ink-3)}
 .devwrap{max-height:380px;overflow:auto;border-top:1px solid var(--line)}
 .dev{width:100%;border-collapse:collapse}
-.dev th,.dev td{padding:7px 8px;border-bottom:1px solid var(--line);font-size:12.5px;text-align:left;vertical-align:top}
-.dev thead th{position:sticky;top:0;background:var(--paper);color:var(--ink-3);font-weight:600;font-size:11.5px;white-space:nowrap;z-index:1}
+.dev th,.dev td{padding:7px 8px;border-bottom:1px solid var(--line);font-size:13.8px;text-align:left;vertical-align:top}
+.dev thead th{position:sticky;top:0;background:var(--paper);color:var(--ink-3);font-weight:600;font-size:12.8px;white-space:nowrap;z-index:1}
 .dev td.d,.dev td.r{white-space:nowrap;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums}
 .dev td.r{text-align:right} .dev td.r.up{color:var(--safe);font-weight:700} .dev td.r.dn{color:var(--stress);font-weight:700} .dev td.r.neg{color:var(--breach)}
 .dev tr.hl td{background:var(--accent-soft)}
 .dev .chip.x{background:var(--paper-2);color:var(--ink-3);font-weight:500}
-.dev .mut{color:var(--ink-3);font-size:11.5px}
+.dev .mut{color:var(--ink-3);font-size:12.8px}
 .dsm-c .mini svg{height:74px}
-@media (max-width:640px){.dsm{grid-template-columns:1fr 1fr;gap:8px} .dsm-c{padding:8px 9px 6px} .dsm-c .t{flex-direction:column;align-items:flex-start;gap:0} .dsm-c .s{font-size:11px} .dsm-c .mini,.dsm-c .mini svg{height:56px}}
+@media (max-width:640px){.dsm{grid-template-columns:1fr 1fr;gap:8px} .dsm-c{padding:8px 9px 6px} .dsm-c .t{flex-direction:column;align-items:flex-start;gap:0} .dsm-c .s{font-size:12.3px} .dsm-c .mini,.dsm-c .mini svg{height:56px}}
 @media (max-width:640px){.tabs{max-width:100%;overflow-x:auto} .tabs button{padding:0 10px}
  .simt th:nth-child(3),.simt td:nth-child(3),.simt td.arrow,.simt thead th:nth-child(5),.simt thead th:nth-child(9){display:none}
- .simt .dbar{display:none} .simt .dlt{min-width:0} .simd td.nm{min-width:150px} .simas label{font-size:11.5px}}
-.dcap{color:var(--ink-3);font-size:11.5px;line-height:1.6;margin-top:8px}
-details.dtbl summary{cursor:pointer;font-weight:700;font-size:14px} details.dtbl summary .note{font-weight:400;color:var(--ink-3);font-size:12px;margin-left:8px}
+ .simt .dbar{display:none} .simt .dlt{min-width:0} .simd td.nm{min-width:150px} .simas label{font-size:12.8px}}
+.dcap{color:var(--ink-3);font-size:12.8px;line-height:1.6;margin-top:8px}
+details.dtbl summary{cursor:pointer;font-weight:700;font-size:15.3px} details.dtbl summary .note{font-weight:400;color:var(--ink-3);font-size:13.3px;margin-left:8px}
 .dheat{border-spacing:2px}
 .dheat th,.dheat td{padding:6px 5px}
-.dheat td{min-width:50px;font-size:12px;font-weight:500}
+.dheat td{min-width:50px;font-size:13.3px;font-weight:500}
 .dheat td.chg{font-weight:800;color:var(--ink)} .dheat td.l4.chg,.dheat td.l5.chg{color:#00140F}
 .dheat thead th.mo{text-align:left;color:var(--ink-2);border-left:2px solid var(--line-2);padding-left:6px}
-.dheat thead th.dd{font-size:11px;font-weight:600} .dheat thead th.dd.m1{border-left:2px solid var(--line-2)}
+.dheat thead th.dd{font-size:12.3px;font-weight:600} .dheat thead th.dd.m1{border-left:2px solid var(--line-2)}
 .dheat td.m1{box-shadow:inset 2px 0 0 var(--line-2)}
 .heat tr.tot th,.heat tr.tot td{font-weight:700}
 .heat tr.tot td{background:var(--paper-2);color:var(--ink)} .heat tr.tot td.neg{background:var(--hneg)}
 .heat tr.tot th{border-top:1px solid var(--line-2)}
-.heat tr.sub td{background:var(--paper-2);color:var(--ink-2);font-weight:600;font-size:12px;padding:6px 7px} .heat tr.sub td.neg{background:var(--hneg);color:#FFE3DE} .heat tr.sub td.cash{background:repeating-linear-gradient(45deg,#1A2629 0 4px,#121C1F 4px 8px)}
-.scale{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:center;margin-top:14px;font-size:11.5px;color:var(--ink-2)}
+.heat tr.sub td{background:var(--paper-2);color:var(--ink-2);font-weight:600;font-size:13.3px;padding:6px 7px} .heat tr.sub td.neg{background:var(--hneg);color:#FFE3DE} .heat tr.sub td.cash{background:repeating-linear-gradient(45deg,var(--hz1,#1A2629) 0 4px,var(--hz2,#121C1F) 4px 8px)}
+.scale{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:center;margin-top:14px;font-size:12.8px;color:var(--ink-2)}
 .scale .steps{display:flex;align-items:center;gap:2px}
 .scale .steps i{display:block;width:34px;height:12px}
 .scale .steps i:first-child{border-radius:3px 0 0 3px} .scale .steps i:last-child{border-radius:0 3px 3px 0}
 .scale .lab{display:flex;gap:0;margin-top:3px}
-.scale .lab span{width:36px;text-align:left;color:var(--ink-3);font-size:10.5px}
+.scale .lab span{width:36px;text-align:left;color:var(--ink-3);font-size:11.8px}
 .scale .sw{display:inline-block;width:14px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-2px}
 /* ---- 상세표 ---- */
 .tblwrap{overflow-x:auto}
 .tbl th,.tbl td{padding:8px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
-.tbl thead th{color:var(--ink-3);font-weight:600;font-size:11.5px;text-align:right;vertical-align:bottom;line-height:1.35;white-space:normal;min-width:62px}
+.tbl thead th{color:var(--ink-3);font-weight:600;font-size:12.8px;text-align:right;vertical-align:bottom;line-height:1.35;white-space:normal;min-width:62px}
 .tbl thead th:first-child{text-align:left}
-.tbl td{font-size:12.5px}
+.tbl td{font-size:13.8px}
 .tbl td.r{text-align:right}
 .tbl th.rowh{text-align:left;font-family:var(--font-fig);font-stretch:88%;font-weight:700}
 .tbl tbody tr.click{cursor:pointer} .tbl tbody tr.click:hover th.rowh{color:var(--accent)}
@@ -283,44 +306,44 @@ details.dtbl summary{cursor:pointer;font-weight:700;font-size:14px} details.dtbl
 .tbl td.neg{color:var(--breach)} .tbl td.mute{color:var(--ink-3)}
 details.notes{margin-top:30px}
 details.notes summary{cursor:pointer;color:var(--ink-2);font-weight:600}
-details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:10px}
-.foot{margin-top:28px;color:var(--ink-3);font-size:11.5px;line-height:1.7}
+details.notes div{color:var(--ink-3);font-size:13.3px;line-height:1.75;margin-top:10px}
+.foot{margin-top:28px;color:var(--ink-3);font-size:12.8px;line-height:1.7}
 /* ---- IMA 상세 패널 (Dash Board) ---- */
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:max(min(860px,100%),66.667vw);background:var(--canvas);border-left:1px solid var(--line-2);z-index:41;overflow-y:auto;box-shadow:-20px 0 40px rgba(0,0,0,.5)}
 .dh{align-items:flex-start!important;position:sticky;top:0;background:var(--paper);border-bottom:1px solid var(--line);padding:16px 24px;display:flex;align-items:center;gap:14px;z-index:2}
-.dh .nm{font-family:var(--font-fig);font-stretch:88%;font-size:24px;font-weight:700}
-.dh .per{color:var(--ink-3);font-size:12px;line-height:1.5}
+.dh .nm{font-family:var(--font-fig);font-stretch:88%;font-size:25.3px;font-weight:700}
+.dh .per{color:var(--ink-3);font-size:13.3px;line-height:1.5}
 .dh .sp{flex:1}
-.dh .x{width:36px;height:36px;border-radius:8px;border:1px solid var(--line-2);background:var(--paper-2);cursor:pointer;font-size:18px;line-height:1}
+.dh .x{width:36px;height:36px;border-radius:8px;border:1px solid var(--line-2);background:var(--paper-2);cursor:pointer;font-size:19.3px;line-height:1}
 .dh .x:hover{border-color:var(--accent);color:var(--accent)}
 .db{padding:20px 24px 40px}
-.db h3{font-size:13.5px;margin:22px 0 10px;color:var(--ink-2);font-weight:700;display:flex;gap:10px;align-items:baseline}
-.db h3 small{color:var(--ink-3);font-weight:500;font-size:11.5px}
+.db h3{font-size:14.8px;margin:22px 0 10px;color:var(--ink-2);font-weight:700;display:flex;gap:10px;align-items:baseline}
+.db h3 small{color:var(--ink-3);font-weight:500;font-size:12.8px}
 .dkpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
 .dkpi{background:var(--paper);border-radius:8px;box-shadow:var(--shadow);padding:12px 14px}
-.dkpi .l{color:var(--ink-3);font-size:11.5px}
-.dkpi .v{font-size:20px;font-weight:650;margin-top:2px}
-.dkpi .v small{font-family:var(--font-ui);font-size:11.5px;font-weight:500;color:var(--ink-3);margin-left:3px}
+.dkpi .l{color:var(--ink-3);font-size:12.8px}
+.dkpi .v{font-size:21.3px;font-weight:650;margin-top:2px}
+.dkpi .v small{font-family:var(--font-ui);font-size:12.8px;font-weight:500;color:var(--ink-3);margin-left:3px}
 .dkpi .v.neg{color:var(--breach)}
 .kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px}
-.kv div{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:12.5px}
-.kv .k{color:var(--ink-2)} .kv .v{text-align:right} .kv .v.neg{color:var(--breach)} .kv .v em{font-style:normal;color:var(--ink-3);margin-left:6px;font-size:11.5px}
+.kv div{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.8px}
+.kv .k{color:var(--ink-2)} .kv .v{text-align:right} .kv .v.neg{color:var(--breach)} .kv .v em{font-style:normal;color:var(--ink-3);margin-left:6px;font-size:12.8px}
 .two{display:grid;grid-template-columns:1fr;gap:4px}
-.dtbl td,.dtbl th{padding:7px 8px;border-bottom:1px solid var(--line);font-size:12.5px;text-align:left}
-.dtbl thead th{color:var(--ink-3);font-weight:600;font-size:11.5px;white-space:nowrap}
+.dtbl td,.dtbl th{padding:7px 8px;border-bottom:1px solid var(--line);font-size:13.8px;text-align:left}
+.dtbl thead th{color:var(--ink-3);font-weight:600;font-size:12.8px;white-space:nowrap}
 .dtbl td.r,.dtbl th.r{text-align:right;white-space:nowrap;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums}
 .dtbl td.nm{white-space:normal;line-height:1.4}
 .dtbl tr.tot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0}
-.tag{display:inline-block;font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:999px;background:var(--paper-2);color:var(--ink-2)}
+.tag{display:inline-block;font-size:11.8px;font-weight:600;padding:1px 7px;border-radius:999px;background:var(--paper-2);color:var(--ink-2)}
 .tag.Mez{background:var(--stress-soft);color:var(--stress)} .tag.Loan{background:#10233A;color:#8DB9EA}
-.src{color:var(--ink-3);font-size:11px;margin-top:20px}
-.none{color:var(--ink-3);font-size:12.5px;padding:10px 0}
+.src{color:var(--ink-3);font-size:12.3px;margin-top:20px}
+.none{color:var(--ink-3);font-size:13.8px;padding:10px 0}
 /* ---- IMA 카드: 줄바꿈 없이 한 줄 고정 ---- */
 .cards{grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
 .card .per,.card .mgrid div,.card .yrow{white-space:nowrap}
 .card .per{overflow:hidden;text-overflow:ellipsis}
-.card .legend{display:grid;grid-template-columns:repeat(3,max-content);justify-content:space-between;gap:0 8px;white-space:nowrap;font-size:11px}
+.card .legend{display:grid;grid-template-columns:repeat(3,max-content);justify-content:space-between;gap:0 8px;white-space:nowrap;font-size:12.3px}
 .card .yrow{gap:6px}
 .card .yrow .lab{overflow:hidden;text-overflow:ellipsis;min-width:0}
 .card .yrow .y{flex:none}
@@ -328,42 +351,42 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
 .card .mgrid{gap:6px 12px}
 /* ---- IMA 선택 바 ---- */
 .imasel{position:sticky;top:56px;z-index:15;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 16px;margin:0 0 6px;background:var(--paper);border:1px solid var(--line-2);border-radius:10px;box-shadow:var(--shadow)}
-.imasel .lab{font-size:12.5px;font-weight:700;color:var(--ink-2)}
-.imasel .seg button{height:30px;min-width:46px;font-family:var(--font-fig);font-stretch:88%;font-weight:700;font-size:13px}
-.imasel .note{color:var(--ink-3);font-size:11.5px}
+.imasel .lab{font-size:13.8px;font-weight:700;color:var(--ink-2)}
+.imasel .seg button{height:30px;min-width:46px;font-family:var(--font-fig);font-stretch:88%;font-weight:700;font-size:14.3px}
+.imasel .note{color:var(--ink-3);font-size:12.8px}
 .dsel{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}
-.dsel button{border:1px solid var(--line-2);background:var(--paper-2);color:var(--ink-2);height:26px;min-width:38px;padding:0 8px;border-radius:6px;cursor:pointer;font-family:var(--font-fig);font-stretch:88%;font-weight:700;font-size:12px}
+.dsel button{border:1px solid var(--line-2);background:var(--paper-2);color:var(--ink-2);height:26px;min-width:38px;padding:0 8px;border-radius:6px;cursor:pointer;font-family:var(--font-fig);font-stretch:88%;font-weight:700;font-size:13.3px}
 .dsel button:hover{border-color:var(--accent);color:var(--ink)}
 .dsel button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.dsel{gap:8px} .dsel button{height:38px;min-width:60px;padding:0 16px;font-size:15px;border-radius:8px}
-@media (max-width:640px){.dsel button{height:36px;min-width:52px;padding:0 12px;font-size:14px}}
+.dsel{gap:8px} .dsel button{height:38px;min-width:60px;padding:0 16px;font-size:16.3px;border-radius:8px}
+@media (max-width:640px){.dsel button{height:36px;min-width:52px;padding:0 12px;font-size:15.3px}}
 @media (max-width:900px){.imasel{top:0;position:static}}
 /* ---- 자산 구성 차트 ---- */
 .mix{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:12px}
-.mix .panel h3{margin:0 0 4px;font-size:14px;font-weight:700}
-.mix .panel .sub{color:var(--ink-3);font-size:11.5px;margin-bottom:12px}
+.mix .panel h3{margin:0 0 4px;font-size:15.3px;font-weight:700}
+.mix .panel .sub{color:var(--ink-3);font-size:12.8px;margin-bottom:12px}
 .mrow{display:grid;grid-template-columns:44px 1fr 74px;gap:10px;align-items:center;margin:7px 0}
 .mrow .n{font-family:var(--font-fig);font-stretch:88%;font-weight:700;cursor:pointer} .mrow .n:hover{color:var(--accent)}
 .mrow.tot .n{color:var(--ink-2)} .mrow.tot{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
 .mbar{position:relative;display:flex;height:20px;background:var(--track);border-radius:4px;overflow:hidden}
-.mbar i{display:block;height:100%;position:relative;font-style:normal;font-size:10.5px;line-height:20px;text-align:center;color:#06171A;font-weight:700;font-family:var(--font-fig);font-stretch:82%;overflow:hidden;white-space:nowrap}
+.mbar i{display:block;height:100%;position:relative;font-style:normal;font-size:11.8px;line-height:20px;text-align:center;color:#06171A;font-weight:700;font-family:var(--font-fig);font-stretch:82%;overflow:hidden;white-space:nowrap}
 .mbar .ref{position:absolute;top:-2px;bottom:-2px;width:0;border-left:1px dashed var(--ink-3)}
-.mrow .v{text-align:right;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;font-size:12px;color:var(--ink-2)}
+.mrow .v{text-align:right;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;font-size:13.3px;color:var(--ink-2)}
 .mrow .v.over{color:var(--stress)}
-.mleg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:11.5px;color:var(--ink-2)}
+.mleg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:12.8px;color:var(--ink-2)}
 .mleg span:before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px;background:var(--c)}
 .donuts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:12px}
 .donut{background:var(--paper);border-radius:8px;box-shadow:var(--shadow);padding:16px 18px}
-.donut h4{margin:0 0 12px;font-size:13px;color:var(--ink-2);font-weight:700}
+.donut h4{margin:0 0 12px;font-size:14.3px;color:var(--ink-2);font-weight:700}
 .donut .wrap{display:flex;gap:16px;align-items:center}
 .donut svg{width:clamp(140px,11vw,190px);height:auto;aspect-ratio:1;flex:none}
 .donut svg text{font-family:var(--font-fig);font-stretch:82%}
-.donut ul{list-style:none;margin:0;padding:0;font-size:12.5px;flex:1;min-width:0}
+.donut ul{list-style:none;margin:0;padding:0;font-size:13.8px;flex:1;min-width:0}
 .donut li{display:flex;gap:8px;align-items:center;padding:3px 0}
 .donut li i{width:10px;height:10px;border-radius:2px;flex:none}
 .donut li .k{flex:1;min-width:0;color:var(--ink-2);line-height:1.3}
 .donut li .p{font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;color:var(--ink)}
-.dl{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) 64px 46px;gap:4px 10px;align-items:center;font-size:12px}
+.dl{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) 64px 46px;gap:4px 10px;align-items:center;font-size:13.3px}
 .dl .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dl .nm small{color:var(--ink-3);margin-left:6px}
 .dl .bar2{height:12px;background:var(--track);border-radius:3px;overflow:hidden}
@@ -372,18 +395,18 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
 .dl .p{color:var(--ink-3)}
 /* ---- 유휴 자금 수익 영향 ---- */
 .idlebar{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end;margin-bottom:14px}
-.fld{display:flex;flex-direction:column;gap:4px;font-size:11.5px;color:var(--ink-3)}
+.fld{display:flex;flex-direction:column;gap:4px;font-size:12.8px;color:var(--ink-3)}
 .fld .in{display:flex;align-items:center;gap:6px}
-.fld input{width:84px;height:34px;border-radius:6px;border:1px solid var(--line-2);background:var(--paper-2);padding:0 10px;text-align:right;font-family:var(--font-fig);font-variant-numeric:tabular-nums;font-size:14px}
+.fld input{width:84px;height:34px;border-radius:6px;border:1px solid var(--line-2);background:var(--paper-2);padding:0 10px;text-align:right;font-family:var(--font-fig);font-variant-numeric:tabular-nums;font-size:15.3px}
 .fld input:focus{border-color:var(--accent);outline:none}
-.fld .u{color:var(--ink-2);font-size:13px}
-.est{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:4px;background:var(--stress-soft);color:var(--stress);letter-spacing:.04em}
+.fld .u{color:var(--ink-2);font-size:14.3px}
+.est{display:inline-block;font-size:11.8px;font-weight:700;padding:1px 7px;border-radius:4px;background:var(--stress-soft);color:var(--stress);letter-spacing:.04em}
 /* ---- 투자 여력 표, 흐름 차트, 일정, 타임라인 ---- */
 .grid2{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:12px}
-.cap{color:var(--ink-3);font-size:11.5px;line-height:1.6;margin-top:10px}
+.cap{color:var(--ink-3);font-size:12.8px;line-height:1.6;margin-top:10px}
 .cap b{color:var(--ink-2);font-weight:600}
-.inv td,.inv th{padding:8px 8px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:12.5px}
-.inv thead th{color:var(--ink-3);font-weight:600;font-size:11.5px;text-align:right;vertical-align:bottom;white-space:normal;line-height:1.35}
+.inv td,.inv th{padding:8px 8px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:13.8px}
+.inv thead th{color:var(--ink-3);font-weight:600;font-size:12.8px;text-align:right;vertical-align:bottom;white-space:normal;line-height:1.35}
 .inv thead th:first-child{text-align:left}
 .inv td.r{text-align:right;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums}
 .inv th.rowh{text-align:left;font-family:var(--font-fig);font-stretch:88%;font-weight:700;cursor:pointer}
@@ -393,34 +416,34 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
 .hb{position:relative;height:16px;background:var(--track);border-radius:3px;overflow:hidden}
 .hb i{position:absolute;left:0;top:0;bottom:0;background:var(--h4);border-radius:3px}
 .hb i.neg{background:var(--hneg)}
-.pill2{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:600}
+.pill2{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12.3px;font-weight:600}
 .pill2.red{background:var(--breach-soft);color:var(--breach)} .pill2.amb{background:var(--stress-soft);color:var(--stress)} .pill2.mut{background:var(--paper-2);color:var(--ink-3)} .pill2.grn{background:var(--safe-soft);color:var(--safe)}
 .chart{position:relative;height:300px}
 .chart svg{width:100%;height:100%;display:block}
 .chart svg text{font-family:var(--font-fig);font-stretch:82%}
-.tip{position:absolute;pointer-events:none;background:#1C2B30;border:1px solid var(--line-2);border-radius:6px;padding:8px 10px;font-size:12px;line-height:1.6;white-space:nowrap;box-shadow:var(--shadow);z-index:5}
+.tip{position:absolute;pointer-events:none;background:#1C2B30;border:1px solid var(--line-2);border-radius:6px;padding:8px 10px;font-size:13.3px;line-height:1.6;white-space:nowrap;box-shadow:var(--shadow);z-index:5}
 .tip b{font-family:var(--font-fig);font-stretch:82%}
-.sched td,.sched th{padding:7px 8px;border-bottom:1px solid var(--line);font-size:12.5px;text-align:left;vertical-align:top}
-.sched thead th{color:var(--ink-3);font-weight:600;font-size:11.5px;white-space:nowrap}
+.sched td,.sched th{padding:7px 8px;border-bottom:1px solid var(--line);font-size:13.8px;text-align:left;vertical-align:top}
+.sched thead th{color:var(--ink-3);font-weight:600;font-size:12.8px;white-space:nowrap}
 .sched td.d{white-space:nowrap;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;color:var(--ink-2)}
 .sched td.nm{min-width:220px;line-height:1.45}
 .sched tr.ex td{opacity:.5}
-.sched tr.mon td{background:var(--paper-2);color:var(--ink-2);font-weight:700;font-size:12px;padding:6px 8px}
-.chip{display:inline-block;margin:0 4px 3px 0;padding:1px 7px;border-radius:4px;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;font-size:12px;font-weight:600;white-space:nowrap}
+.sched tr.mon td{background:var(--paper-2);color:var(--ink-2);font-weight:700;font-size:13.3px;padding:6px 8px}
+.chip{display:inline-block;margin:0 4px 3px 0;padding:1px 7px;border-radius:4px;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums;font-size:13.3px;font-weight:600;white-space:nowrap}
 .chip.out{background:var(--stress-soft);color:var(--stress)} .chip.in{background:var(--safe-soft);color:var(--safe)}
 .tl{display:grid;grid-template-columns:52px 1fr 150px;gap:8px 12px;align-items:center}
 .tl .nm{font-family:var(--font-fig);font-stretch:88%;font-weight:700;cursor:pointer} .tl .nm:hover{color:var(--accent)}
 .tl .trk{position:relative;height:22px;background:var(--track);border-radius:4px}
 .tl .seg1{position:absolute;top:0;bottom:0;background:var(--h2);border-radius:4px 0 0 4px}
-.tl .seg2{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(45deg,#3A5257 0 4px,#1A2629 4px 8px);border-radius:0 4px 4px 0}
+.tl .seg2{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(45deg,var(--line-2) 0 4px,var(--track) 4px 8px);border-radius:0 4px 4px 0}
 .tl .now{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--accent)}
-.tl .lbl{position:absolute;top:3px;font-size:10.5px;color:var(--ink);white-space:nowrap;font-family:var(--font-fig);font-stretch:82%}
-.tl .amt{font-size:12px;color:var(--ink-2);text-align:right;line-height:1.35}
-.tl .amt b{font-family:var(--font-fig);font-stretch:82%;color:var(--ink);font-size:13px}
+.tl .lbl{position:absolute;top:3px;font-size:11.8px;color:var(--ink);white-space:nowrap;font-family:var(--font-fig);font-stretch:82%}
+.tl .amt{font-size:13.3px;color:var(--ink-2);text-align:right;line-height:1.35}
+.tl .amt b{font-family:var(--font-fig);font-stretch:82%;color:var(--ink);font-size:14.3px}
 .tl .axis{position:relative;height:32px;grid-column:2}
-.tl .axis span{position:absolute;font-size:10.5px;color:var(--ink-3);transform:translateX(-50%)}
+.tl .axis span{position:absolute;font-size:11.8px;color:var(--ink-3);transform:translateX(-50%)}
 .tabs{display:flex;gap:4px;padding:3px;background:var(--canvas);border:1px solid var(--line-2);border-radius:8px}
-.tabs button{background:transparent;border:0;border-radius:6px;color:var(--ink-3);height:30px;padding:0 14px;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;transition:.12s}
+.tabs button{background:transparent;border:0;border-radius:6px;color:var(--ink-3);height:30px;padding:0 14px;cursor:pointer;font-size:14.3px;font-weight:600;white-space:nowrap;transition:.12s}
 .tabs button:hover{color:var(--ink);background:var(--paper-2)}
 .tabs button.on{background:var(--accent);color:var(--accent-ink)}
 .page>section:first-child{margin-top:0}
@@ -433,10 +456,11 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
 <body>
 <header class="top">
   <h1>IMA Dry Powder 현황판</h1>
-  <nav class="tabs" id="tabs" hidden aria-label="페이지"><button data-p="dp" class="on">Dry Powder</button><button data-p="sim">수익률 시뮬레이션</button><button data-p="appx">Appendix</button></nav>
+  <nav class="tabs" id="tabs" hidden aria-label="페이지"><button data-p="g2" class="on">시리즈 대시보드</button><button data-p="dp">Dry Powder</button><button data-p="sim">수익률 시뮬레이션</button><button data-p="appx">Appendix</button></nav>
   <div class="meta" id="meta"></div>
   <div class="sp"></div>
   <button class="btn" id="odRefresh" hidden>OneDrive 새로고침</button>
+  <div class="themesw" id="themesw" role="group" aria-label="화면 모드"><button data-t="dark">다크</button><button data-t="light">라이트</button></div>
   <button class="btn" id="reopen" hidden>다른 파일 열기</button>
 </header>
 <input type="file" id="file" accept=".xlsx,.xlsm" hidden>
@@ -480,7 +504,7 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
   <section id="dsec" hidden>
     <div class="sec-h"><h2>일별 Dry Powder</h2><span class="note" id="dnote"></span></div>
     <div class="panel">
-      <div class="dsub"><b>시리즈별 한눈에</b><span>흰 선 = 기준 B(기표 예정 딜까지 반영) · 점선 = 기준 A(기표완료만) · <i class="dot up"></i>DP 증가일 <i class="dot dn"></i>DP 감소일 · 카드를 누르면 아래에 크게 표시</span></div>
+      <div class="dsub"><b>시리즈별 한눈에</b><span>실선 = 기준 B(기표 예정 딜까지 반영) · 점선 = 기준 A(기표완료만) · <i class="dot up"></i>DP 증가일 <i class="dot dn"></i>DP 감소일 · 카드를 누르면 아래에 크게 표시</span></div>
       <div class="dsm" id="dsm"></div>
     </div>
     <div class="panel" id="dpanel" style="margin-top:14px">
@@ -501,7 +525,7 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
       <div class="heatwrap" id="dwrap"><table class="heat dheat" id="dheat"></table></div>
       <div class="scale"><span>그날 마감 기준 누적 (평일만, 주말·공휴일 입출금은 다음 평일에 반영)</span>
         <span><b style="color:var(--ink)">굵은 숫자</b> = 전날 대비 변동</span>
-        <span><i class="sw" style="background:repeating-linear-gradient(45deg,#2A3A3E 0 3px,#121C1F 3px 6px)"></i>만기 M-3 이후 (현금화 구간)</span>
+        <span><i class="sw" style="background:repeating-linear-gradient(45deg,var(--hz1,#2A3A3E) 0 3px,var(--hz2,#121C1F) 3px 6px)"></i>만기 M-3 이후 (현금화 구간)</span>
         <span>색 기준은 월별과 같음 (남은 DP ÷ 운용금액)</span></div>
     </details>
   </section>
@@ -518,7 +542,7 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
           <div class="lab"><span>0%</span><span>5%</span><span>10%</span><span>20%</span><span>30%</span><span>50%↑</span></div></div>
         <span>남은 DP ÷ 운용금액 (밝을수록 투자 여력 큼)</span>
         <span><i class="sw" style="background:var(--hneg)"></i>음수(자금 부족)</span>
-        <span><i class="sw" style="background:repeating-linear-gradient(45deg,#2A3A3E 0 3px,#121C1F 3px 6px)"></i>현금화 구간 · IMA 만기 전 상환 딜만 투자 가능</span>
+        <span><i class="sw" style="background:repeating-linear-gradient(45deg,var(--hz1,#2A3A3E) 0 3px,var(--hz2,#121C1F) 3px 6px)"></i>현금화 구간 · IMA 만기 전 상환 딜만 투자 가능</span>
         <span><i class="sw" style="background:var(--hmat);outline:1px solid var(--line-2)"></i>IMA 만기 이후</span>
         <span><i class="sw" style="box-shadow:inset 0 0 0 2px var(--ink-3)"></i>현재(기준일)</span>
         <span>월말 기준 누적</span>
@@ -539,6 +563,14 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
   </div>
 
   <div class="pagenav"><button class="btn" data-go="sim">수익률 시뮬레이션 →</button><button class="btn" data-go="appx">Appendix →</button></div>
+</div>
+<div class="page" id="page-g2" hidden>
+  <section style="margin-top:0">
+    <div class="sec-h"><h2>시리즈 대시보드</h2><span class="note">Master 기준일 보유·배분 딜로 자동 생성</span></div>
+    <div class="seg dsel" id="g2sel"></div>
+    <iframe id="g2frame" title="시리즈 대시보드" style="width:100%;height:1600px;border:0;border-radius:10px;background:var(--canvas);display:block"></iframe>
+  </section>
+  <div class="pagenav"><button class="btn" data-go="dp">Dry Powder →</button></div>
 </div>
 <div class="page" id="page-appx" hidden>
     <div class="imasel"><span class="lab">IMA 선택</span><div class="seg" id="imaSel"></div><span class="note">누르면 해당 IMA의 Dash Board 정보·자산 구성이 열립니다</span></div>
@@ -594,6 +626,543 @@ details.notes div{color:var(--ink-3);font-size:12px;line-height:1.75;margin-top:
 window.IMA_ONEDRIVE = { clientId: '' };
 </script>
 <script type="application/octet-stream" id="embedded-master" data-name=""></script>
+<script type="text/plain" id="g2tpl"><!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><title>IMA G2 포트폴리오</title><style id="css">:root{
+/* IMA투자부 표준: 네이비 바 + 청록 수치 + 진행상황 색 스트라이프. 요약(지표) → 배분 현황 → 에이전트 → 상세 순 */
+--navy:#002060;--ink:#1F2A44;--teal:#0F6E73;--key:#0070C0;--line:#E3E7ED;--hd:#E9EDF3;--bg:#F4F6F9;--card:#fff;--mute:#7A8696;
+--ok:#0F6E73;--rmsc:#0057B8;--rev:#E0A100;--need:#E4002B;
+--display:"Pretendard Variable","Pretendard",'Malgun Gothic','맑은 고딕',system-ui,sans-serif;--body:"Pretendard Variable","Pretendard",'Malgun Gothic','맑은 고딕',system-ui,sans-serif;
+color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.3px}
+header{background:var(--navy);color:#fff;padding:12px 16px;position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:12px}
+header h1{font-family:var(--display);font-size:18.3px;margin:0;font-weight:700}header small{opacity:.8;font-size:12.3px}
+main{max-width:none;margin:0 auto;padding:12px 16px 40px;display:flex;flex-direction:column;gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+h2{font-family:var(--display);font-size:16.3px;margin:0 0 10px;color:var(--navy);display:flex;align-items:center;gap:8px;flex-wrap:wrap;text-wrap:balance}
+h2 small{font-weight:400;color:var(--mute);font-size:12.3px}
+h3{font-size:14.3px;margin:14px 0 8px;color:var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(min-width:760px){.kpis{grid-template-columns:repeat(5,1fr)}}
+.kpi{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.kpi.alert{border-left-color:var(--need)}
+.kpi .lab{font-size:12.3px;color:var(--mute)}
+.kpi b{font-family:var(--display);font-size:23.3px;color:var(--navy);font-variant-numeric:tabular-nums}
+.kpi small{font-size:12.3px;color:var(--teal);line-height:1.5;font-variant-numeric:tabular-nums}
+.kpi .two{display:flex;gap:12px}.kpi .two em{display:block;font-style:normal;font-size:11.3px;color:var(--mute)}.kpi .two b{font-size:20.3px;color:var(--need)}
+.stack{display:flex;height:6px;border-radius:3px;overflow:hidden;background:var(--hd);margin-top:4px}
+.stack i.ok{background:var(--ok)}.stack i.rmsc{background:var(--rmsc)}.stack i.rev{background:var(--rev)}.stack i.need{background:var(--need)}.stack i.mmfseg{background:#C9D1DC}
+.good{color:var(--ok);font-weight:700}.bad{color:var(--need);font-weight:700}
+.chip{display:inline-block;font-size:11.8px;padding:2px 7px;border-radius:20px;font-weight:700;white-space:nowrap}
+.chip.ok{background:#DDF0EF;color:var(--ok)}.chip.rmsc{background:#DCE8F8;color:var(--rmsc)}.chip.rev{background:#FFF1CC;color:#8A6300}.chip.need{background:#FDE0E5;color:var(--need)}.chip.mute{background:var(--hd);color:var(--mute)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:13.3px;font-variant-numeric:tabular-nums}
+th{background:var(--hd);color:var(--ink);font-weight:700;padding:6px 6px;border-bottom:2px solid var(--navy);white-space:nowrap;text-align:center}
+td{padding:6px 6px;border-bottom:1px solid var(--line);white-space:nowrap;color:var(--teal);text-align:center}
+td.n{text-align:right}td.b,tr.bold td{font-weight:700}
+td.l,th.l{text-align:left;position:sticky;left:0;background:var(--card);z-index:1;color:var(--ink)}th.l{background:var(--hd)}
+tr.tot td{font-weight:700;border-top:1.5px solid var(--navy);background:#F7F9FC}tr.tot td.l{background:#F7F9FC}
+table.ana{min-width:420px}table.ana td.adj{background:#EEF4FF;color:var(--navy);font-weight:700}th.adjh{background:#DCE8F8}
+table.inc{min-width:760px}table.mini{min-width:520px}table.edit{min-width:820px}
+.slot{border:1px solid var(--line);border-radius:8px;padding:10px;margin-top:8px}
+.slot-h{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:6px}.slot-h span{font-size:13.3px;color:var(--teal)}
+.slotbar{display:flex;height:26px;border-radius:6px;overflow:hidden;background:var(--hd);margin-bottom:6px}
+.slotbar i{display:flex;align-items:center;justify-content:center;font-style:normal;font-size:11.8px;overflow:hidden;white-space:nowrap;border-right:1px solid #fff}
+.slotbar i span{padding:0 4px}
+.p-ok{background:var(--navy);color:#fff}.p-rev{background:#5B78B5;color:#fff}.b-ok{background:#0057B8;color:#fff}.b-rev{background:#9CC3EE;color:var(--ink)}
+.b-need{background:#fff;color:var(--need);box-shadow:inset 0 0 0 2px var(--need)}.idle{background:#E3E8EF;color:var(--mute)}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12.3px;color:var(--mute)}.legend span{display:flex;align-items:center;gap:4px}.legend i{width:12px;height:10px;border-radius:2px;display:inline-block}
+.tag{font-size:11.3px;padding:1px 5px;border-radius:4px;margin-right:4px}.tag.p{background:var(--navy);color:#fff}.tag.b{background:#DCE8F8;color:var(--rmsc)}
+.tl{display:grid;grid-template-columns:170px repeat(10,minmax(54px,1fr));min-width:720px;font-size:12.3px;font-variant-numeric:tabular-nums}
+.tl div{height:26px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #fff;border-right:1px solid #fff}
+.tl .n{justify-content:flex-start;padding-left:4px;background:var(--card);color:var(--ink);position:sticky;left:0;z-index:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tl .h{background:var(--hd);font-weight:700}.tl .gr{background:var(--navy);color:#fff;font-weight:700}
+.segs{margin-left:auto;display:flex;gap:4px}.seg{font:inherit;font-size:12.3px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}.seg.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 12px}@media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr)}}
+label{font-size:13.3px;color:var(--ink);display:flex;flex-direction:column;gap:3px}
+label.ck{flex-direction:row;align-items:center;gap:6px}
+input,select{font:inherit;font-size:13.3px;color:var(--key);font-style:italic;border:1px solid var(--line);border-radius:6px;padding:5px 6px;background:#fff;max-width:100%}
+select{font-style:normal}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--key);outline-offset:1px}
+.btn{font:inherit;font-size:14.3px;border:1px solid var(--navy);background:var(--navy);color:#fff;border-radius:8px;padding:8px 14px;cursor:pointer;white-space:nowrap}
+.btn.ghost{background:#fff;color:var(--navy)}
+.x{font:inherit;font-size:12.3px;border:1px solid var(--line);background:#fff;color:var(--need);border-radius:6px;padding:3px 8px;cursor:pointer}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.muted{font-size:12.3px;color:var(--mute);margin-top:6px;line-height:1.5}
+#chat{max-height:320px;overflow:auto;font-size:14.3px;display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.msg{padding:8px 10px;border-radius:10px;max-width:90%;white-space:pre-wrap;line-height:1.55}.msg.me{align-self:flex-end;background:var(--navy);color:#fff}.msg.ai{align-self:flex-start;background:var(--hd);color:var(--ink)}
+.ask{display:flex;gap:6px}.ask input{flex:1;font-style:normal;color:var(--ink);font-size:14.3px;padding:8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}.chips button{font:inherit;font-size:12.8px;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:20px;padding:5px 10px;cursor:pointer}
+.chips button:hover{border-color:var(--navy);color:var(--navy)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+table.lay{min-width:1000px;border-collapse:separate;border-spacing:0}
+table.lay th{border-bottom:2px solid var(--navy)}
+table.lay td{border-bottom:1px solid #fff}
+table.lay td.k{color:var(--key);font-style:italic}
+/* 배분 현황: 구분~보유기간은 내용 폭만큼만, 남는 폭은 3개월 구간 막대에 */
+table.lay th:nth-child(-n+7),table.lay tr:not(.gross) td:nth-child(-n+7){width:1%;white-space:nowrap}
+table.lay th:nth-child(n+2):nth-child(-n+7),table.lay td:nth-child(n+2):nth-child(-n+7){padding-left:14px;padding-right:14px}
+table.lay td.bar{min-width:64px}
+table.lay tr.gross td{white-space:nowrap}
+
+table.lay td.bar{border-right:1px solid #fff;min-width:52px}
+table.lay .b0{border-left:2px solid var(--navy)}
+table.lay tr.gross td{background:var(--navy);color:#fff;font-weight:700;border-bottom:none}
+input.dt{font-style:normal;color:var(--key);width:118px;padding:3px 4px}
+.kpi small.reg{line-height:1.7}.kpi small.reg .sub{color:var(--mute)}.kpi b.badb{color:var(--need)}
+
+.kpi small.cl span{font-weight:700}.c-mmf{color:#8A94A3}.c-ok{color:var(--ok)}.c-rmsc{color:var(--rmsc)}.c-rev{color:#B88400}.c-need{color:var(--need)}
+table.gantt{min-width:900px;border-collapse:separate;border-spacing:0;font-size:12.3px}
+table.gantt th{font-size:11.8px;padding:4px 2px;min-width:40px;position:relative}
+table.gantt th em{display:block;font-style:normal;color:var(--need);font-size:11.3px}
+table.gantt td.l{min-width:230px;white-space:normal;line-height:1.4;padding:5px 6px}
+.gsub{display:block;color:var(--teal);font-size:11.8px}
+table.gantt td.g{padding:0;height:30px;text-align:center;border-bottom:1px solid var(--line);font-size:11.8px;white-space:nowrap}
+table.gantt .mon{border-left:1px solid #C9D1DC}
+table.gantt .drawc{box-shadow:inset 2px 0 0 var(--need)}
+table.gantt td.late{background-image:repeating-linear-gradient(45deg,transparent 0 4px,rgba(228,0,43,.35) 4px 6px)}
+table.gantt tr.gsum td{font-weight:700;color:var(--navy);background:#F7F9FC}
+table.gantt tr.gidle td{color:var(--mute)}table.gantt td.over{color:var(--need);font-weight:700}
+.legend i.drawl{background:#fff;box-shadow:inset 2px 0 0 var(--need);border:1px solid var(--line)}
+.warnl{margin-top:6px;font-size:13.3px;color:var(--need);background:#FDF1F3;border-radius:6px;padding:6px 8px;line-height:1.5}
+
+table.gantt tr.gsec td{background:var(--hd);font-weight:700;color:var(--navy);font-size:12.3px;padding:4px 6px}
+.a-ia{background:#0057B8}.a-hb{background:#6CA6E8}.a-mk{background:#00A86B}.a-mz{background:#B9C0CB}.a-ln{background:#2F6DB5}.a-cp{background:#9CC3EE}.a-ov{background:#7B6FD0}
+table.gantt td.a-ln,table.gantt td.a-ov{color:#fff}
+table.gantt td.a-ia,table.gantt td.a-mk{color:#fff}
+.a-need{background:#FDE0E5;color:var(--need)}
+table.gantt td.latef{background-image:repeating-linear-gradient(45deg,transparent 0 4px,rgba(228,0,43,.35) 4px 6px)}
+table.gantt tr.gneed td{font-weight:700;color:var(--need);background:#FDF1F3;border-top:1.5px solid var(--need)}
+table.gantt tr.gneed td.l{background:#FDF1F3}
+.kpi small .sub{color:var(--mute)}
+
+
+table.gantt tr.gchart td{border-bottom:1px solid var(--line)}
+table.gantt td.gc{vertical-align:bottom;padding:18px 3px 4px}
+.stk{position:relative;display:flex;flex-direction:column-reverse}
+.stk i{display:block;width:100%;flex:none;border-top:1px solid #fff}
+.s-dep{background:#002060}.s-mmf{background:#9AA6B6}.s-bok{background:#2E7BD6}
+.s-need{background:#FDE0E5;box-shadow:inset 0 0 0 1.5px #E4002B;border-radius:3px 3px 0 0}
+.s-over{position:absolute;left:0;right:0;background:repeating-linear-gradient(45deg,transparent 0 3px,rgba(228,0,43,.85) 3px 5px);box-shadow:inset 0 0 0 1.5px #E4002B}
+.s-ref{position:absolute;left:-4px;right:-4px;border-top:1.5px dashed var(--ink);height:0}
+.s-lab{position:absolute;left:-10px;right:-10px;text-align:center;font-style:normal;font-size:11.8px;font-weight:700;color:var(--need);white-space:nowrap}
+.legend i.s-dep{background:#002060}.legend i.s-mmf{background:#9AA6B6}
+.legend i.needk{background:#FDE0E5;border:1.5px solid var(--need)}
+
+table.gantt tr.gcap td{font-weight:700;color:var(--navy);background:#EEF4FF}table.gantt tr.gcap td.l{background:#EEF4FF}
+.capbox{margin-top:8px;font-size:13.8px;color:var(--ink);background:#EEF4FF;border-left:4px solid var(--navy);border-radius:6px;padding:8px 10px;line-height:1.7}
+.capbox .gsub{margin-top:2px}
+
+.idx{display:flex;flex-direction:column;gap:3px;margin-top:6px;font-size:11.8px;color:var(--ink)}
+.idx span{display:flex;align-items:center;gap:5px}
+.idx i{width:14px;height:10px;display:inline-block;flex:none;border-radius:2px}
+.idx i.s-need{box-shadow:inset 0 0 0 1.5px #E4002B}
+.idx i.s-overk{background:repeating-linear-gradient(45deg,#2E7BD6 0 3px,#E4002B 3px 5px)}
+.idx i.s-refk{height:0;border-top:1.5px dashed var(--ink);border-radius:0}
+.snote{font-size:13.3px;line-height:1.7;color:var(--ink);border-left:4px solid var(--rev)}
+.snote b{color:var(--navy)} .snote summary{cursor:pointer}
+
+/*DARK-START*/
+/* ---- 현황판 어두운 디자인 (Dry Powder 현황판과 같은 색) ---- */
+:root{--navy:#5FB7B5;--ink:#F2F7F7;--teal:#B8C8CB;--key:#8DB9EA;--line:#1C2B30;--hd:#141F23;--bg:#030607;--card:#0F181B;--mute:#8A9DA2;
+--ok:#4FBFA8;--rmsc:#4A8FD8;--rev:#E6A54A;--need:#F07264;
+color-scheme:dark}
+html,body{background:var(--bg);color:var(--ink)}
+header{background:#0F181B;color:#F2F7F7;border-bottom:1px solid #2E434A;border-radius:10px 10px 0 0}
+.card,.kpi{border-color:#1C2B30;box-shadow:0 0 0 1px #26393F}
+.kpi b{color:#F2F7F7} .kpi small{color:#B8C8CB}
+th{background:#141F23;color:#B8C8CB;border-bottom-color:#2E434A}
+td{border-bottom-color:#1C2B30}
+tr.tot td,tr.tot td.l{background:#141F23;border-top-color:#2E434A}
+table.lay td,table.lay td.bar{border-color:#0F181B}
+table.lay th{border-bottom-color:#2E434A}
+table.lay tr.gross td{background:#163A34;color:#F2F7F7}
+table.ana td.adj{background:#10233A;color:#F2F7F7} th.adjh{background:#10233A}
+.chip.ok{background:#12302A;color:#4FBFA8}.chip.rmsc{background:#10233A;color:#8DB9EA}.chip.rev{background:#33260F;color:#E6A54A}.chip.need{background:#3A1714;color:#F07264}.chip.mute{background:#141F23;color:#8A9DA2}
+.stack{background:#162226}.stack i{border-color:#0F181B}.stack i.mmfseg{background:#5C6B70}
+input,select{background:#141F23;color:#8DB9EA;border-color:#2E434A}
+.btn{background:#5FB7B5;border-color:#5FB7B5;color:#08201F;font-weight:700}.btn.ghost{background:transparent;color:#5FB7B5}
+.x{background:transparent;border-color:#2E434A}
+.seg{background:#0F181B;color:#B8C8CB;border-color:#2E434A}.seg.on{background:#F2F7F7;border-color:#F2F7F7;color:#0F181B}
+.capbox{background:#10233A;color:#F2F7F7}.warnl{background:#3A1714}
+table.gantt td.g{border-bottom-color:#1C2B30} table.gantt .mon{border-left-color:#2E434A}
+table.gantt tr.gsec td{background:#141F23;color:#5FB7B5}
+table.gantt tr.gsum td{background:#141F23;color:#F2F7F7}
+table.gantt tr.gcap td,table.gantt tr.gcap td.l{background:#10233A;color:#8DB9EA}
+table.gantt tr.gneed td,table.gantt tr.gneed td.l{background:#3A1714;color:#F07264;border-top-color:#F07264}
+.a-need{background:#3A1714;color:#F07264}
+.s-dep,.legend i.s-dep,.idx i.s-dep{background:#4A8FD8}.s-mmf,.legend i.s-mmf,.idx i.s-mmf{background:#5C6B70}.s-bok,.idx i.s-bok{background:#8DB9EA}
+.s-need{background:#3A1714}.stk i{border-top-color:#0F181B}
+.legend i.needk{background:#3A1714}
+.snote{color:#B8C8CB}.snote b{color:#F2F7F7}
+table.gantt td.a-cp,table.gantt td.a-mz,table.gantt td.a-hb,table.gantt td.b-rev{color:#0B1A2E;font-weight:700}
+/*DARK-END*/
+</style></head><body><div id="root"></div><script id="state" type="application/json">__STATE__<\/script><script id="engine">// IMA G2 계산 엔진 — 엑셀 IMA_G2_Back_data_v7 G2 시트와 동일 로직
+const NBof = S => Math.max(1, Math.ceil(S.T / 3 - 1e-9));          // 구간 수 = 운용기간/3 (남은 기간이면 가변)
+const BL = (S, i) => Math.max(0, Math.min(3, S.T - i * 3));             // 구간 길이 (마지막 구간은 부분 개월)
+const isLiq = a => a.type === 'MMF' || a.liq;                           // 유동성(MMF·PIMCO 등): 운용기간 내내 보유
+const STATUSES = ['기표완료', '승인완료/인출대기', 'RMSC일정확정', '검토 중', '발굴필요'];
+const CONFIRMED = s => s === '기표완료' || s === '승인완료/인출대기' || s === 'RMSC일정확정';
+
+// 인출일 → 인출 전 대기(개월, 일할), 보유 = 청산 시점 − 대기
+const MS_M = 86400000 * 365 / 12;
+function monthsFrom(start, d) { const a = Date.parse(start), b = Date.parse(d); return isNaN(a) || isNaN(b) ? 0 : (b - a) / MS_M; }
+function effAssets(S) {
+  return S.assets.map(a => {
+    if (isLiq(a)) return Object.assign({}, a, { wait: 0, hold: S.T });
+    const wait = Math.max(0, Math.min(S.T, monthsFrom(S.start, a.draw)));
+    const exit = Math.min(S.T, Math.max(0, +a.exit || 0));
+    return Object.assign({}, a, { wait, hold: Math.max(0, exit - wait) });
+  });
+}
+// 자산 한 행의 구간별 수익 (rateKey: rate | worst | best)
+function rowIncome(a, rk, S) {
+  const m = S.mmf, out = [];
+  const r = isLiq(a) ? a.rate : (a[rk] == null ? a.rate : a[rk]);
+  const NB = NBof(S);
+  const exitB = Math.max(0, Math.ceil((a.wait + a.hold) / 3 - 1e-9) - 1); // 청산 구간 index
+  for (let i = 0; i < NB; i++) {
+    const len = BL(S, i), st = i * 3, end = st + len;
+    const am = Math.max(0, Math.min(end, a.wait + a.hold) - Math.max(st, a.wait));
+    if (a.eb) {
+      // EB: 보유 중 0, 청산 구간에 금액×수익률×운용기간(년) 일시 인식, 이후 MMF
+      if (i < exitB) out.push(a.amt * m * (len - am) / 12);
+      else if (i === exitB) out.push(a.amt * r * (S.T / 12));
+      else out.push(a.amt * m * len / 12);
+    } else {
+      out.push(a.amt * (r * am + m * (len - am)) / 12);
+    }
+  }
+  return out;
+}
+
+function calc(S) {
+  const A = effAssets(S);
+  const aum = A.reduce((s, a) => s + a.amt, 0);
+  const yrs = S.T / 12;
+  const tables = {};
+  ['rate', 'worst', 'best'].forEach(rk => {
+    const rows = A.map(a => rowIncome(a, rk, S));
+    const tot = Array.from({ length: NBof(S) }, (_, i) => rows.reduce((s, r) => s + r[i], 0));
+    const total = tot.reduce((s, v) => s + v, 0);
+    tables[rk] = { rows, tot, total, gross: total / aum / yrs };
+  });
+  // 시나리오 가감: 브릿지 CP(대기자금 운용), 프로젝트 편입 반영
+  const slotOf = id => A.find(a => a.id === id);
+  let bridgeAdd = 0, projAdd = 0;
+  const fillsBySlot = {};
+  const D = s => Date.parse(s);
+  const slotDrawTs = A.filter(a => a.status === '발굴필요' && !isLiq(a)).map(a => D(a.draw)).filter(x => !isNaN(x));
+  const fundEnd = D(S.start) + S.T * MS_M;
+  S.fills.forEach(f => {
+    if (f.kind === 'project') { const sl = slotOf(f.slot); f._add = f.apply && sl ? f.amt * (f.rate - sl.rate) * sl.hold / 12 : 0; projAdd += f._add; return; }
+    // 브릿지: 펀드 미운용 자금을 MMF 대신 굴린 것. 브릿지 기간 전체에 (금리 − MMF)
+    const a0 = Math.max(D(f.draw), D(S.start)), a1 = Math.min(D(f.end), fundEnd);
+    const months = isNaN(a0) || isNaN(a1) ? 0 : Math.max(0, a1 - a0) / MS_M;
+    f._add = f.amt * (f.rate - S.mmf) * months / 12;
+    f._late = slotDrawTs.some(t => D(f.draw) <= t && D(f.end) > t);   // 발굴필요 자산 인출 예정일에 아직 상환 전
+    bridgeAdd += f._add;
+  });
+  const adj = bridgeAdd + projAdd;
+  const split = g => { const net = g - S.fee, perf = Math.max(net - S.hurdle, 0);
+    return { gross: g, net, perf, firm: S.fee + perf * S.share, client: net - perf * S.share }; };
+  const scen = {};
+  ['worst', 'rate', 'best'].forEach(rk => {
+    scen[rk] = { data: split(tables[rk].gross), adj: split((tables[rk].total + adj) / aum / yrs) };
+  });
+  // 진행 현황
+  const slots = A.filter(a => a.status === '발굴필요' && !isLiq(a));
+  const slotTotal = slots.reduce((s, a) => s + a.amt, 0);
+  const proj = S.fills.filter(f => f.kind === 'project');
+  const projAll = proj.reduce((s, f) => s + f.amt, 0);
+  const projDone = proj.filter(f => CONFIRMED(f.status)).reduce((s, f) => s + f.amt, 0);
+  const byStatus = {}; STATUSES.forEach(s => byStatus[s] = 0);
+  A.forEach(a => { if (!isLiq(a)) byStatus[a.status] = (byStatus[a.status] || 0) + a.amt; });
+  const confirmed = byStatus['기표완료'] + byStatus['승인완료/인출대기'] + byStatus['RMSC일정확정'];
+  const dur = A.reduce((s, a) => s + a.amt * (+a.dur || 0), 0) / aum;
+  const overIMA = A.filter(a => (+a.dur || 0) * 12 > S.T).reduce((s, a) => s + a.amt, 0);
+  // 규제: 기업금융 70% 이상, 부동산 10% 미만, 자산-IMA 만기 듀레이션 갭 1년 이내
+  const shareOf = c => A.filter(a => a.cls === c).reduce((s, a) => s + a.amt, 0) / aum;
+  const corp = shareOf('기업금융'), re = shareOf('부동산'), imaDur = S.T / 12, gap = Math.abs(dur - imaDur);
+  const reg = { corp, corpOk: corp >= 0.7 - 1e-9, re, reOk: re < 0.1, imaDur, gap, gapOk: gap <= 1 + 1e-9 };
+  const mmfRow = A.find(a => a.type === 'MMF');
+  const mmfRatio = A.filter(a => a.type === 'MMF').reduce((s, a) => s + (a.buf != null ? a.buf : a.amt), 0) / aum;
+  const slotUse = slots.map(sl => {
+    const fs = fillsBySlot[sl.id] || [];
+    const used = fs.reduce((s, f) => s + f.amt, 0);
+    return { id: sl.id, name: sl.name, amt: sl.amt, used, idle: sl.amt - used, over: used > sl.amt + 1e-9, fills: fs };
+  });
+  // 주 단위 미운용 자금: 모집금액 − 인출된 자산 − MMF − 승인완료 브릿지
+  const DD = x => Date.parse(x), WK = 7 * 864e5, st0 = DD(S.start);
+  const live = (a, t) => DD(a.draw) <= t && !(a.exitd && DD(a.exitd) <= t);   // 인출 후 청산(만기·조기상환) 전
+  const mmfBuf = A.filter(a => a.type === 'MMF').reduce((s, a) => s + (a.buf != null ? a.buf : a.amt), 0);
+  let last = st0;
+  A.forEach(a => { if (DD(a.draw) > last) last = DD(a.draw); });
+  S.fills.forEach(f => { if (DD(f.end) > last) last = DD(f.end); });
+  const nW = Math.min(30, Math.max(4, Math.ceil((last - st0) / WK) + 2));
+  const weeks = Array.from({ length: nW }, (_, i) => {
+    const w0 = st0 + i * WK, t = w0 + WK - 864e5;            // 주 마지막 날 기준
+    const isSlot = a => a.status === '발굴필요' && !isLiq(a);
+    const deployed = A.filter(a => !isLiq(a) && live(a, t)).reduce((s, a) => s + a.amt, 0);
+    const fixedDep = A.filter(a => !isLiq(a) && !isSlot(a) && live(a, t)).reduce((s, a) => s + a.amt, 0);
+    const mmf = mmfBuf;
+    const act = f => DD(f.draw) <= t && DD(f.end) > t;
+    const bOk = S.fills.filter(f => act(f) && CONFIRMED(f.status)).reduce((s, f) => s + f.amt, 0);
+    const bRev = S.fills.filter(f => act(f) && !CONFIRMED(f.status)).reduce((s, f) => s + f.amt, 0);
+    const cap = (S.raise || aum) - fixedDep - mmf - bOk;          // 발굴필요 자산(프로젝트) 인출 가능 금액
+    return { w0, t, deployed, mmf, bOk, bRev, cap, need: (S.raise || aum) - deployed - mmf - bOk };
+  });
+  const lastSlotDraw = Math.max(...A.filter(a => a.status === '발굴필요' && !isLiq(a)).map(a => DD(a.draw)).filter(x => !isNaN(x)), st0);
+  const pre = weeks.filter(w => w.t < lastSlotDraw);
+  const peak = pre.reduce((m, w) => w.need > m.need ? w : m, pre[0] || weeks[0]);
+  const cpNow = weeks[0] ? weeks[0].need : 0;
+  // 프로젝트 인출 가능 금액: 날짜별 (모집 − 확정·검토 중 자산 − MMF − 상환 전 승인 브릿지)
+  const slotAmt = A.filter(a => a.status === '발굴필요' && !isLiq(a)).reduce((s, a) => s + a.amt, 0);
+  const capAt = ts => { const fixed = A.filter(a => !isLiq(a) && !(a.status === '발굴필요') && live(a, ts)).reduce((s, a) => s + a.amt, 0);
+    const b = S.fills.filter(f => f.kind !== 'project' && CONFIRMED(f.status) && DD(f.draw) <= ts && DD(f.end) > ts).reduce((s, f) => s + f.amt, 0);
+    return (S.raise || aum) - fixed - mmfBuf - b; };
+  const capDates = [...new Set(A.filter(a => a.status === '발굴필요' && !isLiq(a)).map(a => a.draw).filter(Boolean))].map(d => ({ date: d, cap: capAt(DD(d)) }));
+  const fullCands = [DD(S.start), ...S.fills.map(f => DD(f.end)), ...A.map(a => DD(a.draw))].filter(x => !isNaN(x)).sort((a, b) => a - b);
+  const fullTs = fullCands.find(ts => ts >= Math.max(...slotDrawTs, DD(S.start)) && capAt(ts) >= slotAmt - 1e-9);
+  // CP 발행 가능 금액: 향후 3개월간 일별 미운용 자금(발굴필요 자산 제외)의 최저치
+  const t0 = Math.max(DD(S.start), DD(S.asOf) || 0);   // 기준일 고정 (파일 기준일과 같은 결과)
+  let cpMin = Infinity, cpMinDay = t0;
+  for (let ts = t0; ts < t0 + 3 * MS_M; ts += 864e5) { const v = capAt(ts); if (v < cpMin) { cpMin = v; cpMinDay = ts; } }
+  return { A, aum, yrs, tables, weeks, slotAmt, cpMin, cpMinDay, cpFrom: t0, capDates, fullDate: fullTs ? new Date(fullTs).toISOString().slice(0, 10) : null, cpPeak: peak, cpNow, bridgeAdd, projAdd, adj, scen, slotTotal, projAll, projDone,
+    projNeed: slotTotal - projAll, projNeedStrict: slotTotal - projDone, byStatus, confirmed,
+    dur, overIMA, mmfRatio, slotUse, reg };
+}
+
+<\/script><script id="app">let S = JSON.parse(document.getElementById('state').textContent);
+const SAVED = JSON.stringify(S);
+const LIGHT = document.documentElement.dataset.theme === 'light';
+const TYPE_COL = { '인수금융': '#0057B8', '신종자본증권': '#6CA6E8', '인프라펀드': '#00A86B', '메자닌': '#B9C0CB', 'MMF': LIGHT ? '#EEF1F5' : '#162226', '대출': '#2F6DB5', 'CP': '#9CC3EE', '해외펀드': '#7B6FD0', '유동성': LIGHT ? '#E3E8EF' : '#1F2E33' };
+const DARK = new Set(['#0057B8', '#00A86B', '#2F6DB5', '#7B6FD0']);
+const NBS = () => NBof(S), BEND = i => Math.min(S.T, (i + 1) * 3);
+const mlab = i => { const v = BEND(i); return (Math.abs(v - Math.round(v)) < 0.05 ? Math.round(v) : v.toFixed(1)) + 'M'; };
+const ST_CLS = { '기표완료': 'ok', '승인완료/인출대기': 'ok', 'RMSC일정확정': 'rmsc', '검토 중': 'rev', '발굴필요': 'need' };
+const ST_SHORT = { '기표완료': '기표완료', '승인완료/인출대기': '승인완료', 'RMSC일정확정': 'RMSC 확정', '검토 중': '검토 중', '발굴필요': '발굴필요' };
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const pc = (x, d = 2) => (x * 100).toFixed(d) + '%';
+const bp = x => (x >= 0 ? '+' : '') + Math.round(x * 10000) + 'bp';
+const ek = x => (Math.round(x * 10) / 10).toLocaleString("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const mo = x => (Math.abs(x - Math.round(x)) < 0.05 ? Math.round(x) : x.toFixed(1)) + 'M';
+const won = x => Math.round(x).toLocaleString('ko-KR') + '억';
+const chip = s => s && s !== '-' ? `<span class="chip ${ST_CLS[s] || ''}">${esc(ST_SHORT[s] || s)}</span>` : '<span class="chip mute">유동성</span>';
+let TAB = 'rate';
+
+function capText(R) {
+  const parts = R.capDates.map(c => `${md(Date.parse(c.date))} ${won(Math.max(0, Math.min(c.cap, R.slotAmt)))}`);
+  if (R.fullDate && !R.capDates.some(c => c.cap >= R.slotAmt - 1e-9)) parts.push(`${md(Date.parse(R.fullDate))}~ ${won(R.slotAmt)} 전액`);
+  return parts.join(' → ') || '-';
+}
+function cpSteps(R) {
+  const out = []; let prev = null;
+  R.weeks.forEach(w => { const v = Math.round(w.need); if (v !== prev) { out.push(`${md(w.w0)}~ ${v < 0 ? '초과 ' + won(-v) : won(v)}`); prev = v; } });
+  return out.slice(0, 5).join(' → ');
+}
+function kpis(R) {
+  const b = R.scen.rate, w = R.scen.worst, be = R.scen.best, g = R.reg;
+  const conf = R.confirmed + R.mmfRatio * R.aum;
+  const ck = ok => `<span class="${ok ? 'good' : 'bad'}">${ok ? '충족' : '미충족'}</span>`;
+  const allOk = g.corpOk && g.reOk && g.gapOk;
+  return `<section class="kpis">
+  <div class="kpi"><span class="lab">기대수익률 (Base)</span><b>${pc(b.adj.gross)}</b>
+   <small>Worst ${pc(w.adj.gross)} · Best ${pc(be.adj.gross)}</small></div>
+  <div class="kpi"><span class="lab">고객 수익률 (Base)</span><b>${pc(b.adj.client)}</b>
+   <small>기준 ${pc(S.hurdle)} · 성과보수 ${pc(S.share, 0)}<br>당사 ${pc(b.adj.firm)}<br>Worst ${pc(w.adj.client)} · Best ${pc(be.adj.client)}</small></div>
+  <div class="kpi"><span class="lab">확정 비중 (MMF 포함)</span><b>${pc(conf / R.aum, 0)}</b>
+   <small class="cl"><span class="c-mmf">MMF ${won(R.mmfRatio * R.aum)}</span> · <span class="c-ok">기표완료 ${won(R.byStatus['기표완료'])}</span> · <span class="c-ok">승인완료 ${won(R.byStatus['승인완료/인출대기'])}</span> · <span class="c-rmsc">RMSC ${won(R.byStatus['RMSC일정확정'])}</span><br><span class="c-rev">검토 중 ${won(R.byStatus['검토 중'])}</span> · <span class="c-need">발굴필요 ${won(R.byStatus['발굴필요'])}</span></small>
+   <div class="stack"><i class="mmfseg" style="width:${R.mmfRatio * 100}%"></i>${['기표완료', '승인완료/인출대기', 'RMSC일정확정', '검토 중', '발굴필요'].map(s => `<i class="${ST_CLS[s]}" style="width:${R.byStatus[s] / R.aum * 100}%"></i>`).join('')}</div></div>
+  <div class="kpi alert"><span class="lab">추가 진행 필요</span>
+   <div class="two"><div><em>프로젝트</em><b>${won(R.projNeed)}</b></div><div><em>CP (3개월 내 최소)</em><b>${won(Math.max(0, R.cpMin))}</b></div></div>
+   <small>${R.slotUse.map(s => esc(s.name.replace(/ \(.*\)/, '')) + ' ' + won(s.amt)).join('<br>')}</small></div>
+  <div class="kpi ${allOk ? '' : 'alert'}"><span class="lab">규제 충족 여부</span><b class="${allOk ? '' : 'badb'}">${allOk ? '모두 충족' : '미충족 있음'}</b>
+   <small class="reg">기업금융 ${pc(g.corp, 1)} (≥70%) ${ck(g.corpOk)}<br>부동산 ${pc(g.re, 1)} (<10%) ${ck(g.reOk)}<br>듀레이션 갭 ${g.gap.toFixed(2)}년 (≤1년) ${ck(g.gapOk)}<br><span class="sub">자산 ${R.dur.toFixed(2)}년 vs IMA ${g.imaDur.toFixed(2)}년</span></small></div>
+ </section>`;
+}
+
+const md = t => { const d = new Date(t); return (d.getMonth() + 1) + '/' + d.getDate(); };
+function schedule(R) {
+  const D = x => Date.parse(x), W = R.weeks, wk = 7 * 864e5;
+  const slotDraws = R.A.filter(a => a.status === '발굴필요' && !isLiq(a)).map(a => D(a.draw));
+  const mark = i => slotDraws.some(sd => sd >= W[i].w0 && sd < W[i].w0 + wk);
+  const hc = i => (mark(i) ? ' drawc' : '') + (i > 0 && new Date(W[i].w0).getMonth() !== new Date(W[i - 1].w0).getMonth() ? ' mon' : '');
+  let h = `<table class="gantt"><tr><th class="l">구분 (금액 · 인출~만기)</th>${W.map((w, i) => `<th class="${hc(i)}">${md(w.w0)}${mark(i) ? '<em>프로젝트 인출</em>' : ''}</th>`).join('')}</tr>`;
+  const row = (label, sub, a, e, cls, amt) => {
+    let r = `<tr><td class="l">${label}<span class="gsub">${sub}</span></td>`;
+    W.forEach((w, i) => { const on = a <= w.t && (isNaN(e) || e > w.t); const first = on && (i === 0 || !(a <= W[i - 1].t && (isNaN(e) || e > W[i - 1].t)));
+      r += `<td class="g${hc(i)}${on ? ' ' + cls : ''}">${first ? won(amt) : ''}</td>`; });
+    return r + '</tr>';
+  };
+  h += `<tr class="gsec"><td class="l" colspan="${W.length + 1}">편입 자산 (인출일부터)</td></tr>`;
+  R.A.filter(a => !isLiq(a)).forEach(a => {
+    const cls = a.status === '발굴필요' ? 'a-need' : 'a-' + (a.type === '인수금융' ? 'ia' : a.type === '신종자본증권' ? 'hb' : a.type === '인프라펀드' ? 'mk' : a.type === '대출' ? 'ln' : a.type === 'CP' ? 'cp' : a.type === '해외펀드' ? 'ov' : 'mz');
+    h += row(`${chip(a.status)} ${esc(a.name)}`, `${won(a.amt)} · ${md(D(a.draw))}~${a.exitd ? md(D(a.exitd)) : ''}`, D(a.draw), a.exitd ? D(a.exitd) : NaN, cls, a.amt);
+  });
+  h += `<tr class="gsec"><td class="l" colspan="${W.length + 1}">브릿지 CP·ABSTB (대기자금 운용)</td></tr>`;
+  S.fills.forEach(f => {
+    const cls = CONFIRMEDc(f.status) ? 'b-ok' : f.status === '발굴필요' ? 'b-need' : 'b-rev';
+    h += row(`${chip(f.status)} ${esc(f.name)}`, `${won(f.amt)} · ${pc(f.rate, 2)} · ${md(D(f.draw))}~${md(D(f.end))}${f._late ? ' · <b class="bad">프로젝트 인출 예정일에 상환 전</b>' : ''}`, D(f.draw), D(f.end), cls + (f._late ? ' latef' : ''), f.amt);
+  });
+  const sumRow = (lab, fn, cls) => `<tr class="${cls}"><td class="l">${lab}</td>${W.map((w, i) => { const v = Math.round(fn(w)); return `<td class="g${hc(i)}${v < 0 ? ' over' : ''}">${v < 0 ? '−' + (-v).toLocaleString('ko-KR') : v.toLocaleString('ko-KR')}</td>`; }).join('')}</tr>`;
+  // 세로 누적 막대: 주 칸에 맞춰 정렬
+  const tops = W.map(w => w.deployed + w.mmf + w.bOk), ymax = Math.ceil(Math.max(S.raise, ...tops) * 1.1 / 500) * 500, H = 160, px = v => Math.max(0, v / ymax * H);
+  let prev = null;
+  h += `<tr class="gchart"><td class="l"><b>주별 자금 배정</b><span class="idx"><span><i class="s-dep"></i>인출 자산</span><span><i class="s-mmf"></i>유동성 MMF</span><span><i class="s-bok"></i>승인완료 브릿지</span><span><i class="s-need"></i>드라이파우더</span><span><i class="s-overk"></i>모집금액 초과</span><span><i class="s-refk"></i>모집 ${won(S.raise)}</span></span></td>`;
+  W.forEach((w, i) => {
+    const need = Math.round(w.need), tot = w.deployed + w.mmf + w.bOk;
+    const lab = need === prev ? '' : need > 0 ? won(need) : need < 0 ? '초과 ' + Math.round(-need).toLocaleString('ko-KR') : ''; prev = need;
+    const tip = `${md(w.w0)} 주 (말일 ${md(w.t)})\n인출 자산 ${won(w.deployed)}\n유동성 MMF ${won(w.mmf)}\n승인완료 브릿지 ${won(w.bOk)}${w.bRev ? '\n검토 중 브릿지 ' + won(w.bRev) + ' (차감 전)' : ''}\n${need >= 0 ? '드라이파우더(추가 CP 필요) ' + won(need) : '초과 배정 ' + won(-need)}`;
+    h += `<td class="gc${hc(i)}" title="${tip}"><div class="stk" style="height:${H}px">
+      <i class="s-dep" style="height:${px(w.deployed)}px"></i><i class="s-mmf" style="height:${px(w.mmf)}px"></i><i class="s-bok" style="height:${px(w.bOk)}px"></i>
+      ${need > 0 ? `<i class="s-need" style="height:${px(need)}px"></i>` : ''}
+      ${need < 0 ? `<b class="s-over" style="bottom:${px(S.raise)}px;height:${px(-need)}px"></b>` : ''}
+      <b class="s-ref" style="bottom:${px(S.raise)}px"></b>
+      ${lab ? `<em class="s-lab" style="bottom:${px(Math.max(tot + Math.max(need, 0), S.raise)) + 3}px">${lab}</em>` : ''}</div></td>`;
+  });
+  h += '</tr>';
+  h += sumRow(`프로젝트 인출 가능 금액 (억)`, w => w.cap, 'gcap');
+  h += sumRow(`드라이파우더 = 추가 CP 필요 (억)`, w => w.need, 'gneed');
+  return h + '</table>';
+}
+function board(R) {
+  const slots = R.A.filter(a => a.status === '발굴필요' && !isLiq(a));
+  const caps = R.capDates.map(c => { const v = Math.max(0, Math.min(c.cap, R.slotAmt)); const due = slots.filter(a => a.draw === c.date);
+    return `${md(Date.parse(c.date))} 인출 예정 ${due.map(a => esc(a.name.replace(/ \(.*\)/, '')) + ' ' + won(a.amt)).join(' + ')} 중 <b>${won(v)}</b>까지 인출 가능${v < R.slotAmt ? ` (승인완료 브릿지 ${won(R.slotAmt - v)} 미상환)` : ''}`; });
+  const note = `<div class="capbox"><b>프로젝트 인출 가능 금액</b> · 추가 발굴 ${won(R.slotAmt)} 기준<br>${caps.join('<br>')}${R.fullDate ? `<br>${md(Date.parse(R.fullDate))}부터 ${won(R.slotAmt)} 전액 인출 가능` : ''}<span class="gsub">브릿지는 특정 자리에 묶지 않고 펀드 미운용 자금을 굴리는 것으로 봅니다. 인출 가능 금액 = 모집 − 확정·검토 중 자산 − 유동성 MMF − 상환 전 승인완료 브릿지.</span></div>`;
+  return `<section class="card"><h2>배분 현황 <small>운용 개시 ${esc(S.start)} 기준 · 기초자산 인출일을 바꾸면 대기·보유기간과 막대가 다시 계산됩니다 · 대기·청산 후는 MMF ${pc(S.mmf, 1)}</small></h2>
+  <div class="scroll">${layout(R)}</div>
+  <h3>자금 운용 일정과 드라이파우더 (주 단위, 각 주 마지막 날 기준)</h3>
+  <div class="legend"><span><i class="b-ok"></i>브릿지(승인완료)</span><span><i class="b-rev"></i>브릿지(검토 중)</span><span><i class="a-need"></i>발굴필요 자산</span><span><i class="drawl"></i>프로젝트 인출 주</span><span><i class="s-dep"></i>인출 자산</span><span><i class="s-mmf"></i>유동성 MMF</span><span><i class="needk"></i>드라이파우더</span></div>
+  <div class="scroll">${schedule(R)}</div></section>`;
+}
+function CONFIRMEDc(s) { return s === '승인완료/인출대기' || s === 'RMSC일정확정'; }
+
+function layout(R) {
+  let h = `<table class="lay"><tr><th class="l">구분</th><th>진행</th><th>기대수익률<br>(Base)</th><th>비중</th><th>금액(억)</th><th>인출 전<br>대기</th><th>보유<br>기간</th>${Array.from({ length: NBS() }, (_, i) => `<th class="${i === 0 ? 'b0' : ''}">${mlab(i)}</th>`).join('')}</tr>`;
+  R.A.forEach((a, j) => {
+    h += `<tr><td class="l">${esc(a.name)}</td><td>${chip(a.status)}</td><td class="k">${pc(a.rate, 1)}</td><td>${pc(a.amt / R.aum, 1)}</td><td class="k">${(+a.amt).toLocaleString('ko-KR', { maximumFractionDigits: 1 })}</td><td>${isLiq(a) ? '0M' : mo(a.wait)}</td><td>${mo(a.hold)}</td>`;
+    const exitB = Math.max(0, Math.ceil((a.wait + a.hold) / 3 - 1e-9) - 1);
+    let i = 0;
+    while (i < NBS()) {
+      const st = i * 3, end = BEND(i), am = Math.max(0, Math.min(end, a.wait + a.hold) - Math.max(st, a.wait));
+      const inAsset = isLiq(a) || am >= Math.min(1.5, (end - st) / 2);
+      const cls = i === 0 ? ' b0' : '';
+      if (a.eb && inAsset && i <= exitB) {          // EB: 보유~청산 구간을 하나로 병합
+        const span = exitB - i + 1;
+        h += `<td colspan="${span}" class="bar${cls}" style="background:${TYPE_COL[a.type]};color:#1F2A44"><b>IRR ${pc(a.rate, 0)}</b></td>`;
+        i += span; continue;
+      }
+      const col = inAsset ? (TYPE_COL[a.type] || '#C9D1DC') : TYPE_COL.MMF;
+      const txt = inAsset ? pc(a.rate, 1) : pc(S.mmf, 1);
+      const fg = DARK.has(col) ? '#fff' : (inAsset && !isLiq(a) ? '#0B1A2E' : (LIGHT ? '#7A8696' : '#8A9DA2'));
+      h += `<td class="bar${cls}" style="background:${col};color:${fg};${inAsset && !isLiq(a) ? 'font-weight:700' : ''}">${txt}</td>`;
+      i++;
+    }
+    h += '</tr>';
+  });
+  h += `<tr class="gross"><td class="l">계 / Gross 수익률 (연환산)</td><td></td><td>${pc(R.tables.rate.gross)}</td><td>100.0%</td><td>${R.aum.toLocaleString('ko-KR', { maximumFractionDigits: 1 })}</td><td></td><td></td>${R.tables.rate.tot.map((v, i) => `<td class="${i === 0 ? 'b0' : ''}">${pc(v / R.aum * 12 / Math.max(1e-9, BEND(i) - i * 3), 1)}</td>`).join('')}</tr></table>`;
+  return h;
+}
+
+function analysis(R) {
+  const rows = [['기대수익률', 'gross', 1], ['보수', null, 0], ['보수 차감 후', 'net', 0], ['기준수익률', 'h', 0], ['성과분배대상', 'perf', 0], ['당사 수익률', 'firm', 1], ['고객 수익률', 'client', 1]];
+  const cell = (o, k) => k === null ? pc(S.fee) : k === 'h' ? pc(S.hurdle) : pc(o[k]);
+  const showAdj = Math.abs(R.adj) > 1e-9;
+  let t = `<tr><th class="l">구분</th><th>Worst</th><th>Base</th><th>Best</th>${showAdj ? '<th class="adjh">Base<br>시나리오</th>' : ''}</tr>`;
+  rows.forEach(([lab, k, b]) => {
+    t += `<tr class="${b ? 'bold' : ''}"><td class="l">${lab}</td>${['worst', 'rate', 'best'].map(s => `<td class="n">${cell(R.scen[s].data, k)}</td>`).join('')}${showAdj ? `<td class="n adj">${cell(R.scen.rate.adj, k)}</td>` : ''}</tr>`;
+  });
+  const parts = [];
+  if (R.bridgeAdd) parts.push(`브릿지 CP ${R.bridgeAdd >= 0 ? '+' : ''}${ek(R.bridgeAdd)}억`);
+  if (R.projAdd) parts.push(`프로젝트 반영 ${R.projAdd >= 0 ? '+' : ''}${ek(R.projAdd)}억`);
+  return `<section class="card"><h2>수익률 분석</h2><div class="scroll"><table class="ana">${t}</table></div>
+  <div class="muted">Worst·Base·Best는 메자닌(CB·EB) 수익률 가정만 다릅니다.${showAdj ? ` 시나리오 열은 ${parts.join(', ')}을 Base에 더한 값입니다.` : ''} 운용규모 ${won(R.aum)}, ${(+S.T).toFixed(1)}개월.</div></section>`;
+}
+
+function income(R) {
+  const T = R.tables[TAB];
+  let t = `<tr><th class="l">구분</th>${Array.from({ length: NBS() }, (_, i) => `<th>${mlab(i)}</th>`).join('')}<th>계</th></tr>`;
+  R.A.forEach((a, j) => { const r = T.rows[j]; t += `<tr><td class="l">${esc(a.name)}</td>${r.map(v => `<td class="n">${ek(v)}</td>`).join('')}<td class="n b">${ek(r.reduce((x, y) => x + y, 0))}</td></tr>`; });
+  t += `<tr class="tot"><td class="l">계</td>${T.tot.map(v => `<td class="n">${ek(v)}</td>`).join('')}<td class="n">${ek(T.total)}</td></tr>`;
+  const tb = [['worst', 'Worst'], ['rate', 'Base'], ['best', 'Best']].map(([k, l]) => `<button class="seg ${TAB === k ? 'on' : ''}" data-tab="${k}">${l}</button>`).join('');
+  return `<section class="card"><h2>수익추정 (억원) <span class="segs">${tb}</span></h2><div class="scroll"><table class="inc">${t}</table></div>
+  <div class="muted">Gross ${pc(T.gross)} = 수익 계 ${ek(T.total)}억 ÷ ${won(R.aum)} ÷ ${(+R.yrs).toFixed(2)}년</div></section>`;
+}
+
+function inputs() {
+  const sel = (v, path) => `<select data-p="${path}">${['기표완료', '승인완료/인출대기', 'RMSC일정확정', '검토 중', '발굴필요'].map(s => `<option ${s === v ? 'selected' : ''}>${s}</option>`).join('')}</select>`;
+  const num = (v, path, step, w) => `<input type="number" data-p="${path}" value="${v}" step="${step}" style="width:${w || 64}px">`;
+  const pct = (v, path) => `<input type="number" data-p="${path}" data-pct="1" value="${+(v * 100).toFixed(3)}" step="0.1" style="width:60px">`;
+  const txt = (v, path, w) => `<input type="text" data-p="${path}" value="${esc(v)}" style="width:${w || 150}px">`;
+  const ar = S.assets.map((a, i) => `<tr><td class="l">${txt(a.name, `assets.${i}.name`, 170)}</td><td>${isLiq(a) ? esc(a.type) : `<select data-p="assets.${i}.type">${['인수금융', '신종자본증권', '대출', 'CP', '메자닌', '인프라펀드', '해외펀드'].map(t => `<option value="${t}" ${t === a.type ? 'selected' : ''}>${t === '메자닌' ? '메자닌(EB)' : t}</option>`).join('')}</select>`}</td><td>${isLiq(a) ? '-' : sel(a.status, `assets.${i}.status`)}</td><td>${num(a.amt, `assets.${i}.amt`, 10)}</td><td>${pct(a.rate, `assets.${i}.rate`)}</td><td>${isLiq(a) ? '-' : pct(a.worst, `assets.${i}.worst`)}</td><td>${isLiq(a) ? '-' : pct(a.best, `assets.${i}.best`)}</td><td>${isLiq(a) ? '-' : `<input type="date" data-p="assets.${i}.draw" value="${esc(a.draw)}">`}</td><td>${isLiq(a) ? '-' : `<input type="text" data-p="assets.${i}.mat" value="${esc(a.mat === '' || a.mat == null ? '-' : a.mat)}" style="width:44px" aria-label="${esc(a.name)} 만기(년)">`}</td><td>${isLiq(a) ? (+S.T).toFixed(1) : num(a.exit, `assets.${i}.exit`, 1, 48)}</td><td><select data-p="assets.${i}.cls">${['기업금융', '부동산', '기타'].map(c => `<option ${c === a.cls ? 'selected' : ''}>${c}</option>`).join('')}</select></td><td>${num(a.dur, `assets.${i}.dur`, 0.25, 56)}</td><td>${isLiq(a) ? '' : `<button class="x" data-delasset="${i}" aria-label="${esc(a.name)} 삭제">삭제</button>`}</td></tr>`).join('');
+  const sumAmt = S.assets.reduce((x, a) => x + (+a.amt || 0), 0), okRaise = Math.abs(sumAmt - S.raise) < 1e-6;
+  const totRow = `<tr class="tot"><td class="l">계</td><td></td><td></td><td class="n">${sumAmt.toLocaleString('ko-KR')}</td><td colspan="9" style="text-align:left">${okRaise ? `<span class="good">모집금액 ${S.raise.toLocaleString('ko-KR')}억과 일치</span>` : `<span class="bad">모집금액 ${S.raise.toLocaleString('ko-KR')}억과 ${(sumAmt - S.raise > 0 ? '+' : '') + (sumAmt - S.raise).toLocaleString('ko-KR')}억 차이</span>`}</td></tr>`;
+  const slotOpt = v => `<select data-p="SLOT">${S.assets.filter(a => a.status === '발굴필요' && a.type !== 'MMF').map(a => `<option value="${a.id}" ${a.id === v ? 'selected' : ''}>${esc(a.name)}</option>`).join('')}</select>`;
+  const fr = S.fills.map((f, i) => `<tr><td class="l">${txt(f.name, `fills.${i}.name`, 170)}</td><td>${sel(f.status, `fills.${i}.status`)}</td><td>${num(f.amt, `fills.${i}.amt`, 10)}</td><td>${pct(f.rate, `fills.${i}.rate`)}</td><td><input type="date" data-p="fills.${i}.draw" value="${esc(f.draw)}"></td><td><input type="date" data-p="fills.${i}.end" value="${esc(f.end)}"></td><td><button class="x" data-del="${i}" aria-label="${esc(f.name)} 삭제">삭제</button></td></tr>`).join('');
+  return `<section class="card"><h2>가정 입력</h2>
+  <div class="grid">
+   <label>MMF 수익률(%)${pct(S.mmf, 'mmf')}</label><label>보수(%)${pct(S.fee, 'fee')}</label><label>기준수익률(%)${pct(S.hurdle, 'hurdle')}</label><label>성과배분율(%)${pct(S.share, 'share')}</label>
+   <label>모집금액(억원)<input type="number" data-p="raise" value="${S.raise}" step="100"></label>
+   <label>운용 개시일<input type="date" data-p="start" value="${esc(S.start)}"></label>
+  </div>
+  <h3>브릿지 CP·ABSTB (미운용 자금 단기 운용)</h3>
+  <div class="scroll"><table class="edit"><tr><th class="l">이름</th><th>진행</th><th>금액</th><th>금리(%)</th><th>인출일</th><th>만기일</th><th></th></tr>${fr}</table></div>
+  <div class="row"><button class="btn ghost" id="addfill">+ 브릿지 추가</button></div>
+  <h3>기초자산</h3>
+  <div class="scroll"><table class="edit"><tr><th class="l">자산</th><th>유형</th><th>진행</th><th>금액</th><th>Base(%)</th><th>Worst(%)</th><th>Best(%)</th><th>인출일</th><th>만기(Y)</th><th>청산 시점(M)</th><th>자산 분류</th><th>듀레이션(년)</th><th></th></tr>${ar}${totRow}</table></div>
+  <div class="row"><button class="btn ghost" id="addasset">+ 기초자산 추가</button></div>
+  <div class="row"><button class="btn ghost" id="reset">Master 값으로 되돌리기</button></div>
+  <div class="muted">여기서 고친 값은 이 화면에서만 계산되고 저장되지 않습니다 (새로고침하면 Master 값으로 돌아감).</div></section>`;
+}
+
+function agent() {
+  return `<section class="card" id="agent"><h2>AI 에이전트</h2>
+  <div class="chips">
+   <button data-q="현대건설 PF대출 ABSTB(3M 4.2%, 12/7 인출)를 인수금융 자리에 50억 넣는 경우와 100억 넣는 경우 수익률과 추가 CP 필요 금액을 비교해줘.">현대건설 ABSTB 50 vs 100</button>
+   <button data-q="인수금융 대기자금을 MMF 3% 대신 코오롱인더스트리 CP 3.8%와 한화카드대금채권 4.2%로 굴리면 수익률 변화는?">대기자금 CP 운용 효과</button>
+   <button data-q="한화 카드대금채권 ABSTB 상환(2/26)을 감안하면 추가 EB와 인수금융을 1/31과 2/26 이후에 각각 얼마씩 인출할 수 있어? 배분안과 수익률 영향을 알려줘.">EB·인수금융 인출 배분</button>
+   <button data-q="추가 EB와 인수금융 인출일이 6개월 늦어지면 수익률은 얼마나 빠져?">인출 6개월 지연</button>
+   <button data-q="12월 기표 신종자본증권 인출이 한 달 밀리면?">12월 신종 1개월 지연</button>
+   <button data-q="지금 추가로 진행해야 하는 프로젝트와 CP 금액을 자리별로 요약해줘">남은 할 일 요약</button></div>
+  <div id="chat"></div>
+  <form class="ask" id="askf"><input id="q" placeholder="예: 추가 CP 123억을 4.5%로 하면?" aria-label="에이전트에게 질문"><button class="btn" type="submit">보내기</button></form>
+  <div class="muted" id="aist"></div></section>`;
+}
+
+function render() {
+  const R = calc(S);
+  document.getElementById('root').innerHTML = `
+  <header><div><h1>IMA ${esc(S.name || 'G2')} 포트폴리오</h1><small>기준일 ${esc(S.asOf)}${S.saved ? ' · ' + esc(S.saved) : ''}</small></div><small>운용규모 ${won(R.aum)}${Math.abs(R.aum - S.raise) > 1e-6 ? ` <b style="color:#FF9AA8">(모집 ${won(S.raise)}과 불일치)</b>` : ''} · ${(+S.T).toFixed(1)}개월</small></header>
+  <main>${S.note ? `<details class="card snote"><summary><b>계산 기준·가정</b> (Master 기준일 스냅샷 · 눌러서 펼치기)</summary><div style="margin-top:8px">${S.note}</div></details>` : ''}${kpis(R)}${board(R)}${analysis(R)}${income(R)}${inputs()}</main>`;
+  bind(); try { parent.postMessage({ g2h: document.documentElement.scrollHeight }, '*'); } catch (e) {}
+}
+
+function setPath(path, raw, el) {
+  const p = path.split('.'); let o = S;
+  for (let i = 0; i < p.length - 1; i++) o = o[p[i]];
+  const k = p[p.length - 1];
+  let v;
+  if (el && el.type === 'checkbox') v = el.checked;
+  else if (el && el.type === 'number') { v = parseFloat(raw); if (isNaN(v)) return; if (el.dataset.pct) v = v / 100; }
+  else v = raw;
+  if (k === 'mat') { const n = parseFloat(raw); v = isNaN(n) ? '' : n; }
+  o[k] = v;
+  if (k === 'type') o.eb = v === '메자닌';
+}
+function bind() {
+  document.querySelectorAll('[data-p]').forEach(el => el.addEventListener('change', () => { setPath(el.dataset.p, el.value, el); render(); }));
+  document.querySelectorAll('[data-delasset]').forEach(b => b.onclick = () => { S.assets.splice(+b.dataset.delasset, 1); render(); });
+  document.getElementById('addasset').onclick = () => { S.assets.push({ id: 'a' + Date.now(), name: '신규 자산', type: '인수금융', status: '검토 중', rate: 0.06, worst: 0.06, best: 0.06, amt: 0, eb: false, draw: S.start, mat: 3, exit: 27, cls: '기업금융', dur: 3 }); render(); };
+  document.querySelectorAll('[data-del]').forEach(b => b.onclick = () => { S.fills.splice(+b.dataset.del, 1); render(); });
+  document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { TAB = b.dataset.tab; render(); });
+  document.getElementById('addfill').onclick = () => { const sl = S.assets.find(a => a.status === '발굴필요' && a.type !== 'MMF') || {}; S.fills.push({ id: 'f' + Date.now(), kind: 'bridge', name: '신규 CP', amt: 50, rate: 0.04, draw: S.start, end: sl.draw || S.start, status: '검토 중' }); render(); };
+  document.getElementById('reset').onclick = () => { S = JSON.parse(SAVED); render(); };
+}
+
+render();
+<\/script></body></html></script>
 <script type="application/json" id="embedded-enc"></script>
 <script>
 const XR = (() => {
@@ -692,6 +1261,21 @@ const XR = (() => {
 
 
 const APP = (() => {
+  // 화면 모드 (다크/라이트): SVG 차트 색은 이 값으로 그림. 선택은 이 브라우저에 기억
+  const TCS = {
+    dark: { ink: '#F2F7F7', ink2: '#B8C8CB', ink3: '#8A9DA2', line: '#1C2B30', line2: '#2E434A', axis: '#4A6168', paper: '#0F181B', paper2: '#141F23', canvas: '#030607', hA: '#121C1F', hB: '#22323A', band: '#0B1315', neg: '#3A1714', track: '#162226', up: '#7FD6C3', dn: '#F0BE78' },
+    light: { ink: '#1F2A44', ink2: '#44506A', ink3: '#7A8696', line: '#E3E7ED', line2: '#C9D1DC', axis: '#9AA6B6', paper: '#FFFFFF', paper2: '#F1F4F8', canvas: '#F4F6F9', hA: '#FFFFFF', hB: '#DDE3EA', band: '#F4F6F9', neg: '#FDE0E5', track: '#E9EDF3', up: '#0F6E73', dn: '#B57514' } };
+  let THEME = 'dark';
+  try { THEME = localStorage.getItem('ima-theme') === 'light' ? 'light' : 'dark'; } catch (e) {}
+  let TC = TCS[THEME];
+  document.documentElement.dataset.theme = THEME;
+  function setTheme(t) {
+    THEME = t === 'light' ? 'light' : 'dark'; TC = TCS[THEME]; document.documentElement.dataset.theme = THEME;
+    try { localStorage.setItem('ima-theme', THEME); } catch (e) {}
+    document.querySelectorAll('#themesw button').forEach(b => b.classList.toggle('on', b.dataset.t === THEME));
+    if (S) { const y = window.scrollY; render(); window.scrollTo(0, y); }
+  }
+
   const SHEETS_DP = ['Dry Powder', '월별 Dry Powder', 'DP_현황판'], DASH = 'Dash Board';
   const EPOCH = Date.UTC(1899, 11, 30), DAY = 864e5;
   const toD = s => new Date(EPOCH + s * DAY);
@@ -894,22 +1478,26 @@ const APP = (() => {
     const names = new Set(S.ima.map(x => x.name)), out = { dom: {}, ovs: {}, domCats: [], ovsCats: [], items: {}, plan: {}, ok: { dom: false, ovs: false } };
     const item = (ima, o) => (out.items[ima] = out.items[ima] || []).push(o);
     const add = (bag, cats, ima, cat, v) => { cat = cat || '(빈칸)'; if (!cats.includes(cat)) cats.push(cat); (bag[ima] = bag[ima] || {})[cat] = (bag[ima][cat] || 0) + v; };
+    const optC = (sh, row, lab) => { for (let c = 1; c <= 40; c++) if (txt(sh.v(L(c) + row)) === lab) return L(c); return null; };
     if (dom) { const h = findHead(dom, { ima: 'IMA 구분', nm: '프로젝트명', cat: '대구분', st: '기표일', mt: '만기일', amt: '금액(억원)' });
+      const cR = h && optC(dom, h.row, '수익률'), cS = h && optC(dom, h.row, '중구분');
+      const ext = r => ({ rate: cR && isN(dom.v(cR + r)) ? dom.v(cR + r) : null, sub: cS ? txt(dom.v(cS + r)) : '' });
       if (h) { out.ok.dom = true; for (let r = h.row + 1; r <= dom.lastRow; r++) { const im = txt(dom.v(h.ima + r)); if (!names.has(im)) continue;
         const st = dom.v(h.st + r), mt = dom.v(h.mt + r), a = dom.v(h.amt + r);
-        if (isN(st) && st <= S.base && isN(mt) && mt > S.base && isN(a)) { add(out.dom, out.domCats, im, txt(dom.v(h.cat + r)), a); item(im, { side: '국내', name: txt(dom.v(h.nm + r)), cat: txt(dom.v(h.cat + r)) || '(빈칸)', amt: a, mat: mt }); }
-        else if (isN(st) && st > S.base && isN(mt) && isN(a)) (out.plan[im] = out.plan[im] || []).push({ name: txt(dom.v(h.nm + r)), cat: txt(dom.v(h.cat + r)), amt: a, st, mat: mt }); } } }
+        if (isN(st) && st <= S.base && isN(mt) && mt > S.base && isN(a)) { add(out.dom, out.domCats, im, txt(dom.v(h.cat + r)), a); item(im, Object.assign({ side: '국내', name: txt(dom.v(h.nm + r)), cat: txt(dom.v(h.cat + r)) || '(빈칸)', amt: a, mat: mt, st }, ext(r))); }
+        else if (isN(st) && st > S.base && isN(mt) && isN(a)) (out.plan[im] = out.plan[im] || []).push(Object.assign({ name: txt(dom.v(h.nm + r)), cat: txt(dom.v(h.cat + r)), amt: a, st, mat: mt }, ext(r))); } } }
     if (ovs) { const h = findHead(ovs, { ima: 'IMA 구분', nm: '펀드명', cat: '구분', st: '기표일자', amt: '투자잔액 (억원)' });
+      const cOR = h && optC(ovs, h.row, '수익률 (연)');
       if (h) { out.ok.ovs = true; for (let r = h.row + 1; r <= ovs.lastRow; r++) { const im = txt(ovs.v(h.ima + r)); if (!names.has(im)) continue;
         const st = ovs.v(h.st + r), a = ovs.v(h.amt + r);
-        if (isN(st) && st <= S.base && isN(a)) { add(out.ovs, out.ovsCats, im, txt(ovs.v(h.cat + r)), a); item(im, { side: '글로벌', name: txt(ovs.v(h.nm + r)), cat: txt(ovs.v(h.cat + r)) || '(빈칸)', amt: a, mat: null }); } } } }
+        if (isN(st) && st <= S.base && isN(a)) { add(out.ovs, out.ovsCats, im, txt(ovs.v(h.cat + r)), a); item(im, { side: '글로벌', name: txt(ovs.v(h.nm + r)), cat: txt(ovs.v(h.cat + r)) || '(빈칸)', amt: a, mat: null, st, rate: cOR && isN(ovs.v(cOR + r)) ? ovs.v(cOR + r) : null }); } } } }
     const order = (bag, cats) => cats.sort((x, y) => Object.values(bag).reduce((s, o) => s + (o[y] || 0), 0) - Object.values(bag).reduce((s, o) => s + (o[x] || 0), 0));
     order(out.dom, out.domCats); order(out.ovs, out.ovsCats);
     return out;
   }
 
   // ---------- 화면 ----------
-  let srcOD = null, srcNote = '', S = null, DB = {}, AL = [], INV = null, FUND = {}, mixBase = 'aum', basis = 'B', unit = 'amt', fileName = '', lastFocus = null, flowSel = '전체', flowSpan = 12;
+  let srcOD = null, srcNote = '', S = null, DB = {}, AL = [], INV = null, FUND = {}, LIQ = {}, mixBase = 'aum', basis = 'B', unit = 'amt', fileName = '', lastFocus = null, flowSel = '전체', flowSpan = 12;
   const $ = id => document.getElementById(id);
   const col = (d, key) => { const k = Object.keys(d || {}).find(x => x.replace(/\s/g, '').startsWith(key)); return k ? d[k] : null; };
   const aumOf = im => col(im.D, '운용금액');
@@ -1210,6 +1798,11 @@ const APP = (() => {
       const v = legOwn(d, l), el = tr.querySelector('.eff');
       if (el) { el.className = 'eff ' + (v == null ? '' : v >= 0 ? 'up' : 'dn'); el.textContent = v == null ? (isN(d.rate) ? '' : '금리 입력') : bpTxt(v) + 'bp'; }
       tr.classList.toggle('on', !!l.on); tr.classList.toggle('chg', !!simLeg(d, l));
+      const stEl = tr.querySelector('.st');
+      if (stEl) { const noTerm = !d.mat && !parseTerm(d.term);
+        stEl.className = 'st pill2 ' + (!isN(d.rate) ? 'amb' : d.excl && noTerm ? 'amb' : d.excl ? 'grn' : '');
+        stEl.textContent = !isN(d.rate) ? (d.excl ? '추가 발굴 · 금리·만기 입력' : '금리 입력 필요') : d.excl ? (noTerm ? '만기 입력 (비우면 M-3까지)' : '추가 발굴 · 가정 입력됨') : '';
+        stEl.hidden = !stEl.textContent; }
       const cb = tr.querySelector('input[type=checkbox]'); if (cb) cb.checked = !!l.on;
     });
     simPick();
@@ -1224,13 +1817,13 @@ const APP = (() => {
       if (mk !== mon) { mon = mk; g += `<tr class="mon"><td colspan="9">${d.date != null ? toD(d.date).getUTCFullYear() + '년 ' + (toD(d.date).getUTCMonth() + 1) + '월' : '날짜 미정 (TBD)'}</td></tr>`; }
       const dis = legDis(d, l) ? 'disabled' : '';
       const others = d.legs.filter(x => x.im !== simSel).map(x => `${x.im} ${amt(x.a)}`).join(' · ');
-      const st = l.inc ? '<span class="pill2 grn">Master 반영됨</span>' : d.date != null && d.date <= S.base ? '<span class="pill2 amb" title="기준일 이전·당일 인출 행: 이미 기표완료로 Master에 들어 있거나 날짜 오기일 수 있음">기준일 이전 날짜</span>' : d.date == null ? '<span class="pill2 mut">날짜 미정</span>' : !isN(d.rate) ? '<span class="pill2 amb">금리 입력 필요</span>' : d.excl ? '<span class="pill2 mut">목표 배정</span>' : '';
-      g += `<tr data-k="${d.row}" data-j="${j}" class="${dis ? 'off' : ''}"><td><input type="checkbox" ${l.on ? 'checked' : ''} ${dis} aria-label="${esc(simSel + ' ' + d.name)} 기표 가정"></td>` +
+      const st = l.inc ? '<span class="pill2 grn">Master 반영됨</span>' : d.date != null && d.date <= S.base ? '<span class="pill2 amb" title="기준일 이전·당일 인출 행: 이미 기표완료로 Master에 들어 있거나 날짜 오기일 수 있음">기준일 이전 날짜</span>' : d.date == null ? '<span class="pill2 mut">날짜 미정</span>' : '<span class="st"></span>';
+      g += `<tr data-k="${d.row}" data-j="${j}" class="${dis ? 'off' : ''}${d.excl && !dis ? ' goal' : ''}"><td><input type="checkbox" ${l.on ? 'checked' : ''} ${dis} aria-label="${esc(simSel + ' ' + d.name)} 기표 가정"></td>` +
         `<td class="d">${d.date != null ? fD(d.date).slice(2) : esc(d.dateTxt || '미정')}</td>` +
         `<td class="nm">${esc(d.name)} <span class="tag ${esc(d.type)}">${esc(d.type)}</span>${others ? `<div class="mut">같은 딜 다른 시리즈: ${esc(others)}</div>` : ''}</td>` +
         `<td class="r"><input class="am" inputmode="decimal" value="${+(isN(l.amt) ? l.amt : l.a).toFixed(2)}" ${dis} aria-label="금액(억)"></td>` +
-        `<td class="r"><input class="rt" inputmode="decimal" value="${isN(d.rate) ? (d.rate * 100).toFixed(2) : ''}" placeholder="%" ${dis} aria-label="금리 %"></td>` +
-        `<td class="tm"><input class="tmi" value="${esc(d.matTxt ?? (l.inc ? fD(l.inc.d1).slice(2) : (d.term || '')))}" placeholder="6M, 2Y, 27-06-30" ${dis} aria-label="기간 또는 만기일"><div class="mut mt" data-mt="${d.row}"></div></td>` +
+        `<td class="r"><input class="rt" inputmode="decimal" value="${isN(d.rate) ? (d.rate * 100).toFixed(2) : ''}" placeholder="${d.excl ? '예: 9.00' : '%'}" ${dis} aria-label="금리 %"></td>` +
+        `<td class="tm"><input class="tmi" value="${esc(d.matTxt ?? (l.inc ? fD(l.inc.d1).slice(2) : (d.term || '')))}" placeholder="${d.excl ? '예: 3Y 또는 29-12-31' : '6M, 2Y, 27-06-30'}" ${dis} aria-label="기간 또는 만기일"><div class="mut mt" data-mt="${d.row}"></div></td>` +
         `<td><span class="src">${/^pim/i.test(l.src || '') ? 'PIMCO' : 'MMF'}</span></td>` +
         `<td class="r"><span class="eff"></span></td><td>${st}</td></tr>`;
     });
@@ -1256,6 +1849,97 @@ const APP = (() => {
       <p><b>근사인 부분</b> — 해외펀드(Global)는 분배금 일정 대신 연 수익률로 계산합니다. 기간이 '2~3Y'처럼 범위면 짧은 쪽, 기간이 없으면 M-3까지 보유로 봅니다. 이자 입금이 MMF에 쌓여 생기는 추가 수익은 빼서 실제보다 아주 조금(0.1bp 안팎) 작게 나옵니다.</p>
       <p><b>검증 (11/16 Master)</b> — 인벤토리 기표예정 딜 금액·금리·만기를 바꿔 LibreOffice로 Master를 다시 계산한 값과 비교: S2 한화호텔 CP +300억 실제 +8.50bp / 계산 +8.44bp, S2 투썸 +300억 +5.66 / +5.58, S1 HD현대 EB 금리 0→5% +6.73 / +6.62, S3 CJ프레시웨이 변경 +1.91 / +2.21. S6 CJ프레시웨이 +300억은 Master +64.2bp / 계산 +1.8bp — Master '유동성' 시트의 S6 PIMCO 환매 행 USD 금액이 고정값이라 PIMCO 수익 감소가 Master에 반영되지 않기 때문 (Master 확인 필요).</p>`;
   }
+
+  // ---------- 시리즈 대시보드: Master → 시리즈별 state ----------
+  const MEZZ = /메자닌|전환사채|교환사채|\bEB\b|\bCB\b|EB\(|CB\)|영구 ?CB/i;
+  function g2Kind(name, cat, sub) {
+    if (MEZZ.test(sub || '') || MEZZ.test(name || '')) return '메자닌';
+    if (cat === '인수금융') return '인수금융';
+    if (/^신종/.test(sub || '') || /신종자본/.test(name || '')) return '신종자본증권';
+    if (/CP|ABCP|ABSTB|전단채|STB/i.test(sub || '') || /\bCP\b|ABCP|ABSTB|전단채|CP \(/i.test(name || '')) return 'CP';
+    return '대출';
+  }
+  const g2Cls = cat => cat === '부동산' ? '부동산' : (cat === '기업금융' || cat === '인수금융') ? '기업금융' : '기타';
+  const plainNm = t => String(t || '').replace(/[\s()（）·,]/g, '');
+  function g2State(X) {
+    const P = FUND[X]; if (!P) return null;
+    const base = S.base, iso = fD, mon = d => (d - base) / (365 / 12);
+    const T = Math.max(1, mon(P.mat)), cashM = Math.min(T, Math.max(0, mon(P.cash)));
+    const L0 = LIQ[X] || {}, mmf = isN(P.mmf) ? P.mmf : 0.027, notes = [];
+    const EBW = 0, EBB = 0.10, EBX = 0.15;
+    const assets = [], mmfRow = { id: 'mmf', name: 'MMF (실측)', type: 'MMF', status: '-', rate: mmf, worst: mmf, best: mmf, amt: L0.mmf || 0, buf: isN(L0.buf) ? L0.buf : (L0.mmf || 0), eb: false, draw: '', mat: '', dur: 0, exit: T, cls: '기타' };
+    const pimRow = { id: 'pim', name: '유동성펀드 (PIMCO 등)', type: '유동성', liq: true, status: '-', rate: 0.05, worst: 0.05, best: 0.05, amt: L0.pim || 0, eb: false, draw: '', mat: '', dur: 0, exit: T, cls: '기타' };
+    assets.push(mmfRow); if (pimRow.amt) assets.push(pimRow);
+    const mk = (o, rate, kind) => { const eb = kind === '메자닌';
+      return Object.assign(o, { type: kind, eb, rate: eb ? EBB : (isN(rate) ? rate : mmf), worst: eb ? EBW : (isN(rate) ? rate : mmf), best: eb ? EBX : (isN(rate) ? rate : mmf),
+        mrate: rate }); };
+    // 조기상환: 배분 시트 음수(상환) 행 중 보유 딜과 이름 앞 4글자가 같은 것
+    const early = [];
+    AL.forEach(r => { const v = r.amts[X]; if (!(v < 0) || /맞추기/.test(r.name) || r.excl || r.date == null || r.date <= base) return; early.push({ key: plainNm(r.name).slice(0, 4), date: r.date, name: r.name, amt: -v }); });
+    // ① 기준일 보유: 국내
+    (INV && INV.items[X] || []).forEach((x, i) => {
+      const id = 'h' + i, kind = x.side === '국내' ? g2Kind(x.name, x.cat, x.sub) : '해외펀드';
+      let end = x.side === '국내' ? x.mat : null;
+      const e = x.side === '국내' && early.find(q => plainNm(x.name).startsWith(q.key) && (!end || q.date < end));
+      if (e) { end = e.date; e.used = true; }
+      const ex = end != null && end < P.cash ? end : P.cash;
+      const a = { id, name: x.name + (e ? ` (조기상환 ${fD(e.date).slice(5)})` : ''), status: '기표완료', amt: x.amt, draw: iso(base), mat: '', exit: Math.min(T, Math.max(0, mon(ex))), exitd: ex < P.cash ? iso(ex) : '',
+        cls: x.side === '국내' ? g2Cls(x.cat) : '기타', dur: kind === '메자닌' ? 0.02 : x.side === '국내' && isN(x.mat) ? Math.max(0, (x.mat - base) / 365) : 0.25, src: x.side };
+      assets.push(mk(a, x.rate, kind));
+    });
+    early.filter(q => !q.used).forEach(q => notes.push(`배분 시트 상환 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)})은 보유 딜과 이름이 맞지 않아 반영하지 않음`));
+    // ② Master 기표예정 (IMA 시트 기표예정 목록) → 승인완료
+    const fund = (a, src) => { if (/^pim/i.test(src || '') && pimRow.amt) pimRow.amt -= a.amt; else mmfRow.amt -= a.amt; };
+    (P.plan || []).forEach((x, i) => {
+      if (!(x.d0 > base)) return;
+      const ip = (INV && INV.plan[X] || []).find(q => plainNm(q.name) === plainNm(x.name)) || {};
+      const kind = g2Kind(x.name, ip.cat, ip.sub), end = x.d1 && x.d1 < P.cash ? x.d1 : P.cash;
+      const leg = SIM && SIM.deals.flatMap(d => d.legs.filter(l => l.im === X && l.inc === x)).find(Boolean);
+      const a = { id: 'p' + i, name: x.name, status: '승인완료/인출대기', amt: x.amt, draw: iso(x.d0), mat: x.d1 ? +(((x.d1 - x.d0) / 365).toFixed(1)) : '', exit: Math.min(T, Math.max(0, mon(end))), exitd: end < P.cash ? iso(end) : '',
+        cls: g2Cls(ip.cat), dur: kind === '메자닌' ? 0.02 : x.d1 ? (x.d1 - x.d0) / 365 : 0 };
+      assets.push(mk(a, x.rate, kind)); fund(a, leg ? leg.src : '');
+    });
+    // ③ 배분 시트 새 딜 → 검토 중 / 추가 발굴 → 발굴필요
+    let skipped = 0;
+    (SIM ? SIM.deals : []).forEach(d => d.legs.forEach(l => {
+      if (l.im !== X || l.inc) return;
+      if (d.date == null || d.date <= base) { skipped++; return; }
+      const tm = termMon(d.term), end0 = tm ? edate(d.date, tm) : null, end = end0 && end0 < P.cash ? end0 : P.cash;
+      const kind = d.type === 'Mez' ? '메자닌' : g2Kind(d.name, '', d.type === 'Global' ? '' : '');
+      const a = { id: 'n' + d.row, name: d.name, status: d.excl ? '발굴필요' : '검토 중', amt: l.a, draw: iso(d.date), mat: tm ? +(tm / 12).toFixed(2) : '', exit: Math.min(T, Math.max(0, mon(end))), exitd: end < P.cash ? iso(end) : '',
+        cls: d.type === 'Global' ? '기타' : /PF/.test(d.name) ? '부동산' : '기업금융', dur: kind === '메자닌' ? 0.02 : tm ? tm / 12 : Math.max(0, (P.cash - d.date) / 365) };
+      if (d.type === 'Global') a.type = '해외펀드';
+      assets.push(mk(a, d.rate0, d.type === 'Global' ? '해외펀드' : kind));
+      if (!isN(d.rate0) && kind !== '메자닌') notes.push(`「${esc(d.name)}」 금리 미입력 → MMF ${pct(mmf, 1)}로 계산 (아래 가정 입력에서 수정)`);
+      fund(a, l.src);
+    }));
+    if (skipped) notes.push(`배분 시트에서 기준일 이전 날짜이거나 날짜 미정(TBD)인 ${skipped}건은 넣지 않음`);
+    assets.forEach(a => { a.amt = Math.round(a.amt * 10) / 10; if (a.buf != null) a.buf = Math.round(a.buf * 10) / 10; });
+    const raise = assets.reduce((t, a) => t + a.amt, 0);
+    const mez = assets.filter(a => a.eb);
+    const note = `<b>기준일 ${fD(base)} 스냅샷 · 남은 기간 ${T.toFixed(1)}개월(만기 ${fD(P.mat)}) 기준</b> — 운용규모 = 기준일 보유 국내·해외·유동성 합계 ${amt(raise)}억 (Master 운용금액 ${amt(P.aum)}억). ` +
+      `기대수익률은 남은 기간 기준이라 Master 예상 Gross(설정일부터, ${P.grossOk ? pct(P.gross, 2) : '미산출'})와 다릅니다. ` +
+      `보수 ${pct(P.fee, 2)}·기준수익률 ${isN(P.hurdle) ? pct(P.hurdle, 2) : '미입력'}·당사 성과배분 ${isN(P.share) ? pct(1 - P.share, 0) : '미입력'} = IMA 시트 값. ` +
+      `국내 딜 청산 = min(딜 만기, 조기상환일, 만기 M-3 ${fD(P.cash)}), 해외펀드·장기 딜은 M-3 매각. 자산 분류 = 국내 인벤토리 대구분(인수금융→기업금융), 배분 시트 새 딜은 기업금융(이름에 PF가 있으면 부동산), 해외·유동성 = 기타 — 확인 필요. ` +
+      (mez.length ? `메자닌 ${mez.length}건(${mez.map(a => esc(a.name)).join(', ')})은 Worst 0% · Base 10% · Best 15% 가정(Master 수익률 ${mez.map(a => isN(a.mrate) ? pct(a.mrate, 1) : '없음').join('/')}), 가정 입력 표에서 수정. ` : '') +
+      `드라이파우더 = 운용규모 − 인출된 자산 − 현금 버퍼(AUM 5% ${amt(L0.buf || 0)}억) − 승인 브릿지 = Dry Powder 시트 기준 B와 같은 정의(PIMCO 포함). 새 딜 재원은 배분 시트 투자재원대로 MMF 또는 PIMCO 행에서 차감 (MMF가 음수면 만기 회수금으로 충당한다는 뜻).` + (notes.length ? '<br>' + notes.join('<br>') : '');
+    return { name: X, asOf: iso(base), T: +T.toFixed(3), mmf, fee: isN(P.fee) ? P.fee : 0, hurdle: isN(P.hurdle) ? P.hurdle : 0, share: isN(P.share) ? 1 - P.share : 0, scen: {}, assets, fills: [], start: iso(base), raise, note };
+  }
+  let g2Sel = null;
+  function g2Init() {
+    const names = S.ima.filter(im => FUND[im.name]).map(im => im.name);
+    if (!names.length) { $('g2sel').innerHTML = '<span class="mut">IMA 시트를 읽지 못했습니다</span>'; return; }
+    if (!names.includes(g2Sel)) g2Sel = names.includes('S2') ? 'S2' : names[0];
+    $('g2sel').innerHTML = names.map(n => `<button data-n="${esc(n)}" class="${n === g2Sel ? 'on' : ''}">${esc(n)}</button>`).join('') +
+      (S.ima.some(im => !FUND[im.name]) ? `<span class="mut" style="align-self:center">${esc(S.ima.filter(im => !FUND[im.name]).map(im => im.name).join(', '))}: IMA 시트 없음</span>` : '');
+    document.querySelectorAll('#g2sel button').forEach(b => b.onclick = () => { g2Sel = b.dataset.n; g2Init(); });
+    const st = g2State(g2Sel); window.__G2 = st;
+    let tpl = document.getElementById('g2tpl').textContent.replace(/<\\\/script/g, '</script');
+    if (THEME === 'light') tpl = tpl.replace(/\/\*DARK-START\*\/[\s\S]*?\/\*DARK-END\*\//, '');
+    tpl = tpl.replace('<html lang="ko">', `<html lang="ko" data-theme="${THEME}">`);
+    $('g2frame').srcdoc = tpl.replace('__STATE__', JSON.stringify(st).replace(/</g, '\\u003c'));
+  }
+  window.addEventListener('message', e => { if (e.data && e.data.g2h && e.source === $('g2frame').contentWindow) $('g2frame').style.height = (e.data.g2h + 20) + 'px'; });
 
   // ---------- 일별 DP 차트: 시리즈별 한눈에 + 선택 시리즈 상세 + 날짜별 일정 ----------
   let dsel = '전체';
@@ -1341,19 +2025,19 @@ const APP = (() => {
       d += on ? `L${a.toFixed(1)} ${y}H${b.toFixed(1)}` : `M${a.toFixed(1)} ${y}H${b.toFixed(1)}`; on = true; });
     return d;
   }
-  const HATCH = `<pattern id="dhz" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#121C1F"/><rect width="3" height="6" fill="#22323A"/></pattern>`;
+  const HATCHf = () => `<pattern id="dhz" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="${TC.hA}"/><rect width="3" height="6" fill="${TC.hB}"/></pattern>`;
   function dMini(el, X) {
     const W = el.clientWidth || 260, H = el.clientHeight || 74, pt = 4, pb = 4, n = X.n, bw = W / n;
     const vals = [...X.B, ...X.A].filter(isN); if (!vals.length) { el.innerHTML = ''; return; }
     let lo = Math.min(0, ...vals), hi = Math.max(0, ...vals); if (hi - lo < 1) hi = lo + 1;
     const Y = v => pt + (H - pt - pb) * (1 - (v - lo) / (hi - lo));
-    let sv = `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true"><defs>${HATCH.replace('dhz', 'dhz' + esc(X.name))}</defs>`;
+    let sv = `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true"><defs>${HATCHf().replace('dhz', 'dhz' + esc(X.name))}</defs>`;
     if (X.cashI >= 0) sv += `<rect x="${bw * X.cashI}" y="0" width="${W - bw * X.cashI}" height="${H}" fill="url(#dhz${esc(X.name)})" opacity=".9"/>`;
-    if (lo < 0) sv += `<rect x="0" y="${Y(0)}" width="${W}" height="${H - pb - Y(0)}" fill="#3A1714" opacity=".7"/>`;
-    sv += `<line x1="0" x2="${W}" y1="${Y(0)}" y2="${Y(0)}" stroke="#4A6168"/>`;
-    sv += `<path d="${stepPath(X.A, 0, bw, Y)}" fill="none" stroke="#8A9DA2" stroke-width="1.2" stroke-dasharray="3 3"/>`;
-    sv += `<path d="${stepPath(X.B, 0, bw, Y)}" fill="none" stroke="#F2F7F7" stroke-width="1.6"/>`;
-    X.days.forEach(q => { if (Math.abs(q.dB) > 0.5 && isN(q.b)) sv += `<circle cx="${(bw * q.i).toFixed(1)}" cy="${Y(q.b).toFixed(1)}" r="2.6" fill="${q.dB > 0 ? '#4FBFA8' : '#E6A54A'}" stroke="#141F23" stroke-width="1"/>`; });
+    if (lo < 0) sv += `<rect x="0" y="${Y(0)}" width="${W}" height="${H - pb - Y(0)}" fill="${TC.neg}" opacity=".7"/>`;
+    sv += `<line x1="0" x2="${W}" y1="${Y(0)}" y2="${Y(0)}" stroke="${TC.axis}"/>`;
+    sv += `<path d="${stepPath(X.A, 0, bw, Y)}" fill="none" stroke="${TC.ink3}" stroke-width="1.2" stroke-dasharray="3 3"/>`;
+    sv += `<path d="${stepPath(X.B, 0, bw, Y)}" fill="none" stroke="${TC.ink}" stroke-width="1.6"/>`;
+    X.days.forEach(q => { if (Math.abs(q.dB) > 0.5 && isN(q.b)) sv += `<circle cx="${(bw * q.i).toFixed(1)}" cy="${Y(q.b).toFixed(1)}" r="2.6" fill="${q.dB > 0 ? '#4FBFA8' : '#E6A54A'}" stroke="${TC.paper2}" stroke-width="1"/>`; });
     el.innerHTML = sv + '</svg>';
   }
   const evTxt = (e, all) => `${all && e.ima ? '[' + esc(e.ima) + '] ' : ''}${esc(e.name)}${e.inv ? ' <span class="mut">(= 인벤토리 ' + esc(short(e.inv, 30)) + ')</span>' : ''}`;
@@ -1373,43 +2057,43 @@ const APP = (() => {
     let lo = Math.min(0, ...vals), hi = Math.max(0, ...vals);
     const stp = niceStep((hi - lo) / (mob ? 4 : 5) || 1); hi = Math.ceil(hi / stp) * stp; lo = Math.floor(lo / stp) * stp; if (hi === lo) hi = lo + stp;
     const Y = v => pt + ph * (1 - (v - lo) / (hi - lo));
-    let sv = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(X.name)} 일별 Dry Powder 차트"><defs>${HATCH}</defs>`;
-    if (X.cashI >= 0) { const x = pl + bw * X.cashI; sv += `<rect x="${x}" y="${pt}" width="${pl + iw - x}" height="${ph + gap + lh}" fill="url(#dhz)"/><text x="${x + 6}" y="${pt + 13}" font-size="11" fill="#B8C8CB">만기 M-3 ${fD(X.cash).slice(5).replace('-', '/')} 이후 · 현금화 구간</text>`; }
-    if (lo < 0) sv += `<rect x="${pl}" y="${Y(0)}" width="${iw}" height="${pt + ph - Y(0)}" fill="#3A1714" opacity=".75"/><text x="${pl + 6}" y="${pt + ph - 6}" font-size="11" fill="#F07264">0 아래 = 자금 부족</text>`;
-    for (let v = lo; v <= hi + 1e-9; v += stp) sv += `<line x1="${pl}" x2="${pl + iw}" y1="${Y(v)}" y2="${Y(v)}" stroke="${Math.abs(v) < 1e-9 ? '#4A6168' : '#1C2B30'}"/><text x="${pl - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="#8A9DA2">${Math.round(v).toLocaleString('ko-KR')}</text>`;
+    let sv = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(X.name)} 일별 Dry Powder 차트"><defs>${HATCHf()}</defs>`;
+    if (X.cashI >= 0) { const x = pl + bw * X.cashI; sv += `<rect x="${x}" y="${pt}" width="${pl + iw - x}" height="${ph + gap + lh}" fill="url(#dhz)"/><text x="${x + 6}" y="${pt + 13}" font-size="12.3" fill="${TC.ink2}">만기 M-3 ${fD(X.cash).slice(5).replace('-', '/')} 이후 · 현금화 구간</text>`; }
+    if (lo < 0) sv += `<rect x="${pl}" y="${Y(0)}" width="${iw}" height="${pt + ph - Y(0)}" fill="${TC.neg}" opacity=".75"/><text x="${pl + 6}" y="${pt + ph - 6}" font-size="12.3" fill="#F07264">0 아래 = 자금 부족</text>`;
+    for (let v = lo; v <= hi + 1e-9; v += stp) sv += `<line x1="${pl}" x2="${pl + iw}" y1="${Y(v)}" y2="${Y(v)}" stroke="${Math.abs(v) < 1e-9 ? TC.axis : TC.line}"/><text x="${pl - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="12.3" fill="${TC.ink3}">${Math.round(v).toLocaleString('ko-KR')}</text>`;
     // 월 경계 + 축 글자
     const axY = pt + ph + gap + lh + 16;
     const axl = [];
     ds.forEach((d, i) => { if (i === 0 || toD(d).getUTCMonth() !== toD(ds[i - 1]).getUTCMonth()) {
-      const x = pl + bw * i; if (i > 0) sv += `<line x1="${x}" x2="${x}" y1="${pt}" y2="${pt + ph + gap + lh}" stroke="#1C2B30"/>`;
+      const x = pl + bw * i; if (i > 0) sv += `<line x1="${x}" x2="${x}" y1="${pt}" y2="${pt + ph + gap + lh}" stroke="${TC.line}"/>`;
       if (axl.length && x - axl[axl.length - 1].x < 40) axl.pop();   // 붙어 있으면 앞 글자 생략
       axl.push({ x, t: toD(d).getUTCMonth() === 0 || i === 0 ? fYM(d) : (toD(d).getUTCMonth() + 1) + '월' }); } });
-    axl.forEach(a => sv += `<text x="${a.x + 3}" y="${axY}" font-size="11" fill="#8A9DA2">${a.t}</text>`);
-    sv += `<path d="${stepPath(X.A, pl, bw, Y)}" fill="none" stroke="#8A9DA2" stroke-width="1.5" stroke-dasharray="5 4"/>`;
-    sv += `<path d="${stepPath(X.B, pl, bw, Y)}" fill="none" stroke="#F2F7F7" stroke-width="2"/>`;
-    X.days.forEach(q => { if (Math.abs(q.dB) > 0.5 && isN(q.b)) sv += `<circle cx="${(pl + bw * q.i).toFixed(1)}" cy="${Y(q.b).toFixed(1)}" r="4" fill="${q.dB > 0 ? '#4FBFA8' : '#E6A54A'}" stroke="#0F181B" stroke-width="2"/>`; });
+    axl.forEach(a => sv += `<text x="${a.x + 3}" y="${axY}" font-size="12.3" fill="${TC.ink3}">${a.t}</text>`);
+    sv += `<path d="${stepPath(X.A, pl, bw, Y)}" fill="none" stroke="${TC.ink3}" stroke-width="1.5" stroke-dasharray="5 4"/>`;
+    sv += `<path d="${stepPath(X.B, pl, bw, Y)}" fill="none" stroke="${TC.ink}" stroke-width="2"/>`;
+    X.days.forEach(q => { if (Math.abs(q.dB) > 0.5 && isN(q.b)) sv += `<circle cx="${(pl + bw * q.i).toFixed(1)}" cy="${Y(q.b).toFixed(1)}" r="4" fill="${q.dB > 0 ? '#4FBFA8' : '#E6A54A'}" stroke="${TC.paper}" stroke-width="2"/>`; });
     if (!mob) {   // 오른쪽 끝 직접 표기
       const lb = [...X.B.keys()].reverse().find(i => isN(X.B[i])), la = [...X.A.keys()].reverse().find(i => isN(X.A[i]));
       let yb = lb != null ? Y(X.B[lb]) : null, ya = la != null ? Y(X.A[la]) : null;
       const G = 40;   // 3줄 묶음 높이 — 겹치면 위아래로 벌림
       if (yb != null && ya != null && Math.abs(yb - ya) < G) { if (yb <= ya) { yb -= (G - (ya - yb)) / 2; ya = yb + G; } else { ya -= (G - (yb - ya)) / 2; yb = ya + G; } }
       const lab = (i, y, t, d, v, c1, c2) => { const x = pl + bw * (i + 1) + 6;
-        return `<text x="${x}" y="${y - 6}" font-size="11" fill="${c1}" font-weight="700">${t}</text><text x="${x}" y="${y + 6}" font-size="10.5" fill="${c2}">${d}</text><text x="${x}" y="${y + 18}" font-size="11" fill="${c2}">${v}</text>`; };
-      if (yb != null) sv += lab(lb, yb, '기준 B', '기표 예정 딜까지 반영', amt(X.B[lb]), '#F2F7F7', '#B8C8CB');
-      if (ya != null) sv += lab(la, ya, '기준 A', '기표완료 딜만 반영', amt(X.A[la]), '#B8C8CB', '#8A9DA2');
+        return `<text x="${x}" y="${y - 6}" font-size="12.3" fill="${c1}" font-weight="700">${t}</text><text x="${x}" y="${y + 6}" font-size="11.8" fill="${c2}">${d}</text><text x="${x}" y="${y + 18}" font-size="12.3" fill="${c2}">${v}</text>`; };
+      if (yb != null) sv += lab(lb, yb, '기준 B', '기표 예정 딜까지 반영', amt(X.B[lb]), TC.ink, TC.ink2);
+      if (ya != null) sv += lab(la, ya, '기준 A', '기표완료 딜만 반영', amt(X.A[la]), TC.ink2, TC.ink3);
     }
     // ---- 일정 막대 (유입 ▲ 위 / 투자 ▼ 아래) ----
     const lt = pt + ph + gap, mid = lt + lh / 2, rowH = 13, maxBar = lh / 2 - (mob ? 6 : 2 * rowH + 4);
     const gmax = Math.max(1, ...X.days.map(q => Math.max(q.inn, q.out)));
-    sv += `<rect x="${pl}" y="${lt}" width="${iw}" height="${lh}" fill="#0B1315" opacity=".55"/><line x1="${pl}" x2="${pl + iw}" y1="${mid}" y2="${mid}" stroke="#2E434A"/>`;
-    sv += `<text x="${pl - 8}" y="${mid - 6}" text-anchor="end" font-size="11" fill="#4FBFA8">유입▲</text><text x="${pl - 8}" y="${mid + 14}" text-anchor="end" font-size="11" fill="#E6A54A">투자▼</text>`;
+    sv += `<rect x="${pl}" y="${lt}" width="${iw}" height="${lh}" fill="${TC.band}" opacity=".55"/><line x1="${pl}" x2="${pl + iw}" y1="${mid}" y2="${mid}" stroke="${TC.line2}"/>`;
+    sv += `<text x="${pl - 8}" y="${mid - 6}" text-anchor="end" font-size="12.3" fill="#4FBFA8">유입▲</text><text x="${pl - 8}" y="${mid + 14}" text-anchor="end" font-size="12.3" fill="#E6A54A">투자▼</text>`;
     const bwid = Math.max(2, Math.min(14, bw * .72));
     X.days.forEach(q => {
       if (q.inn > 0.5) { const h = Math.max(2, q.inn / gmax * maxBar); sv += `<rect x="${XC(q.i) - bwid / 2}" y="${mid - 1 - h}" width="${bwid}" height="${h}" rx="1.5" fill="#4FBFA8"/>`; }
       if (q.out > 0.5) { const h = Math.max(2, q.out / gmax * maxBar); sv += `<rect x="${XC(q.i) - bwid / 2}" y="${mid + 1}" width="${bwid}" height="${h}" rx="1.5" fill="#E6A54A"/>`; }
     });
     if (!mob) {   // 큰 일정부터 딜 이름 직접 표기 (겹치면 생략 → 마우스 올리면 전부 보임)
-      const cx = document.createElement('canvas').getContext('2d'); cx.font = '11px ' + getComputedStyle(document.body).fontFamily;
+      const cx = document.createElement('canvas').getContext('2d'); cx.font = '12.3px ' + getComputedStyle(document.body).fontFamily;
       const cand = [];
       X.days.forEach(q => {
         const live = q.ev.filter(e => !e.excl && !e.pre);
@@ -1428,7 +2112,7 @@ const APP = (() => {
           if (used[c.side][r].some(([p, q2]) => a < q2 && b > p)) continue;
           used[c.side][r].push([a, b]);
           const y = c.side === 'up' ? lt + 11 + r * rowH : lt + lh - 4 - r * rowH;
-          sv += `<text x="${x}" y="${y}" text-anchor="middle" font-size="11" fill="${c.side === 'up' ? '#7FD6C3' : '#F0BE78'}">${esc(c.t)}</text>`;
+          sv += `<text x="${x}" y="${y}" text-anchor="middle" font-size="12.3" fill="${c.side === 'up' ? TC.up : TC.dn}">${esc(c.t)}</text>`;
           break;
         }
       });
@@ -1561,8 +2245,8 @@ const APP = (() => {
     const tv = v => unit === 'pct' && isN(v) && isN(aumT) && aumT > 0 ? pct(v / aumT, 0) : amt(v);
     h += `<tr class="tot"><th class="rowh">합계</th><th class="cd"></th><td class="cur${isN(t.cur) && t.cur < 0 ? ' neg' : ''}">${tv(t.cur)}</td>${t.vals.map(v => `<td class="${isN(v) && v < 0 ? 'neg' : ''}">${tv(v)}</td>`).join('')}</tr>`;
     const lg = S['long' + key], cz = S['cashz' + key];
-    h += `<tr class="sub"><th class="rowh" style="font-size:12px;color:var(--h4)">└ 장기 투입 가능</th><th class="cd">현금화 전 IMA</th><td class="cur">${tv(t.cur)}</td>${lg.map(v => `<td class="${v < 0 ? 'neg' : ''}">${tv(v)}</td>`).join('')}</tr>`;
-    h += `<tr class="sub"><th class="rowh" style="font-size:12px;color:var(--ink-3)">└ 현금화 구간</th><th class="cd">단기 딜 전용</th><td class="cur">−</td>${cz.map(v => `<td class="${v ? 'cash' : ''}">${v ? tv(v) : '−'}</td>`).join('')}</tr></tbody>`;
+    h += `<tr class="sub"><th class="rowh" style="font-size:13.3px;color:var(--h4)">└ 장기 투입 가능</th><th class="cd">현금화 전 IMA</th><td class="cur">${tv(t.cur)}</td>${lg.map(v => `<td class="${v < 0 ? 'neg' : ''}">${tv(v)}</td>`).join('')}</tr>`;
+    h += `<tr class="sub"><th class="rowh" style="font-size:13.3px;color:var(--ink-3)">└ 현금화 구간</th><th class="cd">단기 딜 전용</th><td class="cur">−</td>${cz.map(v => `<td class="${v ? 'cash' : ''}">${v ? tv(v) : '−'}</td>`).join('')}</tr></tbody>`;
     $('heat').innerHTML = h;
     document.querySelectorAll('#heat th.rowh[data-n]').forEach(el => el.onclick = () => openIMA(el.dataset.n));
   }
@@ -1600,15 +2284,15 @@ const APP = (() => {
     hi = Math.ceil(hi / step) * step; lo = Math.floor(lo / step) * step;
     const Y = v => pt + ih * (1 - (v - lo) / (hi - lo)), bw = iw / n, X = i => pl + bw * i + bw / 2, w = Math.max(4, bw * 0.62);
     let sv = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="월별 자금 흐름">`;
-    for (let v = lo; v <= hi + 1e-9; v += step) sv += `<line x1="${pl}" x2="${W - pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="${Math.abs(v) < 1e-9 ? '#4A6168' : '#1C2B30'}"/><text x="${pl - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="#8A9DA2">${Math.round(v).toLocaleString('ko-KR')}</text>`;
-    m.forEach((x, i) => { if (n <= 12 || i % 3 === 0) sv += `<text x="${X(i)}" y="${H - 7}" text-anchor="middle" font-size="11" fill="#8A9DA2">${fYM(x)}</text>`; });
+    for (let v = lo; v <= hi + 1e-9; v += step) sv += `<line x1="${pl}" x2="${W - pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="${Math.abs(v) < 1e-9 ? TC.axis : TC.line}"/><text x="${pl - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="12.3" fill="${TC.ink3}">${Math.round(v).toLocaleString('ko-KR')}</text>`;
+    m.forEach((x, i) => { if (n <= 12 || i % 3 === 0) sv += `<text x="${X(i)}" y="${H - 7}" text-anchor="middle" font-size="12.3" fill="${TC.ink3}">${fYM(x)}</text>`; });
     const bar = (x, y0, y1, c, extra = '') => { const a = Math.min(Y(y0), Y(y1)), b = Math.abs(Y(y0) - Y(y1)); return b > 0.3 ? `<rect x="${x - w / 2}" y="${a}" width="${w}" height="${b}" fill="${c}" ${extra}/>` : ''; };
     D.forEach((d, i) => {
       if (!d.any) return;
       let up = 0, dn = 0;
       const seg = (v, c) => { if (v >= 0) { sv += bar(X(i), up, up + v, c); up += v; } else { sv += bar(X(i), dn, dn + v, c); dn += v; } };
       seg(d.inflow, '#4FBFA8'); seg(d.cash, '#7FA3A8'); seg(-d.inv, '#E6A54A');
-      sv += `<circle cx="${X(i)}" cy="${Y(d.net)}" r="3.6" fill="#F2F7F7" stroke="#030607" stroke-width="1.5"/>`;
+      sv += `<circle cx="${X(i)}" cy="${Y(d.net)}" r="3.6" fill="${TC.ink}" stroke="${TC.canvas}" stroke-width="1.5"/>`;
     });
     sv += `<line id="fx" y1="${pt}" y2="${pt + ih}" stroke="#5FB7B5" opacity="0"/><rect id="fz" x="${pl}" y="${pt}" width="${iw}" height="${ih}" fill="transparent"/></svg><div class="tip" id="ftip" hidden></div>`;
     el.innerHTML = sv;
@@ -1633,7 +2317,7 @@ const APP = (() => {
     up.forEach(r => {
       const mk = fYM(r.date); if (mk !== mon) { mon = mk; const d = toD(r.date); h += `<tr class="mon"><td colspan="5">${d.getUTCFullYear()}년 ${d.getUTCMonth() + 1}월</td></tr>`; }
       const rt = isN(r.rate) ? ' · ' + pct(r.rate, 2) : (r.rate ? ' · ' + esc(txt(r.rate)) : '');
-      h += `<tr class="${r.excl ? 'ex' : ''}"><td class="d">${fD(r.date).slice(5)}</td><td class="nm">${esc(r.name)}${r.excl ? ' <span class="pill2 mut">기준 B 제외</span>' : ''}<div style="color:var(--ink-3);font-size:11px">${esc(r.term)}${rt}</div></td><td><span class="tag ${esc(r.type)}">${esc(r.type)}</span></td><td>${chips(r)}</td><td>${r.vis === '△' ? '<span class="pill2 amb">△</span>' : esc(r.vis)}</td></tr>`;
+      h += `<tr class="${r.excl ? 'ex' : ''}"><td class="d">${fD(r.date).slice(5)}</td><td class="nm">${esc(r.name)}${r.excl ? ' <span class="pill2 mut">기준 B 제외</span>' : ''}<div style="color:var(--ink-3);font-size:12.3px">${esc(r.term)}${rt}</div></td><td><span class="tag ${esc(r.type)}">${esc(r.type)}</span></td><td>${chips(r)}</td><td>${r.vis === '△' ? '<span class="pill2 amb">△</span>' : esc(r.vis)}</td></tr>`;
     });
     if (!up.length) h += '<tr><td colspan="5" class="none">해당 기간 일정 없음</td></tr>';
     $('sched').innerHTML = h + '</tbody>';
@@ -1669,18 +2353,18 @@ const APP = (() => {
   const PAL = ['#4A8FD8', '#5FB7B5', '#E6A54A', '#8A72E0', '#D25F99', '#7FB069', '#C9A227', '#9AA8AB'];
   function donut(title, parts, centerTop, centerBot) {
     const tot = parts.reduce((a, p) => a + Math.max(0, p.v), 0);
-    let svg = `<svg viewBox="0 0 120 120" role="img" aria-label="${esc(title)}"><circle cx="60" cy="60" r="44" fill="none" stroke="#162226" stroke-width="18"/>`;
+    let svg = `<svg viewBox="0 0 120 120" role="img" aria-label="${esc(title)}"><circle cx="60" cy="60" r="44" fill="none" stroke="${TC.track}" stroke-width="18"/>`;
     let labels = '';
     if (tot > 0) {
       let a0 = -Math.PI / 2;
       parts.forEach(p => { const f = Math.max(0, p.v) / tot; if (f <= 0) return;
-        if (f >= 0.9999) { svg += `<circle cx="60" cy="60" r="44" fill="none" stroke="${p.c}" stroke-width="18"><title>${esc(p.k)} ${amt1(p.v)}억원 (100%)</title></circle>`; labels += `<text x="60" y="18.8" text-anchor="middle" font-size="7.6" font-weight="700" fill="#06171A" pointer-events="none">100%</text>`; return; }
+        if (f >= 0.9999) { svg += `<circle cx="60" cy="60" r="44" fill="none" stroke="${p.c}" stroke-width="18"><title>${esc(p.k)} ${amt1(p.v)}억원 (100%)</title></circle>`; labels += `<text x="60" y="18.8" text-anchor="middle" font-size="8.9" font-weight="700" fill="#06171A" pointer-events="none">100%</text>`; return; }
         const a1 = a0 + f * 2 * Math.PI, x0 = 60 + 44 * Math.cos(a0), y0 = 60 + 44 * Math.sin(a0), x1 = 60 + 44 * Math.cos(a1), y1 = 60 + 44 * Math.sin(a1);
         svg += `<path d="M${x0.toFixed(2)} ${y0.toFixed(2)} A44 44 0 ${f > 0.5 ? 1 : 0} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}" fill="none" stroke="${p.c}" stroke-width="18"><title>${esc(p.k)} ${amt1(p.v)}억원 (${pct(f)})</title></path>`;
-        if (f >= 0.06) { const am = (a0 + a1) / 2; labels += `<text x="${(60 + 44 * Math.cos(am)).toFixed(2)}" y="${(60 + 44 * Math.sin(am) + 2.8).toFixed(2)}" text-anchor="middle" font-size="7.6" font-weight="700" fill="#06171A" pointer-events="none">${Math.round(f * 100)}%</text>`; }
+        if (f >= 0.06) { const am = (a0 + a1) / 2; labels += `<text x="${(60 + 44 * Math.cos(am)).toFixed(2)}" y="${(60 + 44 * Math.sin(am) + 2.8).toFixed(2)}" text-anchor="middle" font-size="8.9" font-weight="700" fill="#06171A" pointer-events="none">${Math.round(f * 100)}%</text>`; }
         a0 = a1; });
     }
-    svg += labels + `<text x="60" y="58" text-anchor="middle" font-size="15" font-weight="700" fill="#F2F7F7">${centerTop}</text><text x="60" y="74" text-anchor="middle" font-size="9.5" fill="#8A9DA2">${centerBot}</text></svg>`;
+    svg += labels + `<text x="60" y="58" text-anchor="middle" font-size="16.3" font-weight="700" fill="${TC.ink}">${centerTop}</text><text x="60" y="74" text-anchor="middle" font-size="10.8" fill="${TC.ink3}">${centerBot}</text></svg>`;
     const li = parts.filter(p => p.v > 0).map(p => `<li><i style="background:${p.c}"></i><span class="k" title="${esc(p.k)} ${amt1(p.v)}억원">${esc(p.k)}</span><span class="p">${tot > 0 ? pct(p.v / tot) : ''}</span></li>`).join('');
     return `<div class="donut"><h4>${esc(title)}</h4><div class="wrap">${svg}<ul>${li || '<li><span class="k">보유분 없음</span></li>'}</ul></div></div>`;
   }
@@ -1828,7 +2512,7 @@ const APP = (() => {
   function fDT(iso) { const d = new Date(iso); if (isNaN(d)) return ''; const p = n => String(n).padStart(2, '0'); return `${d.getFullYear() % 100}.${p(d.getMonth() + 1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; }
   function render() {
     $('meta').innerHTML = `<span>기준일 <b>${fD(S.base)}</b></span><span>파일 <b>${esc(fileName)}</b>${srcOD ? ` · OneDrive 저장 <b>${esc(fDT(srcOD.mod))}</b>` : ''}${srcNote ? ` · ${srcNote}` : ''}</span><span>IMA <b>${S.ima.length}</b>개 · 월 <b>${S.months.length}</b>개</span>`;
-    kpis(); daily(); heat(); mix(); sched(); timeline(); cards(); notesFill(); imaSel(); simInit();
+    kpis(); daily(); heat(); mix(); sched(); timeline(); cards(); notesFill(); imaSel(); simInit(); g2Init();
   }
 
   async function load(file) {
@@ -1841,6 +2525,9 @@ const APP = (() => {
       S = parse(sh); fileName = file.name; srcOD = file.od || null; srcNote = file.note || ''; if (!file.od) $('odRefresh').hidden = true;
       try { DB = parseDash(await book.sheet(DASH)); } catch (e) { DB = {}; }
       try { AL = parseAlloc(await book.sheet('S3~G2 배분'), S); } catch (e) { AL = []; }
+      LIQ = {}; try { const ash = await book.sheet('S3~G2 배분'); if (ash) for (let r = 1; r <= 12; r++) { const t = txt(ash.v('B' + r));
+        const k = t === 'MMF 총액' ? 'mmf' : /^pimco/i.test(t) ? 'pim' : t === 'AUM' ? 'aum' : /^AUM\s*5%/.test(t) ? 'buf' : t.startsWith('유동성') ? 'liq' : null; if (!k) continue;
+        S.ima.forEach(im => { if (isN(im.bcol)) { const v = ash.v(L(im.bcol) + r); if (isN(v)) (LIQ[im.name] = LIQ[im.name] || {})[k] = v; } }); } } catch (e) {}
       derive(S, AL);
       try { INV = parseInv(await book.sheet('국내 딜 인벤토리'), await book.sheet('해외 딜 인벤토리'), S); } catch (e) { INV = null; }
       window.__INV = INV;
@@ -1855,6 +2542,7 @@ const APP = (() => {
   }
 
   function init() {
+    document.querySelectorAll('#themesw button').forEach(b => { b.classList.toggle('on', b.dataset.t === THEME); b.onclick = () => setTheme(b.dataset.t); });
     const fi = $('file'), dr = $('drop');
     dr.onclick = () => fi.click();
     dr.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fi.click(); } };
@@ -1868,8 +2556,8 @@ const APP = (() => {
     document.querySelectorAll('#dunit button').forEach(b => b.onclick = () => { dunit = b.dataset.u; document.querySelectorAll('#dunit button').forEach(x => x.classList.toggle('on', x === b)); dTable(); });
     document.querySelectorAll('#unit button').forEach(b => b.onclick = () => { unit = b.dataset.u; document.querySelectorAll('#unit button').forEach(x => x.classList.toggle('on', x === b)); heat(); });
     const go = pg => {
-      if (pg !== 'appx' && pg !== 'sim') pg = 'dp';
-      $('page-dp').hidden = pg !== 'dp'; $('page-appx').hidden = pg !== 'appx'; $('page-sim').hidden = pg !== 'sim';
+      if (!['appx', 'sim', 'g2', 'dp'].includes(pg)) pg = 'g2';   // 처음 열면 시리즈 대시보드
+      $('page-dp').hidden = pg !== 'dp'; $('page-appx').hidden = pg !== 'appx'; $('page-sim').hidden = pg !== 'sim'; $('page-g2').hidden = pg !== 'g2';
       document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.p === pg));
       try { if (location.hash !== '#' + pg) history.replaceState(null, '', '#' + pg); } catch (e) {}
       window.scrollTo(0, 0);
