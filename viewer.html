@@ -598,7 +598,7 @@ details.notes div{color:var(--ink-3);font-size:13.3px;line-height:1.75;margin-to
     <div class="panel" id="simhero"></div>
   </section>
   <section>
-    <div class="sec-h"><h2 id="simdh">배분 딜</h2><span class="note">체크 = 이 시리즈가 기표한다고 가정 · 금액·금리·기간을 고치면 바로 반영 (Master에는 저장 안 됨)</span><span class="sp"></span>
+    <div class="sec-h"><h2 id="simdh">배분 딜</h2><span class="note">체크 = 이 시리즈가 기표한다고 가정 (조기상환 행은 상환 반영, 처음부터 체크) · 금액·금리·기간을 고치면 바로 반영 (Master에는 저장 안 됨)</span><span class="sp"></span>
       <div class="ctrls"><button class="btn sm" id="simAll">이 시리즈 딜 전부 체크</button><button class="btn sm" id="simNone">이 시리즈 새 딜 해제</button></div></div>
     <div class="panel">
       <div class="simas" id="simas"></div>
@@ -1411,6 +1411,18 @@ const APP = (() => {
   }
 
   // ---------- S3~G2 배분 시트: 딜 행(월별 Dry Powder 시트 G6~H6 구간) ----------
+  // 글자로 입력된 날짜(예: '11월 26일', '1/22', '2027-01-22') → 엑셀 날짜 숫자. 연도가 없으면 기준일 기준으로 추정(기준일보다 3개월 넘게 앞서면 다음 해)
+  function txtDate(v, base) {
+    const t = String(v == null ? '' : v).trim(); if (!t || !isN(base)) return null;
+    const ser = (y, m, d) => Date.UTC(y, m - 1, d) / 864e5 + 25569;
+    let m = t.match(/^(\d{4})\s*[-./년]\s*(\d{1,2})\s*[-./월]\s*(\d{1,2})/);
+    if (m) return ser(+m[1], +m[2], +m[3]);
+    m = t.match(/^(\d{1,2})\s*월\s*(\d{1,2})\s*일?$/) || t.match(/^(\d{1,2})\s*[./-]\s*(\d{1,2})$/);
+    if (!m || +m[1] < 1 || +m[1] > 12 || +m[2] < 1 || +m[2] > 31) return null;
+    const y0 = new Date((base - 25569) * 864e5).getUTCFullYear();
+    let d = ser(y0, +m[1], +m[2]); if (d < base - 92) d = ser(y0 + 1, +m[1], +m[2]);
+    return d;
+  }
   function parseAlloc(sh, S) {
     const p = S.pos, rows = [];
     if (!sh || ![p.start, p.end, p.dateCol, p.nameCol].every(isN)) return rows;
@@ -1418,7 +1430,7 @@ const APP = (() => {
     for (let r = p.start; r <= p.end; r++) {
       const name = txt(sh.v(C(p.nameCol) + r)), type = txt(sh.v(C(p.nameCol + 1) + r));
       if (!name || !type) continue;                               // 유형 빈칸 = 소계·비율 행
-      const dRaw = sh.v(C(p.dateCol) + r), date = isN(dRaw) ? Math.floor(dRaw) : null;
+      const dRaw = sh.v(C(p.dateCol) + r), date = isN(dRaw) ? Math.floor(dRaw) : txtDate(dRaw, S.base);
       const amts = {};
       const srcs = {};
       S.ima.forEach(im => { if (isN(im.bcol)) { const v = sh.v(C(im.bcol) + r); if (isN(v) && Math.abs(v) > 1e-9) { amts[im.name] = v; srcs[im.name] = txt(sh.v(C(im.bcol + 1) + r)); } } });
@@ -1609,7 +1621,17 @@ const APP = (() => {
     AL.forEach(r => {
       if (/맞추기/.test(r.name)) return;                               // MMF↔PIMCO 내부 이동은 딜 아님
       const pos = Object.entries(r.amts).filter(([k, v]) => v > 0);
-      if (!pos.length) return;                                         // 상환(음수) 행 제외
+      if (!pos.length) {   // 상환(음수) 행: 보유 딜(인벤토리)을 만기 전에 갚는 조기상환만 시뮬레이션에 넣음 (만기 상환은 Master가 이미 반영)
+        if (r.excl || r.date == null || r.date <= S.base || !INV) return;
+        const legs = [];
+        Object.entries(r.amts).forEach(([im, v]) => {
+          if (!(v < 0) || !FUND[im]) return;
+          const key = plain(r.name).slice(0, 4), h = (INV.items[im] || []).find(x => x.side === '국내' && plain(x.name).startsWith(key) && isN(x.mat) && x.mat > r.date + 7);
+          if (h) legs.push({ im, a: -v, src: 'MMF', P: FUND[im], inc: null, note: '', held: h });
+        });
+        if (legs.length) deals.push({ row: r.row, name: r.name, type: r.type, term: '', date: r.date, dateTxt: r.dateTxt, rate0: legs[0].held.rate, rate: legs[0].held.rate, excl: false, rep: true, legs, on: true });
+        return;
+      }
       const d = { row: r.row, name: r.name, type: r.type, term: r.term, date: r.date, dateTxt: r.dateTxt, rate0: isN(r.rate) ? r.rate : null, excl: r.excl, legs: [] };
       pos.forEach(([im, a]) => {
         const P = FUND[im];
@@ -1640,6 +1662,7 @@ const APP = (() => {
   function legScen(d, l, on = l.on) {
     if (!on) return null;
     const a = isN(l.amt) ? l.amt : l.a, r = isN(d.rate) ? d.rate : null;
+    if (l.held) return r == null ? undefined : { a: -a, r, F: d.date, Dm: l.held.mat };
     if (l.inc) { const F = l.inc.d0; return { a, r: r ?? l.inc.rate, F, Dm: d.mat != null ? termEnd(d, F) : (l.inc.d1 ?? 2958465) }; }
     if (legDis(d, l) || r == null) return undefined;    // 계산 불가
     return { a, r, F: d.date, Dm: termEnd(d, d.date) };
@@ -1670,12 +1693,12 @@ const APP = (() => {
   function simInit() {
     if (!S) return;
     simBuild();
-    SIM.deals.forEach(d => d.legs.forEach(l => { l.on = !!l.inc; }));
+    SIM.deals.forEach(d => d.legs.forEach(l => { l.on = !!l.inc || !!l.held; }));
     if (!FUND[simSel]) simSel = Object.keys(FUND).find(n => S.ima.some(im => im.name === n)) || simSel;
     simAssump();
     $('simReset').onclick = () => simInit();
     $('simAll').onclick = () => { SIM.deals.forEach(d => d.legs.forEach(l => { if (l.im === simSel && !legDis(d, l) && (isN(d.rate) || l.inc)) l.on = true; })); simAll(); };
-    $('simNone').onclick = () => { SIM.deals.forEach(d => d.legs.forEach(l => { if (l.im === simSel && !l.inc) l.on = false; })); simAll(); };
+    $('simNone').onclick = () => { SIM.deals.forEach(d => d.legs.forEach(l => { if (l.im === simSel && !l.inc && !l.held) l.on = false; })); simAll(); };
     simPick(); simAll();
   }
   function simAssump() {   // 금리 가정은 Master 값 고정
@@ -1723,7 +1746,7 @@ const APP = (() => {
       const X = v => ((v - lo) / span * 100).toFixed(2);
       h += `<div class="wf-h">무엇이 얼마나 바꿨나 (bp, 큰 순서로 쌓음)</div><div class="wf">` + segs.map(x => {
         const sc = legScen(x.d, x.l), b = legBase(x.l);
-        const sub = !sc ? 'Master 반영 딜 → 기표 안 함' : !b ? `새로 기표 · ${amt(sc.a)}억 · ${pct(sc.r, 2)} · 만기 ${sc.Dm >= 2958465 ? 'M-3까지' : fD(sc.Dm)}` : `Master 딜 수정 · ${amt(b.a)}→${amt(sc.a)}억 · ${pct(b.r, 2)}→${pct(sc.r, 2)}${sc.Dm !== b.Dm ? ` · 만기 ${fD(b.Dm)}→${fD(sc.Dm)}` : ''}`;
+        const sub = !sc ? 'Master 반영 딜 → 기표 안 함' : x.l.held ? `조기상환 · ${amt(-sc.a)}억 · ${pct(sc.r, 2)} 이자 대신 MMF · ${fD(sc.F)}~${fD(Math.min(sc.Dm, x.l.P.cash))}` : !b ? `새로 기표 · ${amt(sc.a)}억 · ${pct(sc.r, 2)} · 만기 ${sc.Dm >= 2958465 ? 'M-3까지' : fD(sc.Dm)}` : `Master 딜 수정 · ${amt(b.a)}→${amt(sc.a)}억 · ${pct(b.r, 2)}→${pct(sc.r, 2)}${sc.Dm !== b.Dm ? ` · 만기 ${fD(b.Dm)}→${fD(sc.Dm)}` : ''}`;
         return `<span class="n" title="${esc(x.d.name)}">${esc(x.d.name)}<small>${esc(sub)}</small></span><div class="wt"><span class="z0" style="left:${X(0)}%"></span><i class="${x.v >= 0 ? 'up' : 'dn'}" style="left:${X(Math.min(x.s0, x.s1))}%;width:${Math.max(0.6, Math.abs(X(x.s1) - X(x.s0))).toFixed(2)}%"></i></div><b class="${x.v >= 0 ? 'up' : 'dn'}">${bpTxt(x.v)}bp</b>`;
       }).join('') + `<span class="n tot">합계</span><div class="wt"><span class="z0" style="left:${X(0)}%"></span><i class="tot ${dg >= 0 ? 'up' : 'dn'}" style="left:${X(Math.min(0, dg))}%;width:${Math.max(0.6, Math.abs(X(dg) - X(0))).toFixed(2)}%"></i></div><b class="${dg >= 0 ? 'up' : 'dn'}">${bpTxt(dg)}bp</b></div>`;
     }
@@ -1817,13 +1840,13 @@ const APP = (() => {
       if (mk !== mon) { mon = mk; g += `<tr class="mon"><td colspan="9">${d.date != null ? toD(d.date).getUTCFullYear() + '년 ' + (toD(d.date).getUTCMonth() + 1) + '월' : '날짜 미정 (TBD)'}</td></tr>`; }
       const dis = legDis(d, l) ? 'disabled' : '';
       const others = d.legs.filter(x => x.im !== simSel).map(x => `${x.im} ${amt(x.a)}`).join(' · ');
-      const st = l.inc ? '<span class="pill2 grn">Master 반영됨</span>' : d.date != null && d.date <= S.base ? '<span class="pill2 amb" title="기준일 이전·당일 인출 행: 이미 기표완료로 Master에 들어 있거나 날짜 오기일 수 있음">기준일 이전 날짜</span>' : d.date == null ? '<span class="pill2 mut">날짜 미정</span>' : '<span class="st"></span>';
-      g += `<tr data-k="${d.row}" data-j="${j}" class="${dis ? 'off' : ''}${d.excl && !dis ? ' goal' : ''}"><td><input type="checkbox" ${l.on ? 'checked' : ''} ${dis} aria-label="${esc(simSel + ' ' + d.name)} 기표 가정"></td>` +
+      const st = l.held ? '<span class="pill2 amb" title="인벤토리 보유 딜의 만기 전 상환. Master IMA 시트 Gross에는 아직 없음 → 체크하면 반영">조기상환</span>' : l.inc ? '<span class="pill2 grn">Master 반영됨</span>' : d.date != null && d.date <= S.base ? '<span class="pill2 amb" title="기준일 이전·당일 인출 행: 이미 기표완료로 Master에 들어 있거나 날짜 오기일 수 있음">기준일 이전 날짜</span>' : d.date == null ? '<span class="pill2 mut">날짜 미정</span>' : '<span class="st"></span>';
+      g += `<tr data-k="${d.row}" data-j="${j}" class="${dis ? 'off' : ''}${d.excl && !dis ? ' goal' : ''}"><td><input type="checkbox" ${l.on ? 'checked' : ''} ${dis} aria-label="${esc(simSel + ' ' + d.name)} ${l.held ? '상환 반영' : '기표 가정'}"></td>` +
         `<td class="d">${d.date != null ? fD(d.date).slice(2) : esc(d.dateTxt || '미정')}</td>` +
         `<td class="nm">${esc(d.name)} <span class="tag ${esc(d.type)}">${esc(d.type)}</span>${others ? `<div class="mut">같은 딜 다른 시리즈: ${esc(others)}</div>` : ''}</td>` +
         `<td class="r"><input class="am" inputmode="decimal" value="${+(isN(l.amt) ? l.amt : l.a).toFixed(2)}" ${dis} aria-label="금액(억)"></td>` +
         `<td class="r"><input class="rt" inputmode="decimal" value="${isN(d.rate) ? (d.rate * 100).toFixed(2) : ''}" placeholder="${d.excl ? '예: 9.00' : '%'}" ${dis} aria-label="금리 %"></td>` +
-        `<td class="tm"><input class="tmi" value="${esc(d.matTxt ?? (l.inc ? fD(l.inc.d1).slice(2) : (d.term || '')))}" placeholder="${d.excl ? '예: 3Y 또는 29-12-31' : '6M, 2Y, 27-06-30'}" ${dis} aria-label="기간 또는 만기일"><div class="mut mt" data-mt="${d.row}"></div></td>` +
+        (l.held ? `<td class="tm"><span class="mut">보유 딜 「${esc(l.held.name)}」 만기 ${fD(l.held.mat)}까지 이자 대신 MMF</span></td>` : `<td class="tm"><input class="tmi" value="${esc(d.matTxt ?? (l.inc ? fD(l.inc.d1).slice(2) : (d.term || '')))}" placeholder="${d.excl ? '예: 3Y 또는 29-12-31' : '6M, 2Y, 27-06-30'}" ${dis} aria-label="기간 또는 만기일"><div class="mut mt" data-mt="${d.row}"></div></td>`) +
         `<td><span class="src">${/^pim/i.test(l.src || '') ? 'PIMCO' : 'MMF'}</span></td>` +
         `<td class="r"><span class="eff"></span></td><td>${st}</td></tr>`;
     });
@@ -1916,7 +1939,7 @@ const APP = (() => {
     // ③ 배분 시트 새 딜 → 검토 중 / 추가 발굴 → 발굴필요
     let skipped = 0;
     (SIM ? SIM.deals : []).forEach(d => d.legs.forEach(l => {
-      if (l.im !== X || l.inc) return;
+      if (l.im !== X || l.inc || l.held) return;
       if (d.date == null || d.date <= base) { skipped++; return; }
       const tm = termMon(d.term), end0 = tm ? edate(d.date, tm) : null, end = end0 && end0 < P.cash ? end0 : P.cash;
       const kind = d.type === 'Mez' ? '메자닌' : g2Kind(d.name, '', d.type === 'Global' ? '' : '');
