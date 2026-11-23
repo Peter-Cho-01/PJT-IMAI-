@@ -1886,12 +1886,13 @@ const APP = (() => {
       let rem = x.amt, endD = x.side === '국내' ? x.mat : null; const tags = [], parts = [];
       (x.side === '국내' ? early.filter(q => !q.used && plainNm(x.name).startsWith(q.key) && (!isN(x.mat) || q.date <= x.mat)) : []).forEach(q => {
         q.used = true;
+        q.how = '날짜 오류(기표일 이전)'; q.deal = x.name;
         if (isN(x.st) && q.date <= x.st) { notes.push(`배분 시트 「${esc(q.name)}」 ${amt(q.amt)}억의 날짜(${fD(q.date)})가 기표일 이전·당일이라 반영하지 않음 — 날짜 확인 필요`); return; }
-        if (rem <= 0.5 || (endD != null && q.date >= endD && !q.past)) return;
+        if (rem <= 0.5 || (endD != null && q.date >= endD && !q.past)) { q.how = '만기일 이후 — 만기대로 처리'; return; }
         const take = Math.min(q.amt, rem);
-        if (q.past) { rem -= take; tags.push(`${fD(q.date).slice(5)} ${amt(take)}억 상환 차감`); return; }
-        if (take >= rem - 0.5) { endD = q.date; tags.push(`조기상환 ${fD(q.date).slice(5)}`); return; }
-        rem -= take; parts.push({ amt: take, date: q.date });
+        if (q.past) { q.how = `보유 금액에서 ${amt(take)}억 차감`; rem -= take; tags.push(`${fD(q.date).slice(5)} ${amt(take)}억 상환 차감`); return; }
+        if (take >= rem - 0.5) { q.how = '그날 전액 청산'; endD = q.date; tags.push(`조기상환 ${fD(q.date).slice(5)}`); return; }
+        q.how = `그날 ${amt(take)}억만 청산, 잔액 ${amt(rem - take)}억 보유`; rem -= take; parts.push({ amt: take, date: q.date });
       });
       if (rem <= 0.5) { notes.push(`「${esc(x.name)}」은 기준일 전 상환이 끝나 보유에서 제외 (${tags.join(', ')})`); return; }
       const base0 = { status: '기표완료', draw: iso(base), mat: '', cls, dur, src: x.side };
@@ -1899,6 +1900,7 @@ const APP = (() => {
       if (parts.length) tags.push(`잔액 ${amt(rem)}억`);
       assets.push(mk(Object.assign({ id, name: x.name + (tags.length ? ` (${tags.join(', ')})` : ''), amt: rem }, base0, exOf(endD)), x.rate, kind));
     });
+    if (early.length) notes.push(`배분 시트 ${X} 상환 행 처리: ` + early.map(q => `「${esc(q.name)}」 ${fD(q.date)} ${amt(q.amt)}억 → ${q.used ? (q.how ? (q.deal && !plainNm(q.name).startsWith(plainNm(q.deal)) ? esc(q.deal) + ' · ' : '') + q.how : '') : (q.past ? '기준일 이전·보유 딜 없음(무시)' : '보유 딜 없음(무시)')}`).join(' / '));
     early.filter(q => !q.used && !q.past).forEach(q => notes.push(`배분 시트 상환 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)})은 보유 딜과 이름이 맞지 않아 반영하지 않음`));
     // ② Master 기표예정 (IMA 시트 기표예정 목록) → 승인완료
     const fund = (a, src) => { if (/^pim/i.test(src || '') && pimRow.amt) pimRow.amt -= a.amt; else mmfRow.amt -= a.amt; };
