@@ -481,6 +481,17 @@ details.notes div{color:var(--ink-3);font-size:13.3px;line-height:1.75;margin-to
 .tabs button.on::after{content:'';position:absolute;left:14px;right:14px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--accent)}
 @media (max-width:900px){.top{padding:0 16px} .topbar{gap:10px} .top .meta{order:5;width:100%;margin:0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none} .top .meta::-webkit-scrollbar{display:none} .themesw button{padding:0 10px}}
 @media (max-width:640px){.themesw button{font-size:0;gap:0;padding:0 9px} .themesw button svg{width:16px;height:16px} .btn.ghost{font-size:0;gap:0;padding:0 10px} .btn.ghost svg{width:17px;height:17px} .tabs button{padding:0 12px;font-size:14px}}
+.testbadge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:12.3px;font-weight:700;color:var(--stress);background:var(--stress-soft);border:1px solid color-mix(in srgb,var(--stress) 45%,transparent);white-space:nowrap}.testbadge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--stress)}
+.teststicker{position:absolute;right:40px;bottom:-17px;z-index:30;display:flex;align-items:center;gap:10px;padding:6px 14px 6px 12px;transform:rotate(-2.5deg);
+  background:repeating-linear-gradient(-45deg,#FFD447 0 14px,#FFCB2B 14px 28px);color:#1B1600;border-radius:3px;pointer-events:none;
+  box-shadow:0 6px 14px rgba(0,0,0,.35),inset 0 0 0 1px rgba(0,0,0,.12);font-size:12.3px;letter-spacing:.02em;white-space:nowrap}
+.teststicker::before,.teststicker::after{content:'';position:absolute;top:-6px;width:34px;height:13px;background:rgba(255,255,255,.55);box-shadow:0 1px 2px rgba(0,0,0,.15)}
+.teststicker::before{left:-10px;transform:rotate(-38deg)} .teststicker::after{right:-10px;transform:rotate(38deg)}
+.teststicker b{font-size:15.3px;font-weight:800;letter-spacing:.06em;padding-right:10px;border-right:1.5px solid rgba(27,22,0,.45)}
+.teststicker span{font-weight:700}
+html[data-theme=light] .teststicker{box-shadow:0 6px 14px rgba(31,42,68,.22),inset 0 0 0 1px rgba(0,0,0,.12)}
+html[data-theme=light] .teststicker::before,html[data-theme=light] .teststicker::after{background:rgba(180,186,196,.65)}
+@media (max-width:640px){.teststicker{right:auto;left:172px;top:16px;bottom:auto;padding:4px 10px} .teststicker::before,.teststicker::after{width:22px;height:9px;top:-4px} .teststicker span{display:none} .teststicker b{border:0;padding:0;font-size:12.8px}}
 </style>
 </head>
 <body>
@@ -496,6 +507,8 @@ details.notes div{color:var(--ink-3);font-size:13.3px;line-height:1.75;margin-to
     </div>
     <button class="btn ghost" id="reopen" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/></svg>다른 파일 열기</button>
   </div>
+  <!-- 실험용 표시: 실제 부서 Master로 바꾸면 아래 한 줄 삭제 -->
+  <div class="teststicker" title="실제 부서 마스터 파일 아님, 복사본으로 작업 중"><b>실험용</b><span>실제 부서 마스터 파일 아님, 복사본으로 작업 중</span></div>
   <nav class="tabs" id="tabs" hidden aria-label="페이지"><button data-p="g2" class="on">시리즈 운용현황</button><button data-p="sim">수익률 시뮬레이션</button><button data-p="dp">Dry Powder</button><button data-p="appx">Appendix</button></nav>
 </header>
 <input type="file" id="file" accept=".xlsx,.xlsm" hidden>
