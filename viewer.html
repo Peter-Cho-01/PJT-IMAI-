@@ -569,7 +569,6 @@ details.notes div{color:var(--ink-3);font-size:13.3px;line-height:1.75;margin-to
   <section style="margin-top:0">
     <div class="sec-h"><h2>시리즈 운용현황</h2><span class="note">Master 기준일 보유·배분 딜로 자동 생성</span></div>
     <div id="g2warn" class="g2warn" hidden></div>
-    <details id="g2diag" class="notes" style="margin:0 0 12px"></details>
     <div class="seg dsel" id="g2sel"></div>
     <iframe id="g2frame" title="시리즈 운용현황" style="width:100%;height:1600px;border:0;border-radius:10px;background:var(--canvas);display:block"></iframe>
   </section>
@@ -1138,7 +1137,7 @@ function render() {
   const R = calc(S);
   document.getElementById('root').innerHTML = `
   <header><div><h1>IMA ${esc(S.name || 'G2')} 포트폴리오</h1><small>기준일 ${esc(S.asOf)}${S.saved ? ' · ' + esc(S.saved) : ''}</small></div><small>운용규모 ${won(R.aum)}${Math.abs(R.aum - S.raise) > 1e-6 ? ` <b style="color:#FF9AA8">(모집 ${won(S.raise)}과 불일치)</b>` : ''} · ${(+S.T).toFixed(1)}개월</small></header>
-  <main>${S.note ? `<details class="card snote"><summary><b>계산 기준·가정</b> (Master 기준일 스냅샷 · 눌러서 펼치기)</summary><div style="margin-top:8px">${S.note}</div></details>` : ''}${kpis(R)}${board(R)}${analysis(R)}${income(R)}${inputs()}</main>`;
+  <main>${kpis(R)}${board(R)}${analysis(R)}${income(R)}${inputs()}</main>`;
   bind(); try { parent.postMessage({ g2h: document.documentElement.scrollHeight }, '*'); } catch (e) {}
 }
 
@@ -1414,6 +1413,24 @@ const APP = (() => {
   }
 
   // ---------- S3~G2 배분 시트: 딜 행(월별 Dry Powder 시트 G6~H6 구간) ----------
+  // Dry Powder 시트 「Ⅳ. 조기·일부 상환 내역」 표: 확인 칸 OK인 행만 (확인 칸 값이 없으면 필수 칸만 확인)
+  function parseLedger(sh, S) {
+    const out = []; let t = 0;
+    for (let r = 1; r <= sh.lastRow; r++) { const b = txt(sh.v('B' + r)); if (/^Ⅳ\./.test(b) && /상환 내역/.test(b)) { t = r; break; } }
+    if (!t || txt(sh.v('B' + (t + 1))) !== 'IMA') return out;
+    const cx = {}; for (let c = 2; c <= 40; c++) { const h = txt(sh.v(L(c) + (t + 1))); if (h === '상환일') cx.d = c; else if (h.startsWith('상환액')) cx.a = c; else if (h.startsWith('딜명')) cx.n = c; else if (h === '확인') cx.ok = c; }
+    if (!cx.d || !cx.a || !cx.n) return out;
+    for (let r = t + 2; r <= Math.min(sh.lastRow, t + 400); r++) {
+      const ima = txt(sh.v('B' + r)); if (ima.startsWith('·')) break;
+      const name = txt(sh.v(L(cx.n) + r)), a = sh.v(L(cx.a) + r), dr = sh.v(L(cx.d) + r), ok = cx.ok ? txt(sh.v(L(cx.ok) + r)) : '';
+      const date = isN(dr) ? Math.floor(dr) : txtDate(dr, S.base);
+      if (!ima || !name || !isN(a) || !(a > 0) || date == null || (ok && ok !== 'OK')) continue;
+      out.push({ row: r, ima, name, amt: a, date });
+    }
+    return out.sort((x, y) => x.date - y.date);
+  }
+  const ledHeld = (e, items) => (items || []).find(x => x.side === '국내' && plainNm(x.name) === plainNm(e.name)) || matchHeld(e.name, items || []);
+  const ledDup = (q, list) => list.find(e => e.h && e.h === q.h && Math.abs(e.date - q.date) <= 7 && Math.abs(e.amt - q.amt) <= 0.5);
   // 글자로 입력된 날짜(예: '11월 26일', '1/22', '2027-01-22') → 엑셀 날짜 숫자. 연도가 없으면 기준일 기준으로 추정(기준일보다 3개월 넘게 앞서면 다음 해)
   function txtDate(v, base) {
     const t = String(v == null ? '' : v).trim(); if (!t || !isN(base)) return null;
@@ -1512,7 +1529,7 @@ const APP = (() => {
   }
 
   // ---------- 화면 ----------
-  let srcOD = null, srcNote = '', S = null, DB = {}, AL = [], INV = null, FUND = {}, LIQ = {}, mixBase = 'aum', basis = 'B', unit = 'amt', fileName = '', lastFocus = null, flowSel = '전체', flowSpan = 12;
+  let srcOD = null, srcNote = '', S = null, DB = {}, AL = [], LED = [], INV = null, FUND = {}, LIQ = {}, mixBase = 'aum', basis = 'B', unit = 'amt', fileName = '', lastFocus = null, flowSel = '전체', flowSpan = 12;
   const $ = id => document.getElementById(id);
   const col = (d, key) => { const k = Object.keys(d || {}).find(x => x.replace(/\s/g, '').startsWith(key)); return k ? d[k] : null; };
   const aumOf = im => col(im.D, '운용금액');
@@ -1575,7 +1592,7 @@ const APP = (() => {
   let simSel = 'S1';
   const rateOf = (P, k) => { const o = SIMA.by[P.name] || {}; if (o[k] != null) return o[k]; if (SIMA[k] != null) return SIMA[k]; return k === 'pim' ? 0.05 : k === 'mmf' ? (isN(P.mmf) ? P.mmf : 0.027) : (isN(P.reinv) ? P.reinv : 0.055); };   // 화면에서 바꿀 수 있는 가정 (null = IMA 시트 값)
   // 딜 하나(금액 a, 금리 r, 기표일 F, 만기일 Dm, 재원)가 Gross 기준월까지 누적수익에 더하는 값 (억원)
-  function simCum(P, a, r, F, Dm, src) {
+  function simCum(P, a, r, F, Dm, src, noReinv) {   // noReinv: 조기상환 = 원래 만기 뒤 재투자는 Master 가정 그대로 (상환~만기 구간만 차이)
     const S7 = P.st, S8 = P.mat, S12 = P.cash, mmf = rateOf(P, 'mmf'), rv = rateOf(P, 'reinv'), pim = rateOf(P, 'pim');
     const pimco = /^pim/i.test(String(src || '').trim());
     const dayOf = s => toD(s).getUTCDate();
@@ -1588,7 +1605,7 @@ const APP = (() => {
         if (eF <= em) {
           if (em <= eMin) it = a * r * (eF === em ? days - dayOf(F) : days) / 365;
           else if (eD < em && em < e2) it = 0;
-          else if (e2 <= em && em < eS12) it = a * rv * (e2 === em ? days - dayOf(e2s) : days) / 365;
+          else if (!noReinv && e2 <= em && em < eS12) it = a * rv * (e2 === em ? days - dayOf(e2s) : days) / 365;
         }
         const held = F <= em && Dm >= m && em < eS12, cut = pimco && eF <= em;
         const mday = Math.max(0, em - Math.max(m - 1, S7));
@@ -1630,6 +1647,7 @@ const APP = (() => {
         Object.entries(r.amts).forEach(([im, v]) => {
           if (!(v < 0) || !FUND[im]) return;
           const h = matchHeld(r.name, INV.items[im] || []);
+          if (h && ledDup({ h, date: r.date, amt: -v }, LED.filter(e => e.ima === im).map(e => ({ ...e, h: ledHeld(e, INV.items[im]) })))) return;   // Ⅳ 상환 내역에 있는 건은 그쪽으로
           if (h && isN(h.mat) && h.mat - 7 > r.date && !(isN(h.st) && r.date <= h.st)) legs.push({ im, a: -v, src: 'MMF', P: FUND[im], inc: null, note: '', held: h });
         });
         if (legs.length) deals.push({ row: r.row, name: r.name, type: r.type, term: '', date: r.date, dateTxt: r.dateTxt, rate0: legs[0].held.rate, rate: legs[0].held.rate, excl: false, rep: true, legs, on: true });
@@ -1657,20 +1675,27 @@ const APP = (() => {
       const li = d.legs.find(l => l.inc); d.rate = li ? (li.inc.rate || d.rate0) : d.rate0;
       deals.push(d);
     });
+    // Dry Powder 시트 Ⅳ 상환 내역 (지난 상환 포함): Master IMA 시트는 인벤토리 기표액 기준이라 반영 안 돼 있음
+    if (INV) LED.forEach(e => {
+      const P = FUND[e.ima]; if (!P) return;
+      const h = ledHeld(e, INV.items[e.ima]); if (!h || !isN(h.mat) || !(h.mat - 7 > e.date) || (isN(h.st) && e.date <= h.st)) return;
+      deals.push({ row: 100000 + e.row, name: `${h.name} 상환 (상환 내역 ${e.row}행)`, type: 'Loan', term: '', date: e.date, dateTxt: '', rate0: h.rate, rate: h.rate, excl: false, rep: true, led: true,
+        legs: [{ im: e.ima, a: e.amt, src: 'MMF', P, inc: null, note: '', held: h }], on: true });
+    });
     SIM = { deals };
   }
   // 딜 한 다리(IMA) = 시리즈별 상태: l.on(기표 여부) · l.amt(금액). 금리·기간은 딜 공통 (d.rate, d.mat)
   function legBase(l) { return l.inc ? { a: l.a, r: l.inc.rate, F: l.inc.d0, Dm: l.inc.d1 ?? 2958465 } : null; }
-  const legDis = (d, l) => !l.inc && (d.date == null || d.date <= S.base);
+  const legDis = (d, l) => !l.inc && !l.held && (d.date == null || d.date <= S.base);
   function legScen(d, l, on = l.on) {
     if (!on) return null;
     const a = isN(l.amt) ? l.amt : l.a, r = isN(d.rate) ? d.rate : null;
-    if (l.held) return r == null ? undefined : { a: -a, r, F: d.date, Dm: l.held.mat };
+    if (l.held) return r == null ? undefined : { a: -a, r, F: d.date, Dm: l.held.mat, nr: true };
     if (l.inc) { const F = l.inc.d0; return { a, r: r ?? l.inc.rate, F, Dm: d.mat != null ? termEnd(d, F) : (l.inc.d1 ?? 2958465) }; }
     if (legDis(d, l) || r == null) return undefined;    // 계산 불가
     return { a, r, F: d.date, Dm: termEnd(d, d.date) };
   }
-  const legCum = (P, x, src) => x ? simCum(P, x.a, x.r, x.F, x.Dm, src) : 0;
+  const legCum = (P, x, src) => x ? simCum(P, x.a, x.r, x.F, x.Dm, src, x.nr) : 0;
   function simLeg(d, l) {   // Master 대비 Gross 변화 (소수), 계산 불가면 null
     const P = l.P; if (!P) return null;
     const sc = legScen(d, l); if (sc === undefined) return null;
@@ -1843,7 +1868,7 @@ const APP = (() => {
       if (mk !== mon) { mon = mk; g += `<tr class="mon"><td colspan="9">${d.date != null ? toD(d.date).getUTCFullYear() + '년 ' + (toD(d.date).getUTCMonth() + 1) + '월' : '날짜 미정 (TBD)'}</td></tr>`; }
       const dis = legDis(d, l) ? 'disabled' : '';
       const others = d.legs.filter(x => x.im !== simSel).map(x => `${x.im} ${amt(x.a)}`).join(' · ');
-      const st = l.held ? '<span class="pill2 amb" title="인벤토리 보유 딜의 만기 전 상환. Master IMA 시트 Gross에는 아직 없음 → 체크하면 반영">조기상환</span>' : l.inc ? '<span class="pill2 grn">Master 반영됨</span>' : d.date != null && d.date <= S.base ? '<span class="pill2 amb" title="기준일 이전·당일 인출 행: 이미 기표완료로 Master에 들어 있거나 날짜 오기일 수 있음">기준일 이전 날짜</span>' : d.date == null ? '<span class="pill2 mut">날짜 미정</span>' : '<span class="st"></span>';
+      const st = l.held ? `<span class="pill2 amb" title="인벤토리 보유 딜의 만기 전 상환. Master IMA 시트 Gross에는 아직 없음 → 체크하면 반영">${d.led ? '상환 내역' : '조기상환'}</span>` : l.inc ? '<span class="pill2 grn">Master 반영됨</span>' : d.date != null && d.date <= S.base ? '<span class="pill2 amb" title="기준일 이전·당일 인출 행: 이미 기표완료로 Master에 들어 있거나 날짜 오기일 수 있음">기준일 이전 날짜</span>' : d.date == null ? '<span class="pill2 mut">날짜 미정</span>' : '<span class="st"></span>';
       g += `<tr data-k="${d.row}" data-j="${j}" class="${dis ? 'off' : ''}${d.excl && !dis ? ' goal' : ''}"><td><input type="checkbox" ${l.on ? 'checked' : ''} ${dis} aria-label="${esc(simSel + ' ' + d.name)} ${l.held ? '상환 반영' : '기표 가정'}"></td>` +
         `<td class="d">${d.date != null ? fD(d.date).slice(2) : esc(d.dateTxt || '미정')}</td>` +
         `<td class="nm">${esc(d.name)} <span class="tag ${esc(d.type)}">${esc(d.type)}</span>${others ? `<div class="mut">같은 딜 다른 시리즈: ${esc(others)}</div>` : ''}</td>` +
@@ -1905,35 +1930,44 @@ const APP = (() => {
     const mk = (o, rate, kind) => { const eb = kind === '메자닌';
       return Object.assign(o, { type: kind, eb, rate: eb ? EBB : (isN(rate) ? rate : mmf), worst: eb ? EBW : (isN(rate) ? rate : mmf), best: eb ? EBX : (isN(rate) ? rate : mmf),
         mrate: rate }); };
-    // 배분 시트 상환(음수) 행 — 앞으로 있을 상환만 반영, 이미 지난 상환은 인벤토리가 정답 (방식 C, 11-24 결정)
-    const early = [], warns = [];
+    // 상환: ① Dry Powder 시트 Ⅳ 상환 내역(기록, 지난 상환 포함) ② 배분 시트 상환(음수) 행 중 상환 내역과 겹치지 않는 앞으로의 상환 (11-24)
+    const HELD = INV && INV.items[X] || [], warns = [];
+    const led = LED.filter(e => e.ima === X).map(e => ({ ...e, h: ledHeld(e, HELD), src: 'led' }));
+    const early = [];
     AL.forEach(r => { const v = r.amts[X]; if (!(v < 0) || /맞추기/.test(r.name) || r.excl || r.date == null) return;
-      early.push({ date: r.date, name: r.name, row: r.row, amt: -v, past: r.date <= base, h: matchHeld(r.name, INV && INV.items[X] || []) }); });
+      const q = { date: r.date, name: r.name, row: r.row, amt: -v, past: r.date <= base, h: matchHeld(r.name, HELD), src: 'al' };
+      const du = ledDup(q, led); if (du) { q.dup = du; q.how = `Ⅳ 상환 내역 ${du.row}행과 같은 건 — 상환 내역으로 반영`; }
+      early.push(q); });
     early.sort((a, b) => a.date - b.date);
+    const evs = [...led, ...early.filter(q => !q.dup)].sort((a, b) => a.date - b.date);
     // ① 기준일 보유: 국내
-    (INV && INV.items[X] || []).forEach((x, i) => {
+    HELD.forEach((x, i) => {
       const id = 'h' + i, kind = x.side === '국내' ? g2Kind(x.name, x.cat, x.sub) : '해외펀드';
       const cls = x.side === '국내' ? g2Cls(x.cat) : '기타', dur = kind === '메자닌' ? 0.02 : x.side === '국내' && isN(x.mat) ? Math.max(0, (x.mat - base) / 365) : 0.25;
       const exOf = d => { const ex = d != null && d < P.cash ? d : P.cash; return { exit: Math.min(T, Math.max(0, mon(ex))), exitd: ex < P.cash ? iso(ex) : '' }; };
       let rem = x.amt, endD = x.side === '국내' ? x.mat : null; const tags = [], parts = [];
-      early.filter(q => q.h === x).forEach(q => {
-        const where = `배분 시트 ${q.row}행 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)})`;
+      evs.filter(q => q.h === x).forEach(q => {
+        const L = q.src === 'led';
+        const where = L ? `Dry Powder 시트 Ⅳ 상환 내역 ${q.row}행 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)})` : `배분 시트 ${q.row}행 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)})`;
         if (isN(x.st) && q.date <= x.st) { q.how = '날짜 오류(기표일 이전) — 반영 안 함'; warns.push(`${where}: 날짜가 「${esc(x.name)}」 기표일(${fD(x.st)}) 이전입니다. 날짜를 확인해 주세요.`); return; }
-        if (q.past) { q.how = '기준일 이전 상환 — 계산은 인벤토리 금액 그대로'; warns.push(`${where}: 기준일 이전 상환입니다. 국내 딜 인벤토리 「${esc(x.name)}」 금액·만기에 반영해 주세요(반영했다면 배분 시트 행 정리).`); return; }
-        if (isN(x.mat) && q.date >= x.mat - 7) { q.how = '만기 상환 — 인벤토리 만기대로 처리'; return; }
-        if (endD != null && q.date >= endD) { q.how = '이미 전액 청산된 뒤 — 반영 안 함'; return; }
+        if (q.past && !L) { q.how = '기준일 이전 상환 — 반영 안 함'; warns.push(`${where}: 기준일 이전 상환입니다. Dry Powder 시트 「Ⅳ. 조기·일부 상환 내역」에 기록해 주세요(기록하면 이 경고는 사라집니다).`); return; }
+        if (!L && isN(x.mat) && q.date >= x.mat - 7) { q.how = '만기 상환 — 인벤토리 만기대로 처리'; return; }
+        if (rem <= 0.5 || (endD != null && q.date >= endD)) { q.how = '이미 전액 청산된 뒤 — 반영 안 함'; return; }
         const take = Math.min(q.amt, rem);
+        if (q.date <= base) { q.how = `보유 금액에서 ${amt(take)}억 차감`; rem -= take; tags.push(`${fD(q.date).slice(5)} ${amt(take)}억 상환 차감`); return; }
         if (take >= rem - 0.5) { q.how = '그날 전액 청산'; endD = q.date; tags.push(`조기상환 ${fD(q.date).slice(5)}`); return; }
         q.how = `그날 ${amt(take)}억만 청산, 잔액 ${amt(rem - take)}억 보유`; rem -= take; parts.push({ amt: take, date: q.date });
       });
+      if (rem <= 0.5) { if (tags.length) notes.push(`「${esc(x.name)}」은 기준일 전 상환이 끝나 보유에서 제외 (${tags.join(', ')})`); return; }
       const base0 = { status: '기표완료', draw: iso(base), mat: '', cls, dur, src: x.side };
       parts.forEach((q, k) => assets.push(mk(Object.assign({ id: id + 'r' + k, name: `${x.name} (일부상환 ${fD(q.date).slice(5)})`, amt: q.amt }, base0, exOf(q.date)), x.rate, kind)));
       if (parts.length) tags.push(`잔액 ${amt(rem)}억`);
       assets.push(mk(Object.assign({ id, name: x.name + (tags.length ? ` (${tags.join(', ')})` : ''), amt: rem }, base0, exOf(endD)), x.rate, kind));
     });
-    early.filter(q => !q.h).forEach(q => { q.how = q.past ? '기준일 이전·연결할 보유 딜 없음 — 이미 정리된 것으로 봄' : '연결할 보유 딜 없음 — 반영 안 함';
+    led.filter(e => !e.h).forEach(e => { e.how = '연결할 보유 딜 없음 — 반영 안 함'; warns.push(`Dry Powder 시트 Ⅳ 상환 내역 ${e.row}행 「${esc(e.name)}」: ${X} 인벤토리에서 같은 딜을 찾지 못했습니다. 딜명을 인벤토리 프로젝트명 그대로 적어 주세요.`); });
+    early.filter(q => !q.h && !q.dup).forEach(q => { q.how = q.past ? '기준일 이전·연결할 보유 딜 없음 — 이미 정리된 것으로 봄' : '연결할 보유 딜 없음 — 반영 안 함';
       if (!q.past) warns.push(`배분 시트 ${q.row}행 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)}): ${X} 인벤토리에서 이름이 맞는 보유 딜을 찾지 못했습니다. 딜명 앞부분을 인벤토리 프로젝트명과 맞춰 주세요.`); });
-    if (early.length) notes.push(`배분 시트 ${X} 상환 행 처리: ` + early.map(q => `「${esc(q.name)}」 ${fD(q.date)} ${amt(q.amt)}억 → ${q.h ? esc(q.h.name) + ' · ' : ''}${q.how}`).join(' / '));
+    if (led.length || early.length) notes.push(`${X} 상환 처리: ` + [...led.map(e => ({ ...e, nm: `상환 내역 ${e.row}행` })), ...early.map(q => ({ ...q, nm: `배분 ${q.row}행` }))].map(q => `${q.nm} 「${esc(q.name)}」 ${fD(q.date)} ${amt(q.amt)}억 → ${q.h ? esc(q.h.name) + ' · ' : ''}${q.how || ''}`).join(' / '));
     // ② Master 기표예정 (IMA 시트 기표예정 목록) → 승인완료
     const fund = (a, src) => { if (/^pim/i.test(src || '') && pimRow.amt) pimRow.amt -= a.amt; else mmfRow.amt -= a.amt; };
     (P.plan || []).forEach((x, i) => {
@@ -1982,13 +2016,6 @@ const APP = (() => {
     const st = g2State(g2Sel); window.__G2 = st;
     const ws = (st && st._warns) || [], wb = $('g2warn');
     wb.hidden = !ws.length; wb.innerHTML = ws.length ? `<b>확인 필요 ${ws.length}건</b> (배분 시트 상환 행)<ul>${ws.map(w => `<li>${w}</li>`).join('')}</ul>` : '';
-    // 진단: 배분 시트에서 실제로 읽은 상환 행 (현황판이 받은 Master 그대로)
-    const p = S.pos || {}, rep = AL.filter(r => /상환/.test(r.name) || Object.values(r.amts).some(v => v < 0));
-    const mine = rep.filter(r => r.amts[g2Sel] != null);
-    const jb = (INV && INV.items[g2Sel] || []).length;
-    $('g2diag').innerHTML = `<summary>배분 시트 읽기 진단 (${esc(g2Sel)})</summary><div>배분 시트 ${p.start ?? '?'}~${p.end ?? '?'}행 · 날짜 ${isN(p.dateCol) ? L(p.dateCol) : '?'}열 · 읽은 딜 행 ${AL.length}개 · ${esc(g2Sel)} 인벤토리 보유 ${jb}건<br>` +
-      (mine.length ? mine.map(r => `${r.row}행 「${esc(r.name)}」 ${esc(g2Sel)} ${amt(r.amts[g2Sel])}억 · 날짜 ${r.date != null ? fD(r.date) : '못 읽음(' + esc(r.dateTxt || '빈칸') + ')'}`).join('<br>') : `${esc(g2Sel)} 금액이 있는 상환 행 0건`) +
-      `<br><span class="mut">이름에 '상환'이 있거나 음수인 행 전체 ${rep.length}건: ${rep.map(r => `${r.row}행 ${esc(r.name)}`).join(', ') || '없음'}</span></div>`;
     let tpl = document.getElementById('g2tpl').textContent.replace(/<\\\/script/g, '</script');
     if (THEME === 'light') tpl = tpl.replace(/\/\*DARK-START\*\/[\s\S]*?\/\*DARK-END\*\//, '');
     tpl = tpl.replace('<html lang="ko">', `<html lang="ko" data-theme="${THEME}">`);
@@ -2016,13 +2043,24 @@ const APP = (() => {
       names.forEach(nm => { const v = r.amts[nm]; if (!isN(v) || Math.abs(v) < 1e-9) return;
         ev[i].push({ k: v > 0 ? 'out' : 'rep', ima: nm, name: r.name, type: r.type, v: -v, excl: r.excl, pre: r.date <= S.base, d: r.date }); });
     });
-    // 기표완료 딜 만기 (국내 딜 인벤토리 만기일). 배분 시트 상환 행과 같은 날·같은 금액이면 한 번만 표시
+    // Dry Powder 시트 Ⅳ 상환 내역 (기준일 이후): 배분 시트에 같은 상환(±7일·같은 금액)이 있으면 그 행에 묶음
+    const ledOf = (nm, x) => INV ? LED.filter(e => e.ima === nm && ledHeld(e, INV.items[nm]) === x) : [];
+    LED.forEach(e => {
+      if (!names.includes(e.ima) || e.date <= S.base || e.date < ds[0] || e.date > ds[n - 1]) return;
+      const i = at(e.date); if (i < 0) return;
+      const h = INV ? ledHeld(e, INV.items[e.ima]) : null, nmH = h ? h.name : e.name;
+      let dup = null; ev.forEach(E => E.forEach(x => { if (!dup && x.k === 'rep' && x.ima === e.ima && !x.excl && !x.led && Math.abs(x.d - e.date) <= 7 && Math.abs(x.v - e.amt) < 0.5) dup = x; }));
+      if (dup) { dup.inv = nmH; dup.led = true; return; }
+      ev[i].push({ k: 'rep', ima: e.ima, name: `${nmH} 조기상환 (상환 내역)`, type: 'Loan', v: e.amt, inv: nmH, led: true, d: e.date });
+    });
+    // 기표완료 딜 만기 (국내 딜 인벤토리 만기일, Ⅳ 상환 내역만큼 뺀 금액). 배분 시트 상환 행과 같은 날·같은 금액이면 한 번만 표시
     if (INV) names.forEach(nm => (INV.items[nm] || []).forEach(x => {
       if (!isN(x.mat) || x.mat <= S.base || x.mat > ds[n - 1]) return;
       const i = at(x.mat); if (i < 0) return;
-      const dup = ev[i].find(e => e.k === 'rep' && e.ima === nm && !e.excl && !e.inv && Math.abs(e.v - x.amt) < 0.5);
+      const left = x.amt - ledOf(nm, x).reduce((t, e) => t + e.amt, 0); if (left <= 0.5) return;
+      const dup = ev[i].find(e => e.k === 'rep' && e.ima === nm && !e.excl && !e.inv && Math.abs(e.v - left) < 0.5);
       if (dup) { dup.inv = x.name; return; }
-      ev[i].push({ k: 'mat', ima: nm, name: x.name, type: x.cat, v: x.amt, d: x.mat });
+      ev[i].push({ k: 'mat', ima: nm, name: x.name + (left < x.amt - 0.5 ? ` (상환 후 잔액)` : ''), type: x.cat, v: left, d: x.mat });
     }));
     // 기표예정 딜 만기 (국내 딜 인벤토리에 기표일 > 기준일로 등록된 딜) — 기준 B에만 반영, IMA 만기 이후 만기는 제외
     if (INV) names.forEach(nm => { const im = S.ima.find(x => x.name === nm), MAT = im && im.mat ? im.mat : Infinity;
@@ -2566,7 +2604,7 @@ const APP = (() => {
   function notesFill() { $('notes').innerHTML = S.notes.map(esc).join('<br>'); }
   function fDT(iso) { const d = new Date(iso); if (isNaN(d)) return ''; const p = n => String(n).padStart(2, '0'); return `${d.getFullYear() % 100}.${p(d.getMonth() + 1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; }
   function render() {
-    $('meta').innerHTML = `<span>기준일 <b>${fD(S.base)}</b></span><span title="현황판 화면(viewer.html) 버전">화면 <b>11-24d</b></span><span>파일 <b>${esc(fileName)}</b>${srcOD ? ` · OneDrive 저장 <b>${esc(fDT(srcOD.mod))}</b>` : ''}${srcNote ? ` · ${srcNote}` : ''}</span><span>IMA <b>${S.ima.length}</b>개 · 월 <b>${S.months.length}</b>개</span>`;
+    $('meta').innerHTML = `<span>기준일 <b>${fD(S.base)}</b></span><span title="현황판 화면(viewer.html) 버전">화면 <b>11-24f</b></span><span>파일 <b>${esc(fileName)}</b>${srcOD ? ` · OneDrive 저장 <b>${esc(fDT(srcOD.mod))}</b>` : ''}${srcNote ? ` · ${srcNote}` : ''}</span><span>IMA <b>${S.ima.length}</b>개 · 월 <b>${S.months.length}</b>개</span>`;
     kpis(); daily(); heat(); mix(); sched(); timeline(); cards(); notesFill(); imaSel(); simInit(); g2Init();
   }
 
@@ -2577,7 +2615,7 @@ const APP = (() => {
       const book = await XR.open(buf);
       let sh = null; for (const n of SHEETS_DP) { sh = await book.sheet(n); if (sh) break; }
       if (!sh) throw new Error(`이 파일에 '월별 Dry Powder' 시트가 없습니다.\n월별 Dry Powder 시트가 추가된 Master 파일을 올려 주세요.`);
-      S = parse(sh); fileName = file.name; srcOD = file.od || null; srcNote = file.note || ''; if (!file.od) $('odRefresh').hidden = true;
+      S = parse(sh); try { LED = parseLedger(sh, S); } catch (e) { LED = []; } fileName = file.name; srcOD = file.od || null; srcNote = file.note || ''; if (!file.od) $('odRefresh').hidden = true;
       try { DB = parseDash(await book.sheet(DASH)); } catch (e) { DB = {}; }
       try { AL = parseAlloc(await book.sheet('S3~G2 배분'), S); } catch (e) { AL = []; }
       LIQ = {}; try { const ash = await book.sheet('S3~G2 배분'); if (ash) for (let r = 1; r <= 12; r++) { const t = txt(ash.v('B' + r));
