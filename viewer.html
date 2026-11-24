@@ -304,6 +304,7 @@ details.dtbl summary{cursor:pointer;font-weight:700;font-size:15.3px} details.dt
 .tbl tbody tr.click{cursor:pointer} .tbl tbody tr.click:hover th.rowh{color:var(--accent)}
 .tbl tr.tot th,.tbl tr.tot td{font-weight:700;border-top:2px solid var(--line-2)}
 .tbl td.neg{color:var(--breach)} .tbl td.mute{color:var(--ink-3)}
+.g2warn{margin:0 0 12px;padding:10px 14px;border:1px solid var(--warn,#E6A54A);border-left-width:4px;border-radius:8px;background:color-mix(in srgb,var(--warn,#E6A54A) 10%,transparent);font-size:13.8px;color:var(--ink-2)} .g2warn b{color:var(--ink)} .g2warn ul{margin:6px 0 0 18px;padding:0} .g2warn li{margin:2px 0}
 details.notes{margin-top:30px}
 details.notes summary{cursor:pointer;color:var(--ink-2);font-weight:600}
 details.notes div{color:var(--ink-3);font-size:13.3px;line-height:1.75;margin-top:10px}
@@ -567,6 +568,7 @@ details.notes div{color:var(--ink-3);font-size:13.3px;line-height:1.75;margin-to
 <div class="page" id="page-g2" hidden>
   <section style="margin-top:0">
     <div class="sec-h"><h2>시리즈 운용현황</h2><span class="note">Master 기준일 보유·배분 딜로 자동 생성</span></div>
+    <div id="g2warn" class="g2warn" hidden></div>
     <div class="seg dsel" id="g2sel"></div>
     <iframe id="g2frame" title="시리즈 운용현황" style="width:100%;height:1600px;border:0;border-radius:10px;background:var(--canvas);display:block"></iframe>
   </section>
@@ -1626,8 +1628,8 @@ const APP = (() => {
         const legs = [];
         Object.entries(r.amts).forEach(([im, v]) => {
           if (!(v < 0) || !FUND[im]) return;
-          const key = plain(r.name).slice(0, 4), h = (INV.items[im] || []).find(x => x.side === '국내' && plain(x.name).startsWith(key) && isN(x.mat) && x.mat > r.date + 7);
-          if (h) legs.push({ im, a: -v, src: 'MMF', P: FUND[im], inc: null, note: '', held: h });
+          const h = matchHeld(r.name, INV.items[im] || []);
+          if (h && isN(h.mat) && h.mat - 7 > r.date && !(isN(h.st) && r.date <= h.st)) legs.push({ im, a: -v, src: 'MMF', P: FUND[im], inc: null, note: '', held: h });
         });
         if (legs.length) deals.push({ row: r.row, name: r.name, type: r.type, term: '', date: r.date, dateTxt: r.dateTxt, rate0: legs[0].held.rate, rate: legs[0].held.rate, excl: false, rep: true, legs, on: true });
         return;
@@ -1884,6 +1886,12 @@ const APP = (() => {
   }
   const g2Cls = cat => cat === '부동산' ? '부동산' : (cat === '기업금융' || cat === '인수금융') ? '기업금융' : '기타';
   const plainNm = t => String(t || '').replace(/[\s()（）·,]/g, '');
+  // 상환 행 딜명 ↔ 인벤토리 보유 딜: 앞에서부터 가장 길게 같은 딜 (4글자 이상)
+  function matchHeld(name, items) {
+    const n = plainNm(name); let best = null, bl = 3;
+    items.forEach(x => { if (x.side !== '국내') return; const m = plainNm(x.name); let k = 0; while (k < n.length && k < m.length && n[k] === m[k]) k++; if (k > bl) { bl = k; best = x; } });
+    return best;
+  }
   function g2State(X) {
     const P = FUND[X]; if (!P) return null;
     const base = S.base, iso = fD, mon = d => (d - base) / (365 / 12);
@@ -1896,10 +1904,10 @@ const APP = (() => {
     const mk = (o, rate, kind) => { const eb = kind === '메자닌';
       return Object.assign(o, { type: kind, eb, rate: eb ? EBB : (isN(rate) ? rate : mmf), worst: eb ? EBW : (isN(rate) ? rate : mmf), best: eb ? EBX : (isN(rate) ? rate : mmf),
         mrate: rate }); };
-    // 조기상환: 배분 시트 음수(상환) 행 중 보유 딜과 이름 앞 4글자가 같은 것
-    const early = [];
-    // 일부 상환은 그 금액만, 기준일 이전 상환은 보유 금액에서 차감 (현금은 이미 MMF 총액에 포함)
-    AL.forEach(r => { const v = r.amts[X]; if (!(v < 0) || /맞추기/.test(r.name) || r.excl || r.date == null) return; early.push({ key: plainNm(r.name).slice(0, 4), date: r.date, name: r.name, amt: -v, past: r.date <= base }); });
+    // 배분 시트 상환(음수) 행 — 앞으로 있을 상환만 반영, 이미 지난 상환은 인벤토리가 정답 (방식 C, 11-24 결정)
+    const early = [], warns = [];
+    AL.forEach(r => { const v = r.amts[X]; if (!(v < 0) || /맞추기/.test(r.name) || r.excl || r.date == null) return;
+      early.push({ date: r.date, name: r.name, row: r.row, amt: -v, past: r.date <= base, h: matchHeld(r.name, INV && INV.items[X] || []) }); });
     early.sort((a, b) => a.date - b.date);
     // ① 기준일 보유: 국내
     (INV && INV.items[X] || []).forEach((x, i) => {
@@ -1907,24 +1915,24 @@ const APP = (() => {
       const cls = x.side === '국내' ? g2Cls(x.cat) : '기타', dur = kind === '메자닌' ? 0.02 : x.side === '국내' && isN(x.mat) ? Math.max(0, (x.mat - base) / 365) : 0.25;
       const exOf = d => { const ex = d != null && d < P.cash ? d : P.cash; return { exit: Math.min(T, Math.max(0, mon(ex))), exitd: ex < P.cash ? iso(ex) : '' }; };
       let rem = x.amt, endD = x.side === '국내' ? x.mat : null; const tags = [], parts = [];
-      (x.side === '국내' ? early.filter(q => !q.used && plainNm(x.name).startsWith(q.key) && (!isN(x.mat) || q.date <= x.mat)) : []).forEach(q => {
-        q.used = true;
-        q.how = '날짜 오류(기표일 이전)'; q.deal = x.name;
-        if (isN(x.st) && q.date <= x.st) { notes.push(`배분 시트 「${esc(q.name)}」 ${amt(q.amt)}억의 날짜(${fD(q.date)})가 기표일 이전·당일이라 반영하지 않음 — 날짜 확인 필요`); return; }
-        if (rem <= 0.5 || (endD != null && q.date >= endD && !q.past)) { q.how = '만기일 이후 — 만기대로 처리'; return; }
+      early.filter(q => q.h === x).forEach(q => {
+        const where = `배분 시트 ${q.row}행 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)})`;
+        if (isN(x.st) && q.date <= x.st) { q.how = '날짜 오류(기표일 이전) — 반영 안 함'; warns.push(`${where}: 날짜가 「${esc(x.name)}」 기표일(${fD(x.st)}) 이전입니다. 날짜를 확인해 주세요.`); return; }
+        if (q.past) { q.how = '기준일 이전 상환 — 계산은 인벤토리 금액 그대로'; warns.push(`${where}: 기준일 이전 상환입니다. 국내 딜 인벤토리 「${esc(x.name)}」 금액·만기에 반영해 주세요(반영했다면 배분 시트 행 정리).`); return; }
+        if (isN(x.mat) && q.date >= x.mat - 7) { q.how = '만기 상환 — 인벤토리 만기대로 처리'; return; }
+        if (endD != null && q.date >= endD) { q.how = '이미 전액 청산된 뒤 — 반영 안 함'; return; }
         const take = Math.min(q.amt, rem);
-        if (q.past) { q.how = `보유 금액에서 ${amt(take)}억 차감`; rem -= take; tags.push(`${fD(q.date).slice(5)} ${amt(take)}억 상환 차감`); return; }
         if (take >= rem - 0.5) { q.how = '그날 전액 청산'; endD = q.date; tags.push(`조기상환 ${fD(q.date).slice(5)}`); return; }
         q.how = `그날 ${amt(take)}억만 청산, 잔액 ${amt(rem - take)}억 보유`; rem -= take; parts.push({ amt: take, date: q.date });
       });
-      if (rem <= 0.5) { notes.push(`「${esc(x.name)}」은 기준일 전 상환이 끝나 보유에서 제외 (${tags.join(', ')})`); return; }
       const base0 = { status: '기표완료', draw: iso(base), mat: '', cls, dur, src: x.side };
       parts.forEach((q, k) => assets.push(mk(Object.assign({ id: id + 'r' + k, name: `${x.name} (일부상환 ${fD(q.date).slice(5)})`, amt: q.amt }, base0, exOf(q.date)), x.rate, kind)));
       if (parts.length) tags.push(`잔액 ${amt(rem)}억`);
       assets.push(mk(Object.assign({ id, name: x.name + (tags.length ? ` (${tags.join(', ')})` : ''), amt: rem }, base0, exOf(endD)), x.rate, kind));
     });
-    if (early.length) notes.push(`배분 시트 ${X} 상환 행 처리: ` + early.map(q => `「${esc(q.name)}」 ${fD(q.date)} ${amt(q.amt)}억 → ${q.used ? (q.how ? (q.deal && !plainNm(q.name).startsWith(plainNm(q.deal)) ? esc(q.deal) + ' · ' : '') + q.how : '') : (q.past ? '기준일 이전·보유 딜 없음(무시)' : '보유 딜 없음(무시)')}`).join(' / '));
-    early.filter(q => !q.used && !q.past).forEach(q => notes.push(`배분 시트 상환 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)})은 보유 딜과 이름이 맞지 않아 반영하지 않음`));
+    early.filter(q => !q.h).forEach(q => { q.how = q.past ? '기준일 이전·연결할 보유 딜 없음 — 이미 정리된 것으로 봄' : '연결할 보유 딜 없음 — 반영 안 함';
+      if (!q.past) warns.push(`배분 시트 ${q.row}행 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)}): ${X} 인벤토리에서 이름이 맞는 보유 딜을 찾지 못했습니다. 딜명 앞부분을 인벤토리 프로젝트명과 맞춰 주세요.`); });
+    if (early.length) notes.push(`배분 시트 ${X} 상환 행 처리: ` + early.map(q => `「${esc(q.name)}」 ${fD(q.date)} ${amt(q.amt)}억 → ${q.h ? esc(q.h.name) + ' · ' : ''}${q.how}`).join(' / '));
     // ② Master 기표예정 (IMA 시트 기표예정 목록) → 승인완료
     const fund = (a, src) => { if (/^pim/i.test(src || '') && pimRow.amt) pimRow.amt -= a.amt; else mmfRow.amt -= a.amt; };
     (P.plan || []).forEach((x, i) => {
@@ -1957,10 +1965,10 @@ const APP = (() => {
     const note = `<b>기준일 ${fD(base)} 스냅샷 · 남은 기간 ${T.toFixed(1)}개월(만기 ${fD(P.mat)}) 기준</b> — 운용규모 = 기준일 보유 국내·해외·유동성 합계 ${amt(raise)}억 (Master 운용금액 ${amt(P.aum)}억). ` +
       `기대수익률은 남은 기간 기준이라 Master 예상 Gross(설정일부터, ${P.grossOk ? pct(P.gross, 2) : '미산출'})와 다릅니다. ` +
       `보수 ${pct(P.fee, 2)}·기준수익률 ${isN(P.hurdle) ? pct(P.hurdle, 2) : '미입력'}·당사 성과배분 ${isN(P.share) ? pct(1 - P.share, 0) : '미입력'} = IMA 시트 값. ` +
-      `국내 딜 청산 = min(딜 만기, 조기상환일, 만기 M-3 ${fD(P.cash)}). 배분 시트 상환 행(이름 앞 4글자 = 보유 딜)은 금액만큼만 반영: 기준일 이후 일부 상환은 그 금액만 그날 청산, 기준일 이전 상환은 보유 금액에서 차감(현금은 MMF 총액에 이미 포함). 해외펀드·장기 딜은 M-3 매각. 자산 분류 = 국내 인벤토리 대구분(인수금융→기업금융), 배분 시트 새 딜은 기업금융(이름에 PF가 있으면 부동산), 해외·유동성 = 기타 — 확인 필요. ` +
+      `국내 딜 청산 = min(딜 만기, 조기상환일, 만기 M-3 ${fD(P.cash)}). 배분 시트 상환 행은 이름이 가장 길게 같은 인벤토리 보유 딜에 연결: 만기 전 상환은 그 금액만 그날 청산(전액이면 딜 청산), 만기일 상환은 인벤토리 만기대로, 기준일 이전 상환은 인벤토리 금액을 따르고 경고 표시. 해외펀드·장기 딜은 M-3 매각. 자산 분류 = 국내 인벤토리 대구분(인수금융→기업금융), 배분 시트 새 딜은 기업금융(이름에 PF가 있으면 부동산), 해외·유동성 = 기타 — 확인 필요. ` +
       (mez.length ? `메자닌 ${mez.length}건(${mez.map(a => esc(a.name)).join(', ')})은 Worst 0% · Base 10% · Best 15% 가정(Master 수익률 ${mez.map(a => isN(a.mrate) ? pct(a.mrate, 1) : '없음').join('/')}), 가정 입력 표에서 수정. ` : '') +
       `드라이파우더 = 운용규모 − 인출된 자산 − 현금 버퍼(AUM 5% ${amt(L0.buf || 0)}억) − 승인 브릿지 = Dry Powder 시트 기준 B와 같은 정의(PIMCO 포함). 새 딜 재원은 배분 시트 투자재원대로 MMF 또는 PIMCO 행에서 차감 (MMF가 음수면 만기 회수금으로 충당한다는 뜻).` + (notes.length ? '<br>' + notes.join('<br>') : '');
-    return { name: X, asOf: iso(base), T: +T.toFixed(3), mmf, fee: isN(P.fee) ? P.fee : 0, hurdle: isN(P.hurdle) ? P.hurdle : 0, share: isN(P.share) ? 1 - P.share : 0, scen: {}, assets, fills: [], start: iso(base), raise, note };
+    return { _warns: warns, name: X, asOf: iso(base), T: +T.toFixed(3), mmf, fee: isN(P.fee) ? P.fee : 0, hurdle: isN(P.hurdle) ? P.hurdle : 0, share: isN(P.share) ? 1 - P.share : 0, scen: {}, assets, fills: [], start: iso(base), raise, note };
   }
   let g2Sel = null;
   function g2Init() {
@@ -1971,6 +1979,8 @@ const APP = (() => {
       '';
     document.querySelectorAll('#g2sel button').forEach(b => b.onclick = () => { g2Sel = b.dataset.n; g2Init(); });
     const st = g2State(g2Sel); window.__G2 = st;
+    const ws = (st && st._warns) || [], wb = $('g2warn');
+    wb.hidden = !ws.length; wb.innerHTML = ws.length ? `<b>확인 필요 ${ws.length}건</b> (배분 시트 상환 행)<ul>${ws.map(w => `<li>${w}</li>`).join('')}</ul>` : '';
     let tpl = document.getElementById('g2tpl').textContent.replace(/<\\\/script/g, '</script');
     if (THEME === 'light') tpl = tpl.replace(/\/\*DARK-START\*\/[\s\S]*?\/\*DARK-END\*\//, '');
     tpl = tpl.replace('<html lang="ko">', `<html lang="ko" data-theme="${THEME}">`);
