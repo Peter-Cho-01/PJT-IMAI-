@@ -569,6 +569,7 @@ details.notes div{color:var(--ink-3);font-size:13.3px;line-height:1.75;margin-to
   <section style="margin-top:0">
     <div class="sec-h"><h2>시리즈 운용현황</h2><span class="note">Master 기준일 보유·배분 딜로 자동 생성</span></div>
     <div id="g2warn" class="g2warn" hidden></div>
+    <details id="g2diag" class="notes" style="margin:0 0 12px"></details>
     <div class="seg dsel" id="g2sel"></div>
     <iframe id="g2frame" title="시리즈 운용현황" style="width:100%;height:1600px;border:0;border-radius:10px;background:var(--canvas);display:block"></iframe>
   </section>
@@ -1981,6 +1982,13 @@ const APP = (() => {
     const st = g2State(g2Sel); window.__G2 = st;
     const ws = (st && st._warns) || [], wb = $('g2warn');
     wb.hidden = !ws.length; wb.innerHTML = ws.length ? `<b>확인 필요 ${ws.length}건</b> (배분 시트 상환 행)<ul>${ws.map(w => `<li>${w}</li>`).join('')}</ul>` : '';
+    // 진단: 배분 시트에서 실제로 읽은 상환 행 (현황판이 받은 Master 그대로)
+    const p = S.pos || {}, rep = AL.filter(r => /상환/.test(r.name) || Object.values(r.amts).some(v => v < 0));
+    const mine = rep.filter(r => r.amts[g2Sel] != null);
+    const jb = (INV && INV.items[g2Sel] || []).length;
+    $('g2diag').innerHTML = `<summary>배분 시트 읽기 진단 (${esc(g2Sel)})</summary><div>배분 시트 ${p.start ?? '?'}~${p.end ?? '?'}행 · 날짜 ${isN(p.dateCol) ? L(p.dateCol) : '?'}열 · 읽은 딜 행 ${AL.length}개 · ${esc(g2Sel)} 인벤토리 보유 ${jb}건<br>` +
+      (mine.length ? mine.map(r => `${r.row}행 「${esc(r.name)}」 ${esc(g2Sel)} ${amt(r.amts[g2Sel])}억 · 날짜 ${r.date != null ? fD(r.date) : '못 읽음(' + esc(r.dateTxt || '빈칸') + ')'}`).join('<br>') : `${esc(g2Sel)} 금액이 있는 상환 행 0건`) +
+      `<br><span class="mut">이름에 '상환'이 있거나 음수인 행 전체 ${rep.length}건: ${rep.map(r => `${r.row}행 ${esc(r.name)}`).join(', ') || '없음'}</span></div>`;
     let tpl = document.getElementById('g2tpl').textContent.replace(/<\\\/script/g, '</script');
     if (THEME === 'light') tpl = tpl.replace(/\/\*DARK-START\*\/[\s\S]*?\/\*DARK-END\*\//, '');
     tpl = tpl.replace('<html lang="ko">', `<html lang="ko" data-theme="${THEME}">`);
@@ -2558,7 +2566,7 @@ const APP = (() => {
   function notesFill() { $('notes').innerHTML = S.notes.map(esc).join('<br>'); }
   function fDT(iso) { const d = new Date(iso); if (isNaN(d)) return ''; const p = n => String(n).padStart(2, '0'); return `${d.getFullYear() % 100}.${p(d.getMonth() + 1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; }
   function render() {
-    $('meta').innerHTML = `<span>기준일 <b>${fD(S.base)}</b></span><span title="현황판 화면(viewer.html) 버전">화면 <b>11-24c</b></span><span>파일 <b>${esc(fileName)}</b>${srcOD ? ` · OneDrive 저장 <b>${esc(fDT(srcOD.mod))}</b>` : ''}${srcNote ? ` · ${srcNote}` : ''}</span><span>IMA <b>${S.ima.length}</b>개 · 월 <b>${S.months.length}</b>개</span>`;
+    $('meta').innerHTML = `<span>기준일 <b>${fD(S.base)}</b></span><span title="현황판 화면(viewer.html) 버전">화면 <b>11-24d</b></span><span>파일 <b>${esc(fileName)}</b>${srcOD ? ` · OneDrive 저장 <b>${esc(fDT(srcOD.mod))}</b>` : ''}${srcNote ? ` · ${srcNote}` : ''}</span><span>IMA <b>${S.ima.length}</b>개 · 월 <b>${S.months.length}</b>개</span>`;
     kpis(); daily(); heat(); mix(); sched(); timeline(); cards(); notesFill(); imaSel(); simInit(); g2Init();
   }
 
