@@ -990,17 +990,19 @@ function schedule(R) {
   const slotDraws = R.A.filter(a => a.status === '발굴필요' && !isLiq(a)).map(a => D(a.draw));
   const mark = i => slotDraws.some(sd => sd >= W[i].w0 && sd < W[i].w0 + wk);
   const hc = i => (mark(i) ? ' drawc' : '') + (i > 0 && new Date(W[i].w0).getMonth() !== new Date(W[i - 1].w0).getMonth() ? ' mon' : '');
-  let h = `<table class="gantt"><tr><th class="l">구분 (금액 · 인출~만기)</th>${W.map((w, i) => `<th class="${hc(i)}">${md(w.w0)}${mark(i) ? '<em>프로젝트 인출</em>' : ''}</th>`).join('')}</tr>`;
+  let h = `<table class="gantt"><tr><th class="l">구분 (금액 · 기표·만기 / 인출~청산)</th>${W.map((w, i) => `<th class="${hc(i)}">${md(w.w0)}${mark(i) ? '<em>프로젝트 인출</em>' : ''}</th>`).join('')}</tr>`;
   const row = (label, sub, a, e, cls, amt) => {
     let r = `<tr><td class="l">${label}<span class="gsub">${sub}</span></td>`;
     W.forEach((w, i) => { const on = a <= w.t && (isNaN(e) || e > w.t); const first = on && (i === 0 || !(a <= W[i - 1].t && (isNaN(e) || e > W[i - 1].t)));
       r += `<td class="g${hc(i)}${on ? ' ' + cls : ''}">${first ? won(amt) : ''}</td>`; });
     return r + '</tr>';
   };
-  h += `<tr class="gsec"><td class="l" colspan="${W.length + 1}">편입 자산 (인출일부터)</td></tr>`;
+  h += `<tr class="gsec"><td class="l" colspan="${W.length + 1}">편입 자산 (막대는 기준일 또는 인출일부터)</td></tr>`;
   R.A.filter(a => !isLiq(a)).forEach(a => {
     const cls = a.status === '발굴필요' ? 'a-need' : 'a-' + (a.type === '인수금융' ? 'ia' : a.type === '신종자본증권' ? 'hb' : a.type === '인프라펀드' ? 'mk' : a.type === '대출' ? 'ln' : a.type === 'CP' ? 'cp' : a.type === '해외펀드' ? 'ov' : 'mz');
-    h += row(`${chip(a.status)} ${esc(a.name)}`, `${won(a.amt)} · ${md(D(a.draw))}~${a.exitd ? md(D(a.exitd)) : ''}`, D(a.draw), a.exitd ? D(a.exitd) : NaN, cls, a.amt);
+    const y2 = x => String(x).slice(2, 10);   // 기표완료 딜: 실제 기표일·만기(또는 상환일), 그 밖: 인출일~청산일
+    const sub = a.kst ? `${won(a.amt)} · 기표 ${y2(a.kst)}${a.kend ? ` · ${a.kendLab || '만기'} ${y2(a.kend)}` : ''}` : `${won(a.amt)} · ${md(D(a.draw))}~${a.exitd ? md(D(a.exitd)) : ''}`;
+    h += row(`${chip(a.status)} ${esc(a.name)}`, sub, D(a.draw), a.exitd ? D(a.exitd) : NaN, cls, a.amt);
   });
   h += `<tr class="gsec"><td class="l" colspan="${W.length + 1}">브릿지 CP·ABSTB (대기자금 운용)</td></tr>`;
   S.fills.forEach(f => {
@@ -1959,10 +1961,11 @@ const APP = (() => {
         q.how = `그날 ${amt(take)}억만 청산, 잔액 ${amt(rem - take)}억 보유`; rem -= take; parts.push({ amt: take, date: q.date });
       });
       if (rem <= 0.5) { if (tags.length) notes.push(`「${esc(x.name)}」은 기준일 전 상환이 끝나 보유에서 제외 (${tags.join(', ')})`); return; }
-      const base0 = { status: '기표완료', draw: iso(base), mat: '', cls, dur, src: x.side };
-      parts.forEach((q, k) => assets.push(mk(Object.assign({ id: id + 'r' + k, name: `${x.name} (일부상환 ${fD(q.date).slice(5)})`, amt: q.amt }, base0, exOf(q.date)), x.rate, kind)));
+      const base0 = { status: '기표완료', draw: iso(base), mat: '', cls, dur, src: x.side, kst: isN(x.st) ? iso(x.st) : '' };
+      parts.forEach((q, k) => assets.push(mk(Object.assign({ id: id + 'r' + k, name: `${x.name} (일부상환 ${fD(q.date).slice(5)})`, amt: q.amt }, base0, exOf(q.date), { kend: iso(q.date), kendLab: '상환' }), x.rate, kind)));
       if (parts.length) tags.push(`잔액 ${amt(rem)}억`);
-      assets.push(mk(Object.assign({ id, name: x.name + (tags.length ? ` (${tags.join(', ')})` : ''), amt: rem }, base0, exOf(endD)), x.rate, kind));
+      const kend = endD != null ? iso(endD) : '', isEarly = endD != null && isN(x.mat) && endD < x.mat;
+      assets.push(mk(Object.assign({ id, name: x.name + (tags.length ? ` (${tags.join(', ')})` : ''), amt: rem }, base0, exOf(endD), { kend, kendLab: isEarly ? '조기상환' : '만기' }), x.rate, kind));
     });
     led.filter(e => !e.h).forEach(e => { e.how = '연결할 보유 딜 없음 — 반영 안 함'; warns.push(`Dry Powder 시트 Ⅳ 상환 내역 ${e.row}행 「${esc(e.name)}」: ${X} 인벤토리에서 같은 딜을 찾지 못했습니다. 딜명을 인벤토리 프로젝트명 그대로 적어 주세요.`); });
     early.filter(q => !q.h && !q.dup).forEach(q => { q.how = q.past ? '기준일 이전·연결할 보유 딜 없음 — 이미 정리된 것으로 봄' : '연결할 보유 딜 없음 — 반영 안 함';
@@ -2604,7 +2607,7 @@ const APP = (() => {
   function notesFill() { $('notes').innerHTML = S.notes.map(esc).join('<br>'); }
   function fDT(iso) { const d = new Date(iso); if (isNaN(d)) return ''; const p = n => String(n).padStart(2, '0'); return `${d.getFullYear() % 100}.${p(d.getMonth() + 1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; }
   function render() {
-    $('meta').innerHTML = `<span>기준일 <b>${fD(S.base)}</b></span><span title="현황판 화면(viewer.html) 버전">화면 <b>11-24f</b></span><span>파일 <b>${esc(fileName)}</b>${srcOD ? ` · OneDrive 저장 <b>${esc(fDT(srcOD.mod))}</b>` : ''}${srcNote ? ` · ${srcNote}` : ''}</span><span>IMA <b>${S.ima.length}</b>개 · 월 <b>${S.months.length}</b>개</span>`;
+    $('meta').innerHTML = `<span>기준일 <b>${fD(S.base)}</b></span><span title="현황판 화면(viewer.html) 버전">화면 <b>11-24g</b></span><span>파일 <b>${esc(fileName)}</b>${srcOD ? ` · OneDrive 저장 <b>${esc(fDT(srcOD.mod))}</b>` : ''}${srcNote ? ` · ${srcNote}` : ''}</span><span>IMA <b>${S.ima.length}</b>개 · 월 <b>${S.months.length}</b>개</span>`;
     kpis(); daily(); heat(); mix(); sched(); timeline(); cards(); notesFill(); imaSel(); simInit(); g2Init();
   }
 
