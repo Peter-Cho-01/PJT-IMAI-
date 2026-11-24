@@ -73,7 +73,7 @@ def slim(path):
 
 
 data, found = slim(MASTER)
-digest = hashlib.sha256(data + PW.encode()).hexdigest()  # 데이터나 비밀번호가 바뀌면 달라짐
+digest = hashlib.sha256(data + PW.encode() + open(TPL, 'rb').read()).hexdigest()  # 데이터·비밀번호·화면(viewer.html)이 바뀌면 달라짐 → 예약 실행도 배포
 repo = os.environ.get("GITHUB_REPOSITORY", "local")
 salt = hashlib.sha256(("ima-dp-salt:" + repo).encode()).digest()[:16]
 key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=ITER).derive(PW.encode())

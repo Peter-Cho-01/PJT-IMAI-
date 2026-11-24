@@ -2558,7 +2558,7 @@ const APP = (() => {
   function notesFill() { $('notes').innerHTML = S.notes.map(esc).join('<br>'); }
   function fDT(iso) { const d = new Date(iso); if (isNaN(d)) return ''; const p = n => String(n).padStart(2, '0'); return `${d.getFullYear() % 100}.${p(d.getMonth() + 1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; }
   function render() {
-    $('meta').innerHTML = `<span>기준일 <b>${fD(S.base)}</b></span><span>파일 <b>${esc(fileName)}</b>${srcOD ? ` · OneDrive 저장 <b>${esc(fDT(srcOD.mod))}</b>` : ''}${srcNote ? ` · ${srcNote}` : ''}</span><span>IMA <b>${S.ima.length}</b>개 · 월 <b>${S.months.length}</b>개</span>`;
+    $('meta').innerHTML = `<span>기준일 <b>${fD(S.base)}</b></span><span title="현황판 화면(viewer.html) 버전">화면 <b>11-24c</b></span><span>파일 <b>${esc(fileName)}</b>${srcOD ? ` · OneDrive 저장 <b>${esc(fDT(srcOD.mod))}</b>` : ''}${srcNote ? ` · ${srcNote}` : ''}</span><span>IMA <b>${S.ima.length}</b>개 · 월 <b>${S.months.length}</b>개</span>`;
     kpis(); daily(); heat(); mix(); sched(); timeline(); cards(); notesFill(); imaSel(); simInit(); g2Init();
   }
 
