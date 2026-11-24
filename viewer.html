@@ -186,7 +186,7 @@ table{border-collapse:collapse;width:100%}
 .hk .v{flex-wrap:wrap}
 .hk .l{color:var(--ink-3);font-size:13.3px} .hk .v{display:flex;align-items:baseline;gap:10px;font-family:var(--font-fig);font-stretch:82%;font-variant-numeric:tabular-nums}
 .hk .now{font-size:21.3px;color:var(--ink-2)} .hk .ar{color:var(--ink-3);font-size:19.3px} .hk .aft{font-size:31.3px;font-weight:700;color:var(--ink)}
-.hk .d{font-family:var(--font-fig);font-stretch:85%;font-size:19.3px;font-weight:700} .hk .d.up{color:var(--safe)} .hk .d.dn{color:var(--stress)} .hk .d.z{color:var(--ink-3);font-size:13.8px;font-weight:500;font-family:var(--font-ui)}
+.hk .d{font-family:var(--font-fig);font-stretch:85%;font-size:19.3px;font-weight:700} .hk .d.up{color:var(--safe)} .hk .d.dn{color:var(--stress)} .hk .aft.up{color:var(--safe)} .hk .aft.dn{color:var(--stress)} .hk .d.z{color:var(--ink-3);font-size:13.8px;font-weight:500;font-family:var(--font-ui)}
 .ladder{margin:0 0 20px} .ladder .lgd{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.8px;color:var(--ink-3);margin:0 0 8px}
 .ladder .lgd span{display:inline-flex;align-items:center;gap:6px} .ladder .lgd .pt{position:static;transform:none;display:inline-block}
 .ladder .lgd .rl{display:inline-block;width:2px;height:12px} .rl.h{background:#8A9DA2} .rl.f{background:#C9A227}
@@ -1783,7 +1783,7 @@ const APP = (() => {
     const st = serStat(simSel), el = $('simhero'); if (!st) { el.innerHTML = ''; return; }
     const { P, items, dg, g0, g1, c0, c1 } = st;
     const cls = v => Math.abs(v) < 5e-7 ? 'z' : v > 0 ? 'up' : 'dn';
-    const big = (lab, a, b, d, sub) => `<div class="hk"><span class="l">${lab}</span>${a != null ? `<div class="v"><span class="now">${pct(a, 2)}</span><span class="ar">→</span><span class="aft">${pct(b, 2)}</span></div><span class="d ${cls(d)}">${Math.abs(d) < 5e-7 ? '변화 없음' : bpTxt(d) + 'bp'}</span>` : `<div class="v"><span class="now">${sub}</span></div>`}</div>`;
+    const big = (lab, a, b, d, sub) => `<div class="hk"><span class="l">${lab}</span>${a != null ? `<div class="v"><span class="now">${pct(a, 2)}</span><span class="ar">→</span><span class="aft ${cls(d)}">${pct(b, 2)}</span></div><span class="d ${cls(d)}">${Math.abs(d) < 5e-7 ? '변화 없음' : bpTxt(d) + 'bp'}</span>` : `<div class="v"><span class="now">${sub}</span></div>`}</div>`;
     const netAmt = items.reduce((t, x) => t + ((legScen(x.d, x.l) || {}).a || 0) - ((legBase(x.l) || {}).a || 0), 0);
     let h = `<div class="hero-h"><b>${esc(simSel)}</b><span>운용금액 ${amt(P.aum)}억 · 기준수익률 ${isN(P.hurdle) ? pct(P.hurdle, 2) : '미입력'} · 운용보수 ${isN(P.fee) ? pct(P.fee, 2) : '미입력'} · 성과배분(고객) ${isN(P.share) ? pct(P.share, 0) : '미입력'} · 만기 M-3 ${fD(P.cash)} · 만기 ${fD(P.mat)}</span></div>`;
     h += `<div class="hks">${big('예상 Gross (연환산)', g0, g1, dg, 'Master Gross 미산출 (IMA 시트 오류)')}${big('예상 고객 수익률', c0, c1, c1 != null ? c1 - c0 : 0, '보수·기준수익률 미입력으로 미산출')}` +
