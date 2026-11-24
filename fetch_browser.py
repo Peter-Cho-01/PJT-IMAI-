@@ -33,7 +33,7 @@ def is_master(b):
         return False
     try:
         wb = zipfile.ZipFile(io.BytesIO(b)).read("xl/workbook.xml").decode("utf-8", "ignore")
-        return "Dry Powder" in wb or "DP_현황판" in wb   # 통합 「Dry Powder」·예전 「월별 Dry Powder」 모두 인식
+        return "Html 전용" in wb or "Dry Powder" in wb or "DP_현황판" in wb   # 「Html 전용」(11-24 이름 변경)·「Dry Powder」·예전 「월별 Dry Powder」 모두 인식
     except Exception:
         return False
 
@@ -48,7 +48,7 @@ def why(r, b):
     if "login." in host(r.url) or b"login.live.com" in low or b"login.microsoftonline" in low:
         hint.append("로그인 요구 화면으로 보임 → 파일 공유 설정 확인 필요")
     if b[:2] == b"PK":
-        hint.append("엑셀 파일이지만 Dry Powder 시트 없음")
+        hint.append("엑셀 파일이지만 Html 전용(Dry Powder) 시트 없음")
     if b"itemnotfound" in low or b"not found" in low or b"\xec\xb0\xbe\xec\x9d\x84 \xec\x88\x98 \xec\x97\x86" in low:
         hint.append("파일을 찾을 수 없다는 화면으로 보임")
     return f"실패 · 최종 {host(r.url)} · {ct}" + (" · " + " / ".join(hint) if hint else "")

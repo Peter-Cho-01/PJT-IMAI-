@@ -13,7 +13,7 @@ PW = os.environ.get("DASH_PASSWORD", "")
 if len(PW) < 8:
     sys.exit("실패: 저장소 Secrets에 DASH_PASSWORD(8자 이상, 12자 이상 권장)가 없습니다.")
 ITER = 600_000
-NEED = ['Dry Powder', '월별 Dry Powder', 'DP_현황판', 'Dash Board', 'S3~G2 배분', '국내 딜 인벤토리', '해외 딜 인벤토리']
+NEED = ['Html 전용', 'Dry Powder', '월별 Dry Powder', 'DP_현황판', 'Dash Board', 'S3~G2 배분', '국내 딜 인벤토리', '해외 딜 인벤토리']
 IMA_SHEET = re.compile(r'^[SG]\d{1,2}$')          # S1~S7, G1… IMA 시트 (수익률 시뮬레이션용, 위쪽 행만)
 IMA_ROWS = set(range(1, 64)) | set(range(95, 116)) | set(range(185, 196))   # 제원·Snapshot(22~63)·기표예정 목록(95~115)·재투자금리(189~190)
 IMA_MAXCOL = 53                                       # A~BA열만 (오른쪽 계산용 열 제외)
@@ -33,8 +33,8 @@ def slim(path):
         if nm in NEED or IMA_SHEET.match(nm):
             t = relmap[rid]; t = t.lstrip('/') if t.startswith('/') else 'xl/' + t
             keep.append((nm, rid, t, el)); found.append(nm)
-    if not any(n in found for n in ('Dry Powder', '월별 Dry Powder', 'DP_현황판')):
-        sys.exit('실패: Master에 Dry Powder(또는 월별 Dry Powder) 시트가 없습니다.')
+    if not any(n in found for n in ('Html 전용', 'Dry Powder', '월별 Dry Powder', 'DP_현황판')):
+        sys.exit('실패: Master에 Html 전용(또는 Dry Powder) 시트가 없습니다.')
     sst = re.findall(r'<si>.*?</si>|<si/>', R('xl/sharedStrings.xml'), flags=re.S) if 'xl/sharedStrings.xml' in z.namelist() else []
     remap, used = {}, []
 

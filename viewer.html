@@ -525,7 +525,7 @@ html[data-theme=light] .teststicker::before,html[data-theme=light] .teststicker:
   </form>
   <div class="drop" id="drop" tabindex="0" role="button" aria-label="Master 파일 선택">
     <h2>Master 엑셀 파일을 여기에 끌어다 놓으세요</h2>
-    <p>'Dry Powder'(또는 '월별 Dry Powder') 시트가 들어 있는 Master 파일(.xlsx)을 읽어<br>엑셀이 계산해 둔 값을 그대로 보여 줍니다.</p>
+    <p>'Html 전용'(예전 이름 'Dry Powder') 시트가 들어 있는 Master 파일(.xlsx)을 읽어<br>엑셀이 계산해 둔 값을 그대로 보여 줍니다.</p>
     <span class="pill">파일 선택</span>
     <small>파일은 이 PC의 브라우저 안에서만 읽습니다. 서버나 외부로 보내지 않습니다.</small>
     <div class="loading" id="loading" hidden>읽는 중…</div>
@@ -606,7 +606,7 @@ html[data-theme=light] .teststicker::before,html[data-theme=light] .teststicker:
     <section>
       <div class="sec-h"><h2>현금화·만기 타임라인</h2><span class="note">빗금 = 현금화 구간(IMA 만기 전 상환 딜만 투자 가능)</span></div>
       <div class="panel"><div class="tl" id="tl"></div>
-        <div class="cap">오른쪽 금액 = 만기 M-3 매각 대상(국내 만기미스매칭 + 글로벌 잔액, 월별 Dry Powder 시트 상세표 값). 세로선 = 기준일.</div></div>
+        <div class="cap">오른쪽 금액 = 만기 M-3 매각 대상(국내 만기미스매칭 + 글로벌 잔액, Html 전용 시트 상세표 값). 세로선 = 기준일.</div></div>
     </section>
   </div>
 
@@ -636,7 +636,7 @@ html[data-theme=light] .teststicker::before,html[data-theme=light] .teststicker:
         <div class="panel"><h3>해외 딜 인벤토리 · 구분별 비중</h3><div class="sub">글로벌 잔액 = 100% (기표일자 ≤ 기준일, 투자잔액 억원)</div><div id="mix3"></div><div class="mleg" id="mix3leg"></div></div>
       </div>
     </section>
-    <details class="notes"><summary>계산 기준 (월별 Dry Powder 시트 하단 설명)</summary><div id="notes"></div></details>
+    <details class="notes"><summary>계산 기준 (Html 전용 시트 하단 설명)</summary><div id="notes"></div></details>
   <div class="pagenav"><button class="btn" data-go="dp">← Dry Powder로</button></div>
 </div>
 <div class="page" id="page-sim" hidden>
@@ -1327,7 +1327,7 @@ const APP = (() => {
     if (S) { const y = window.scrollY; render(); window.scrollTo(0, y); }
   }
 
-  const SHEETS_DP = ['Dry Powder', '월별 Dry Powder', 'DP_현황판'], DASH = 'Dash Board';
+  const SHEETS_DP = ['Html 전용', 'Dry Powder', '월별 Dry Powder', 'DP_현황판'], DASH = 'Dash Board';
   const EPOCH = Date.UTC(1899, 11, 30), DAY = 864e5;
   const toD = s => new Date(EPOCH + s * DAY);
   const ser = (y, m, d) => Math.round((Date.UTC(y, m, d) - EPOCH) / DAY);
@@ -1350,9 +1350,9 @@ const APP = (() => {
     for (let r = 1; r <= sh.lastRow; r++) rowsB.push([r, txt(V('B' + r)), txt(V('C' + r))]);
     const heads = rowsB.filter(([, b, c]) => b === 'IMA' && c === '현금화기준일').map(x => x[0]);
     const dh = rowsB.find(([, b, c]) => b === 'IMA' && c.startsWith('운용금액'));
-    if (heads.length < 2 || !dh) throw new Error('월별 Dry Powder 시트의 표 머리글(IMA / 현금화기준일 / 운용금액)을 찾지 못했습니다.\n시트 구조가 바뀌었는지 확인해 주세요.');
+    if (heads.length < 2 || !dh) throw new Error('Html 전용 시트의 표 머리글(IMA / 현금화기준일 / 운용금액)을 찾지 못했습니다.\n시트 구조가 바뀌었는지 확인해 주세요.');
     const base = V('C4');
-    if (!isN(base)) throw new Error('월별 Dry Powder 시트의 계산값이 파일에 저장되어 있지 않습니다.\nMaster를 엑셀에서 열어 계산이 끝난 뒤 저장하고 다시 올려 주세요.');
+    if (!isN(base)) throw new Error('Html 전용 시트의 계산값이 파일에 저장되어 있지 않습니다.\nMaster를 엑셀에서 열어 계산이 끝난 뒤 저장하고 다시 올려 주세요.');
     const hA = heads[0];
     const mcols = []; for (let c = 5; c < 200; c++) { const v = V(L(c) + hA); if (!isN(v)) break; mcols.push(L(c)); }
     const months = mcols.map(c => V(c + hA));
@@ -1461,8 +1461,8 @@ const APP = (() => {
     return out;
   }
 
-  // ---------- S3~G2 배분 시트: 딜 행(월별 Dry Powder 시트 G6~H6 구간) ----------
-  // Dry Powder 시트 「Ⅳ. 조기·일부 상환 내역」 표: 확인 칸 OK인 행만 (확인 칸 값이 없으면 필수 칸만 확인)
+  // ---------- S3~G2 배분 시트: 딜 행(Html 전용 시트 G6~H6 구간) ----------
+  // Html 전용 시트 「Ⅳ. 조기·일부 상환 내역」 표: 확인 칸 OK인 행만 (확인 칸 값이 없으면 필수 칸만 확인)
   function parseLedger(sh, S) {
     const out = []; let t = 0;
     for (let r = 1; r <= sh.lastRow; r++) { const b = txt(sh.v('B' + r)); if (/^Ⅳ\./.test(b) && /상환 내역/.test(b)) { t = r; break; } }
@@ -1724,7 +1724,7 @@ const APP = (() => {
       const li = d.legs.find(l => l.inc); d.rate = li ? (li.inc.rate || d.rate0) : d.rate0;
       deals.push(d);
     });
-    // Dry Powder 시트 Ⅳ 상환 내역 (지난 상환 포함): Master IMA 시트는 인벤토리 기표액 기준이라 반영 안 돼 있음
+    // Html 전용 시트 Ⅳ 상환 내역 (지난 상환 포함): Master IMA 시트는 인벤토리 기표액 기준이라 반영 안 돼 있음
     if (INV) LED.forEach(e => {
       const P = FUND[e.ima]; if (!P) return;
       const h = ledHeld(e, INV.items[e.ima]); if (!h || !isN(h.mat) || !(h.mat - 7 > e.date) || (isN(h.st) && e.date <= h.st)) return;
@@ -1979,7 +1979,7 @@ const APP = (() => {
     const mk = (o, rate, kind) => { const eb = kind === '메자닌';
       return Object.assign(o, { type: kind, eb, rate: eb ? EBB : (isN(rate) ? rate : mmf), worst: eb ? EBW : (isN(rate) ? rate : mmf), best: eb ? EBX : (isN(rate) ? rate : mmf),
         mrate: rate }); };
-    // 상환: ① Dry Powder 시트 Ⅳ 상환 내역(기록, 지난 상환 포함) ② 배분 시트 상환(음수) 행 중 상환 내역과 겹치지 않는 앞으로의 상환 (11-24)
+    // 상환: ① Html 전용 시트 Ⅳ 상환 내역(기록, 지난 상환 포함) ② 배분 시트 상환(음수) 행 중 상환 내역과 겹치지 않는 앞으로의 상환 (11-24)
     const HELD = INV && INV.items[X] || [], warns = [];
     const led = LED.filter(e => e.ima === X).map(e => ({ ...e, h: ledHeld(e, HELD), src: 'led' }));
     const early = [];
@@ -1997,9 +1997,9 @@ const APP = (() => {
       let rem = x.amt, endD = x.side === '국내' ? x.mat : null; const tags = [], parts = [];
       evs.filter(q => q.h === x).forEach(q => {
         const L = q.src === 'led';
-        const where = L ? `Dry Powder 시트 Ⅳ 상환 내역 ${q.row}행 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)})` : `배분 시트 ${q.row}행 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)})`;
+        const where = L ? `Html 전용 시트 Ⅳ 상환 내역 ${q.row}행 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)})` : `배분 시트 ${q.row}행 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)})`;
         if (isN(x.st) && q.date <= x.st) { q.how = '날짜 오류(기표일 이전) — 반영 안 함'; warns.push(`${where}: 날짜가 「${esc(x.name)}」 기표일(${fD(x.st)}) 이전입니다. 날짜를 확인해 주세요.`); return; }
-        if (q.past && !L) { q.how = '기준일 이전 상환 — 반영 안 함'; warns.push(`${where}: 기준일 이전 상환입니다. Dry Powder 시트 「Ⅳ. 조기·일부 상환 내역」에 기록해 주세요(기록하면 이 경고는 사라집니다).`); return; }
+        if (q.past && !L) { q.how = '기준일 이전 상환 — 반영 안 함'; warns.push(`${where}: 기준일 이전 상환입니다. Html 전용 시트 「Ⅳ. 조기·일부 상환 내역」에 기록해 주세요(기록하면 이 경고는 사라집니다).`); return; }
         if (!L && isN(x.mat) && q.date >= x.mat - 7) { q.how = '만기 상환 — 인벤토리 만기대로 처리'; return; }
         if (rem <= 0.5 || (endD != null && q.date >= endD)) { q.how = '이미 전액 청산된 뒤 — 반영 안 함'; return; }
         const take = Math.min(q.amt, rem);
@@ -2014,7 +2014,7 @@ const APP = (() => {
       const kend = endD != null ? iso(endD) : '', isEarly = endD != null && isN(x.mat) && endD < x.mat;
       assets.push(mk(Object.assign({ id, name: x.name + (tags.length ? ` (${tags.join(', ')})` : ''), amt: rem }, base0, exOf(endD), { kend, kendLab: isEarly ? '조기상환' : '만기' }), x.rate, kind));
     });
-    led.filter(e => !e.h).forEach(e => { e.how = '연결할 보유 딜 없음 — 반영 안 함'; warns.push(`Dry Powder 시트 Ⅳ 상환 내역 ${e.row}행 「${esc(e.name)}」: ${X} 인벤토리에서 같은 딜을 찾지 못했습니다. 딜명을 인벤토리 프로젝트명 그대로 적어 주세요.`); });
+    led.filter(e => !e.h).forEach(e => { e.how = '연결할 보유 딜 없음 — 반영 안 함'; warns.push(`Html 전용 시트 Ⅳ 상환 내역 ${e.row}행 「${esc(e.name)}」: ${X} 인벤토리에서 같은 딜을 찾지 못했습니다. 딜명을 인벤토리 프로젝트명 그대로 적어 주세요.`); });
     early.filter(q => !q.h && !q.dup).forEach(q => { q.how = q.past ? '기준일 이전·연결할 보유 딜 없음 — 이미 정리된 것으로 봄' : '연결할 보유 딜 없음 — 반영 안 함';
       if (!q.past) warns.push(`배분 시트 ${q.row}행 「${esc(q.name)}」 ${amt(q.amt)}억(${fD(q.date)}): ${X} 인벤토리에서 이름이 맞는 보유 딜을 찾지 못했습니다. 딜명 앞부분을 인벤토리 프로젝트명과 맞춰 주세요.`); });
     if (led.length || early.length) notes.push(`${X} 상환 처리: ` + [...led.map(e => ({ ...e, nm: `상환 내역 ${e.row}행` })), ...early.map(q => ({ ...q, nm: `배분 ${q.row}행` }))].map(q => `${q.nm} 「${esc(q.name)}」 ${fD(q.date)} ${amt(q.amt)}억 → ${q.h ? esc(q.h.name) + ' · ' : ''}${q.how || ''}`).join(' / '));
@@ -2052,7 +2052,7 @@ const APP = (() => {
       `보수 ${pct(P.fee, 2)}·기준수익률 ${isN(P.hurdle) ? pct(P.hurdle, 2) : '미입력'}·당사 성과배분 ${isN(P.share) ? pct(1 - P.share, 0) : '미입력'} = IMA 시트 값. ` +
       `국내 딜 청산 = min(딜 만기, 조기상환일, 만기 M-3 ${fD(P.cash)}). 배분 시트 상환 행은 이름이 가장 길게 같은 인벤토리 보유 딜에 연결: 만기 전 상환은 그 금액만 그날 청산(전액이면 딜 청산), 만기일 상환은 인벤토리 만기대로, 기준일 이전 상환은 인벤토리 금액을 따르고 경고 표시. 해외펀드·장기 딜은 M-3 매각. 자산 분류 = 국내 인벤토리 대구분(인수금융→기업금융), 배분 시트 새 딜은 기업금융(이름에 PF가 있으면 부동산), 해외·유동성 = 기타 — 확인 필요. ` +
       (mez.length ? `메자닌 ${mez.length}건(${mez.map(a => esc(a.name)).join(', ')})은 Worst 0% · Base 10% · Best 15% 가정(Master 수익률 ${mez.map(a => isN(a.mrate) ? pct(a.mrate, 1) : '없음').join('/')}), 가정 입력 표에서 수정. ` : '') +
-      `드라이파우더 = 운용규모 − 인출된 자산 − 현금 버퍼(AUM 5% ${amt(L0.buf || 0)}억) − 승인 브릿지 = Dry Powder 시트 기준 B와 같은 정의(PIMCO 포함). 새 딜 재원은 배분 시트 투자재원대로 MMF 또는 PIMCO 행에서 차감 (MMF가 음수면 만기 회수금으로 충당한다는 뜻).` + (notes.length ? '<br>' + notes.join('<br>') : '');
+      `드라이파우더 = 운용규모 − 인출된 자산 − 현금 버퍼(AUM 5% ${amt(L0.buf || 0)}억) − 승인 브릿지 = Html 전용 시트 기준 B와 같은 정의(PIMCO 포함). 새 딜 재원은 배분 시트 투자재원대로 MMF 또는 PIMCO 행에서 차감 (MMF가 음수면 만기 회수금으로 충당한다는 뜻).` + (notes.length ? '<br>' + notes.join('<br>') : '');
     return { _warns: warns, name: X, asOf: iso(base), T: +T.toFixed(3), mmf, fee: isN(P.fee) ? P.fee : 0, hurdle: isN(P.hurdle) ? P.hurdle : 0, share: isN(P.share) ? 1 - P.share : 0, scen: {}, assets, fills: [], start: iso(base), raise, note };
   }
   let g2Sel = null;
@@ -2093,7 +2093,7 @@ const APP = (() => {
       names.forEach(nm => { const v = r.amts[nm]; if (!isN(v) || Math.abs(v) < 1e-9) return;
         ev[i].push({ k: v > 0 ? 'out' : 'rep', ima: nm, name: r.name, type: r.type, v: -v, excl: r.excl, pre: r.date <= S.base, d: r.date }); });
     });
-    // Dry Powder 시트 Ⅳ 상환 내역 (기준일 이후): 배분 시트에 같은 상환(±7일·같은 금액)이 있으면 그 행에 묶음
+    // Html 전용 시트 Ⅳ 상환 내역 (기준일 이후): 배분 시트에 같은 상환(±7일·같은 금액)이 있으면 그 행에 묶음
     const ledOf = (nm, x) => INV ? LED.filter(e => e.ima === nm && ledHeld(e, INV.items[nm]) === x) : [];
     LED.forEach(e => {
       if (!names.includes(e.ima) || e.date <= S.base || e.date < ds[0] || e.date > ds[n - 1]) return;
@@ -2292,7 +2292,7 @@ const APP = (() => {
     if (!cnt) h += '<tr><td colspan="4" class="none">6개월 안에 예정된 일정 없음</td></tr>';
     $('dev').innerHTML = h + '</tbody>';
     document.querySelectorAll('#dev tr[data-i]').forEach(tr => { tr.onmouseenter = () => show(+tr.dataset.i, true); tr.onmouseleave = hide; });
-    $('dcap').innerHTML = '선과 금액은 Dry Powder 시트 일별 표 값 그대로입니다. 막대는 그날 기준 B 변동을 투자(배분 시트의 그날 투자 합계)와 유입(변동 + 투자)으로 나눈 것이고, 딜 이름은 S3~G2 배분 시트·국내 딜 인벤토리 만기일에서 가져왔습니다. 주말·공휴일 일정은 다음 평일에 표시되며, 회색 칩은 기준 B 계산에서 빠지는 행입니다.';
+    $('dcap').innerHTML = '선과 금액은 Html 전용 시트 일별 표 값 그대로입니다. 막대는 그날 기준 B 변동을 투자(배분 시트의 그날 투자 합계)와 유입(변동 + 투자)으로 나눈 것이고, 딜 이름은 S3~G2 배분 시트·국내 딜 인벤토리 만기일에서 가져왔습니다. 주말·공휴일 일정은 다음 평일에 표시되며, 회색 칩은 기준 B 계산에서 빠지는 행입니다.';
   }
   function daily() {
     const D = S.daily; $('dsec').hidden = !D; if (!D) return;
@@ -2547,7 +2547,7 @@ const APP = (() => {
     document.querySelectorAll('#' + id + ' .n[data-n]').forEach(el => el.onclick = () => openIMA(el.dataset.n));
   }
   function mix() {
-    // ① 국내·글로벌·유동성: 월별 Dry Powder 시트 상세표 값
+    // ① 국내·글로벌·유동성: Html 전용 시트 상세표 값
     const c1 = ['국내', '글로벌', '유동성'], col1 = ['#4A8FD8', '#8A72E0', '#5FB7B5'];
     const mk = (name, o, aum, tot) => { const amt = { '국내': col(o, '국내잔액'), '글로벌': col(o, '글로벌잔액'), '유동성': col(o, '유동성') };
       Object.keys(amt).forEach(k => { if (!isN(amt[k])) amt[k] = 0; }); const hold = amt['국내'] + amt['글로벌'] + amt['유동성'];
@@ -2610,13 +2610,13 @@ const APP = (() => {
       kp('고객 기준수익률', isN(col(d, '고객기준')) ? pct(col(d, '고객기준'), 2) : esc(txt(col(d, '고객기준')) || '—'), '') +
       '</div>';
     h += imaMix(n);
-    // 월별 Dry Powder 시트 상세표 값 (Appendix 상세표를 대신함)
+    // Html 전용 시트 상세표 값 (Appendix 상세표를 대신함)
     const fmtD = (label, v) => !isN(v) ? esc(txt(v) || '—') : /수익률|Gross/.test(label) ? pct(v, 2) : /비중|국내\+해외/.test(label) ? pct(v) : amt1(v);
     const dshow = S.dcols.filter(x => !/^운용금액|^점검|수익률|Gross/.test(x.label));
-    h += `<h3>보유 현황 <small>월별 Dry Powder 시트 상세표 · 비중은 운용금액 대비</small></h3><div class="kv">` +
+    h += `<h3>보유 현황 <small>Html 전용 시트 상세표 · 비중은 운용금액 대비</small></h3><div class="kv">` +
       dshow.map(x => `<div><span class="k">${esc(x.label)}</span><span class="v">${fmtD(x.label, d[x.label])}</span></div>`).join('') + '</div>';
     if (!b) {
-      h += `<div class="none" style="margin-top:18px">Master의 Dash Board 시트에 ${esc(n)} 블록이 없습니다. 위 값은 월별 Dry Powder 시트 기준입니다.</div>`;
+      h += `<div class="none" style="margin-top:18px">Master의 Dash Board 시트에 ${esc(n)} 블록이 없습니다. 위 값은 Html 전용 시트 기준입니다.</div>`;
     } else {
       h += `<h3>종합 <small>Dash Board K~M열</small></h3><div class="kv">` +
         b.kv.map(x => `<div><span class="k">${esc(x.k)}</span><span class="v${isN(x.v) && x.v < 0 ? ' neg' : ''}">${kvv(x)}${x.ratio != null ? `<em>${pct(x.ratio)}</em>` : ''}</span></div>`).join('') + '</div>';
@@ -2631,7 +2631,7 @@ const APP = (() => {
         rows.map(x => `<tr><td class="nm">${esc(x.name)}</td>${cols.includes('상품군') ? `<td>${x.type ? `<span class="tag ${esc(x.type)}">${esc(x.type)}</span>` : ''}</td>` : ''}<td class="r">${amt1(x.amt)}</td><td class="r">${fD(x.date)}</td></tr>`).join('') +
         `<tr class="tot"><td>소계</td>${cols.includes('상품군') ? '<td></td>' : ''}<td class="r">${amt1(sum)}</td><td></td></tr></tbody></table>` : '<div class="none">없음</div>'}</div>`;
       h += `<div class="two">${dtab('국내 포트폴리오', b.dom, b.domSum, ['딜명', '상품군'])}${dtab('글로벌 포트폴리오', b.glob, b.globSum, ['펀드'])}</div>`;
-      h += `<div class="src">출처: Master Dash Board 시트 ${b.row0}~${b.row1}행 (저장된 값). DP 값은 월별 Dry Powder 시트.</div>`;
+      h += `<div class="src">출처: Master Dash Board 시트 ${b.row0}~${b.row1}행 (저장된 값). DP 값은 Html 전용 시트.</div>`;
     }
     h += '</div>';
     lastFocus = document.activeElement;
@@ -2664,7 +2664,7 @@ const APP = (() => {
       const buf = await file.arrayBuffer();
       const book = await XR.open(buf);
       let sh = null; for (const n of SHEETS_DP) { sh = await book.sheet(n); if (sh) break; }
-      if (!sh) throw new Error(`이 파일에 '월별 Dry Powder' 시트가 없습니다.\n월별 Dry Powder 시트가 추가된 Master 파일을 올려 주세요.`);
+      if (!sh) throw new Error(`이 파일에 'Html 전용'(예전 이름 'Dry Powder') 시트가 없습니다.\nHtml 전용 시트가 들어 있는 Master 파일을 올려 주세요.`);
       S = parse(sh); try { LED = parseLedger(sh, S); } catch (e) { LED = []; } fileName = file.name; srcOD = file.od || null; srcNote = file.note || ''; if (!file.od) $('odRefresh').hidden = true;
       try { DB = parseDash(await book.sheet(DASH)); } catch (e) { DB = {}; }
       try { AL = parseAlloc(await book.sheet('S3~G2 배분'), S); } catch (e) { AL = []; }
